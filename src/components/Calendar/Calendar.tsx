@@ -1,12 +1,12 @@
-import { type FC } from 'react';
-import { WEEKDAYS } from '../../constants/constants/weekdays';
-import { useCalendar } from '../../hooks/useCalendar';
-import { useDate } from '../../hooks/useDate';
-import { getDaysArray } from '../../utils/getDates/getDates';
-import Day from '../Day';
-import { type DayProps } from '../Day/interface';
-import MonthSlider from '../MonthSlider';
-import { CalendarCells, Container } from './Calendar.styled';
+import { type FC } from "react";
+import { WEEKDAYS } from "../../constants/constants/weekdays";
+import { useCalendar } from "../../hooks/useCalendar";
+import { useDate } from "../../hooks/useDate";
+import { getDaysArray } from "../../utils/getDates/getDates";
+import Day from "../Day";
+import { type DayProps } from "../Day/interface";
+import MonthSlider from "../MonthSlider";
+import { CalendarCells, Container } from "./Calendar.styled";
 
 const Calendar: FC = () => {
   const {
@@ -15,38 +15,31 @@ const Calendar: FC = () => {
     lastDayWeekdayNum,
     daysAmountPrev,
     date,
+    increaseMonth,
+    decreaseMonth,
   } = useDate();
   const weekdayNumbers = Object.values(WEEKDAYS).filter((weekday) =>
     Number.isInteger(weekday)
   );
   const { setSelectedDate, selectedDate } = useCalendar();
 
-  const isDaySelected = (dayNum: number): boolean => {
-    console.log(
-      selectedDate?.getTime() ===
-        new Date(date.setDate(dayNum)).getTime(),
-      selectedDate,
-      date
-    );
-    return (
-      selectedDate?.getTime() ===
-      new Date(date.setDate(dayNum)).getTime()
-    );
+  const selectDay = (dayNum: number) => () => {
+    setSelectedDate(new Date(date.setDate(dayNum)));
   };
 
   const renderDays = (
     daysNum: number,
-    options?: Pick<DayProps, 'disabled'> & {
+    options?: Pick<DayProps, "disabled"> & {
       reversed?: boolean;
       isSelected?: (dayNum: number) => boolean;
-      onDayClick?: (dayNum: number) => void;
+      onDayClick: (dayNum: number) => () => void;
     }
   ): JSX.Element[] => {
     const {
       disabled,
       reversed = false,
-      isSelected = () => false,
-      onDayClick = () => {},
+      onDayClick,
+      isSelected,
     } = options ?? {};
     return getDaysArray(daysNum).map((dayNum) => (
       <Day
@@ -54,17 +47,18 @@ const Calendar: FC = () => {
         type="day"
         dayNum={reversed ? daysAmountPrev - 5 + dayNum : dayNum}
         disabled={disabled}
-        selected={isSelected(
-          reversed ? daysAmountPrev - 5 + dayNum : dayNum
-        )}
-        onDayClick={() => {
-          onDayClick(dayNum);
-        }}
+        selected={isSelected?.(dayNum)}
+        onDayClick={onDayClick?.(dayNum)}
       />
     ));
   };
-  const selectDay = (dayNum: number) => {
-    setSelectedDate(new Date(date.setDate(dayNum)));
+
+  const isDaySelected = (dayNum: number): boolean => {
+    const dateCurrent = new Date(date.getTime());
+    return (
+      selectedDate?.getTime() ===
+      new Date(dateCurrent.setDate(dayNum)).getTime()
+    );
   };
 
   const prevMonthDaysAmount = firstDayWeekdayNum;
@@ -75,22 +69,20 @@ const Calendar: FC = () => {
       <MonthSlider />
       <CalendarCells>
         {weekdayNumbers.map((weekdayNum) => (
-          <Day
-            key={weekdayNum}
-            type="weekday"
-            dayNum={Number(weekdayNum)}
-          />
+          <Day key={weekdayNum} type="weekday" dayNum={Number(weekdayNum)} />
         ))}
         {renderDays(prevMonthDaysAmount, {
           disabled: true,
           reversed: true,
+          onDayClick: () => decreaseMonth,
         })}
         {renderDays(daysAmountCurrent, {
-          isSelected: isDaySelected,
           onDayClick: selectDay,
+          isSelected: isDaySelected,
         })}
         {renderDays(nextMonthDaysAmount, {
           disabled: true,
+          onDayClick: () => increaseMonth,
         })}
       </CalendarCells>
     </Container>

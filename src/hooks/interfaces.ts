@@ -1,9 +1,9 @@
-import { type ChangeEvent } from 'react';
-import { type DateInputProps } from '../components/DateInput/interface';
+import { type ChangeEvent } from "react";
+import { type DateInputProps } from "../components/DateInput/interface";
 
 export type UseDateInputProps = Pick<
   DateInputProps,
-  'onClearClick' | 'onDateChange'
+  "onClearClick" | "onDateChange"
 >;
 export interface UseDateReturns {
   monthName: string;
@@ -22,4 +22,9 @@ export interface UseDateInputReturns {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error: { isError: boolean; errorText: string };
   inputValue: string;
+}
+
+export interface UseCalendarReturns {
+  setSelectedDate: (date: Date) => void;
+  selectedDate: Date | null;
 }
