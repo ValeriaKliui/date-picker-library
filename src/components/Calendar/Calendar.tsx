@@ -7,8 +7,9 @@ import Day from '../Day';
 import { type DayProps } from '../Day/interface';
 import MonthSlider from '../MonthSlider';
 import { CalendarCells, Container } from './Calendar.styled';
+import { CalendarProps } from './interface';
 
-const Calendar: FC = () => {
+const Calendar: FC<CalendarProps> = ({ isMondaysFirst }) => {
   const {
     daysAmountCurrent,
     firstDayWeekdayNum,
@@ -21,18 +22,9 @@ const Calendar: FC = () => {
   );
   const { setSelectedDate, selectedDate } = useCalendar();
 
-  const isDaySelected = (dayNum: number): boolean => {
-    console.log(
-      selectedDate?.getTime() ===
-        new Date(date.setDate(dayNum)).getTime(),
-      selectedDate,
-      date
-    );
-    return (
-      selectedDate?.getTime() ===
-      new Date(date.setDate(dayNum)).getTime()
-    );
-  };
+  const isDaySelected = (dayNum: number): boolean =>
+    selectedDate?.getTime() ===
+    new Date(date.setDate(dayNum)).getTime();
 
   const renderDays = (
     daysNum: number,
@@ -71,7 +63,7 @@ const Calendar: FC = () => {
   const nextMonthDaysAmount = Math.abs(lastDayWeekdayNum - 6);
 
   return (
-    <Container>
+    <Container isMondayFirst={isMondaysFirst}>
       <MonthSlider />
       <CalendarCells>
         {weekdayNumbers.map((weekdayNum) => (

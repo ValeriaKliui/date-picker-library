@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div<{ isMondayFirst?: boolean }>`
+  background-color: ${({ isMondayFirst = false }) =>
+    isMondayFirst && 'red'};
   border-radius: ${({ theme }) => theme.valueInPx.px8};
   border: 1px solid ${({ theme }) => theme.colors.gray};
   padding: ${({ theme }) => theme.valueInPx.px10};
