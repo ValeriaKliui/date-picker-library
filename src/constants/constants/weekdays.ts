@@ -5,5 +5,5 @@ export enum WEEKDAYS {
   WEDNESDAY,
   THURSDAY,
   FRIDAY,
-  SATURDAYS,
+  SATURDAY,
 }

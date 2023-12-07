@@ -3,7 +3,6 @@ dist
 yarn-error.log
 storybook-static
 
-# Yarn 3 files
 .pnp.*
 .yarn/*
 !.yarn/patches

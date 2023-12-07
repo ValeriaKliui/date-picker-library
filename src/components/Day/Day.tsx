@@ -1,4 +1,5 @@
 import { type FC } from 'react';
+import { WEEKDAYS } from '../../constants/constants/weekdays';
 import { getWeekdayByNum } from '../../utils/getDates/getDates';
 import { Container, DayText } from './Day.styled';
 import { type DayProps } from './interface';

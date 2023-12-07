@@ -1,14 +1,15 @@
-import { type FC } from "react";
-import { WEEKDAYS } from "../../constants/constants/weekdays";
-import { useCalendar } from "../../hooks/useCalendar";
-import { useDate } from "../../hooks/useDate";
-import { getDaysArray } from "../../utils/getDates/getDates";
-import Day from "../Day";
-import { type DayProps } from "../Day/interface";
-import MonthSlider from "../MonthSlider";
-import { CalendarCells, Container } from "./Calendar.styled";
+import { type FC } from 'react';
+import { WEEKDAYS } from '../../constants/constants/weekdays';
+import { useCalendar } from '../../hooks/useCalendar';
+import { useDate } from '../../hooks/useDate';
+import { getDaysArray } from '../../utils/getDates/getDates';
+import Day from '../Day';
+import { type DayProps } from '../Day/interface';
+import MonthSlider from '../MonthSlider';
+import { CalendarCells, Container } from './Calendar.styled';
+import { CalendarProps } from './interface';
 
-const Calendar: FC = () => {
+const Calendar: FC<CalendarProps> = ({ isMondayFirst = false }) => {
   const {
     daysAmountCurrent,
     firstDayWeekdayNum,
@@ -18,6 +19,7 @@ const Calendar: FC = () => {
     increaseMonth,
     decreaseMonth,
   } = useDate();
+  console.log(isMondayFirst);
   const weekdayNumbers = Object.values(WEEKDAYS).filter((weekday) =>
     Number.isInteger(weekday)
   );
@@ -29,7 +31,7 @@ const Calendar: FC = () => {
 
   const renderDays = (
     daysNum: number,
-    options?: Pick<DayProps, "disabled"> & {
+    options?: Pick<DayProps, 'disabled'> & {
       reversed?: boolean;
       isSelected?: (dayNum: number) => boolean;
       onDayClick: (dayNum: number) => () => void;
@@ -69,7 +71,11 @@ const Calendar: FC = () => {
       <MonthSlider />
       <CalendarCells>
         {weekdayNumbers.map((weekdayNum) => (
-          <Day key={weekdayNum} type="weekday" dayNum={Number(weekdayNum)} />
+          <Day
+            key={weekdayNum}
+            type="weekday"
+            dayNum={Number(weekdayNum)}
+          />
         ))}
         {renderDays(prevMonthDaysAmount, {
           disabled: true,

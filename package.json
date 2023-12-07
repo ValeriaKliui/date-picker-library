@@ -96,5 +96,6 @@
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
     "*.--write": "prettier --write"
   },
-  "repository": "https://github.com/ValeriaKliui/date-picker-library"
+  "repository": "https://github.com/ValeriaKliui/date-picker-library",
+  "packageManager": "yarn@4.0.2"
 }
