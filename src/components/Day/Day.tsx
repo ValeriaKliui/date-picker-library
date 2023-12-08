@@ -1,8 +1,7 @@
-import { type FC } from 'react';
-import { WEEKDAYS } from '../../constants/constants/weekdays';
-import { getWeekdayByNum } from '../../utils/getDates/getDates';
-import { Container, DayText } from './Day.styled';
-import { type DayProps } from './interface';
+import { type FC } from "react";
+import { getWeekdayByNum } from "../../utils/getDates/getDates";
+import { Container, DayText } from "./Day.styled";
+import { type DayProps } from "./interface";
 
 const Day: FC<DayProps> = ({
   type,
@@ -13,7 +12,7 @@ const Day: FC<DayProps> = ({
   onDayClick,
 }) => {
   const getDayText = (): string | number => {
-    if (type === 'day') return dayNum;
+    if (type === "day") return dayNum;
     return getWeekdayByNum(dayNum).slice(0, 2);
   };
 

@@ -1,9 +1,8 @@
-import { ComponentType, FC } from 'react';
-import Calendar from '../../components/Calendar';
-import { CalendarProps } from '../../components/Calendar/interface';
+import { type ComponentType } from "react";
 
 interface MondaysFirstProps {
-  isMondayFirst?: boolean;
+  // isMondayFirst?: boolean;
+  isMondayFirs: boolean;
 }
 
 const withMondaysFirst =
