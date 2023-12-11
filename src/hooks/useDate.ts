@@ -1,13 +1,13 @@
-import { useContext } from "react";
-import { DateContext } from "../providers/DateProvider";
+import { useContext } from 'react';
+import { DateContext } from '../providers/DateProvider';
 import {
   getDaysAmount,
   getDayWeekdayNum,
   getMonthName,
   getMonthNumber,
   getYear,
-} from "../utils/getDates/getDates";
-import { type UseDateReturns } from "./interfaces";
+} from '../utils/getDates/getDates';
+import { type UseDateReturns } from './interfaces';
 
 export const useDate = (): UseDateReturns => {
   const { date, setDate } = useContext(DateContext);
@@ -23,7 +23,10 @@ export const useDate = (): UseDateReturns => {
     date.getFullYear(),
     date.getMonth() + 1
   );
-  const daysAmountPrev = getDaysAmount(date.getFullYear(), date.getMonth());
+  const daysAmountPrev = getDaysAmount(
+    date.getFullYear(),
+    date.getMonth()
+  );
 
   const firstDayWeekdayNum = getDayWeekdayNum(
     new Date(date.getFullYear(), date.getMonth(), 1)

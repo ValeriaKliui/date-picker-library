@@ -1,7 +1,7 @@
-import { type FC } from "react";
-import { getWeekdayByNum } from "../../utils/getDates/getDates";
-import { Container, DayText } from "./Day.styled";
-import { type DayProps } from "./interface";
+import { type FC } from 'react';
+import { getWeekdayByNum } from '../../utils/getDates/getDates';
+import { Container, DayText } from './Day.styled';
+import { type DayProps } from './interface';
 
 const Day: FC<DayProps> = ({
   type,
@@ -10,9 +10,10 @@ const Day: FC<DayProps> = ({
   selected = false,
   range,
   onDayClick,
+  isHoliday = false,
 }) => {
   const getDayText = (): string | number => {
-    if (type === "day") return dayNum;
+    if (type === 'day') return dayNum;
     return getWeekdayByNum(dayNum).slice(0, 2);
   };
 
@@ -29,6 +30,7 @@ const Day: FC<DayProps> = ({
         $selected={selected}
         $range={range}
         $type={type}
+        $isHoliday={isHoliday}
       >
         {getDayText()}
       </DayText>

@@ -1,8 +1,15 @@
 import { RangeType } from '../../components/Day/interface';
 import { baseTheme } from '../../constants/styles/theme';
 
-const { white, darkGray, dark, blue, lightBlue, transparentBlue } =
-  baseTheme.colors;
+const {
+  white,
+  darkGray,
+  dark,
+  blue,
+  lightBlue,
+  transparentBlue,
+  red,
+} = baseTheme.colors;
 const { px8, px0 } = baseTheme.valueInPx;
 
 export const getDayBackgroundColor = (
@@ -18,7 +25,8 @@ export const getDayBackgroundColor = (
 export const getDayTextColor = (
   disabled: boolean,
   selected: boolean,
-  range?: RangeType
+  range?: RangeType,
+  isHoliday?: boolean
 ): string => {
   if (
     selected ||
@@ -28,6 +36,7 @@ export const getDayTextColor = (
     return white;
   if (range === RangeType.between) return blue;
   if (disabled) return darkGray;
+  if (isHoliday ?? false) return red;
   return dark;
 };
 

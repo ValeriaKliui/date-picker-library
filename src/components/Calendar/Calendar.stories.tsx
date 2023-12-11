@@ -1,5 +1,6 @@
 import { type Meta, type StoryObj } from '@storybook/react';
 import BaseDecorator from '../../decorators/baseDecorator';
+import withHolidays from '../../decorators/withHolidays/withHolidays';
 import withMondaysFirst from '../../decorators/withMondaysFirst/withMondaysFirst';
 import Calendar from './Calendar';
 
@@ -23,4 +24,11 @@ const CalendarWithMondaysFirst = CalendarDecorator.getDecorator();
 
 export const WithMondaysFirst: Story = {
   decorators: [() => CalendarWithMondaysFirst({})],
+};
+
+CalendarDecorator.addDecorator(withHolidays);
+const CalendarWithHolidays = CalendarDecorator.getDecorator();
+
+export const WithHolidays: Story = {
+  decorators: [() => CalendarWithHolidays({})],
 };

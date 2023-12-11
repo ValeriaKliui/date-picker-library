@@ -33,9 +33,10 @@ export const DayText = styled.p<{
   $selected: boolean;
   $range?: RangeType;
   $type?: string;
+  $isHoliday: boolean;
 }>`
-  color: ${({ $disabled, $selected, $range }) =>
-    getDayTextColor($disabled, $selected, $range)};
+  color: ${({ $disabled, $selected, $range, $isHoliday }) =>
+    getDayTextColor($disabled, $selected, $range, $isHoliday)};
   font-weight: ${({ $type, theme }) =>
     $type === 'weekday' && theme.fontWeight.bold};
   text-transform: lowercase;

@@ -1,3 +1,4 @@
 export interface CalendarProps {
-  isMondayFirst?: boolean;
+  weekdayStartNum?: number;
+  holidays?: string[];
 }

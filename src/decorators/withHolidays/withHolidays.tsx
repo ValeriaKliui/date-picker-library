@@ -1,14 +1,14 @@
 import { type ComponentType } from 'react';
-import { WEEKDAYS } from '../../constants/constants/weekdays';
+import { HOLIDAYS } from '../../constants/constants/holidays';
 
-const withMondaysFirst =
+const withHolidays =
   <T,>(WrappedComponent: ComponentType<T>) =>
   (props: T) => {
     const passedProps = {
       ...props,
-      weekdayStartNum: WEEKDAYS.MONDAY,
+      holidays: HOLIDAYS,
     };
     return <WrappedComponent {...passedProps} />;
   };
 
-export default withMondaysFirst;
+export default withHolidays;

@@ -1,13 +1,14 @@
 export enum RangeType {
-  start = "start",
-  end = "end",
-  between = "between",
+  start = 'start',
+  end = 'end',
+  between = 'between',
 }
 export interface DayProps {
-  type: "weekday" | "day";
+  type: 'weekday' | 'day';
   dayNum: number;
   disabled?: boolean;
   selected?: boolean;
   range?: RangeType;
   onDayClick?: () => void;
+  isHoliday?: boolean;
 }
