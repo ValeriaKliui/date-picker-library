@@ -5,7 +5,7 @@ export enum RangeType {
 }
 export interface DayProps {
   type: 'weekday' | 'day';
-  dayNum: number;
+  day: number | string;
   disabled?: boolean;
   selected?: boolean;
   range?: RangeType;

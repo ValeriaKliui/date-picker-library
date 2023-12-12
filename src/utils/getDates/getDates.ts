@@ -21,3 +21,17 @@ export const getDaysArray = (daysAmount: number): number[] => {
   }
   return days;
 };
+
+export const getWeekDayNames = (
+  weekdayStartNum: number
+): string[] => {
+  const weekDaysNames = Object.values(WEEKDAYS)
+    .filter((weekDay) => !Number.isInteger(weekDay))
+    .map((weekDay) => weekDay.toString().slice(0, 2));
+
+  const weekDaysFromDay = weekDaysNames
+    .slice(weekdayStartNum)
+    .concat(weekDaysNames.slice(0, weekdayStartNum));
+
+  return weekDaysFromDay;
+};

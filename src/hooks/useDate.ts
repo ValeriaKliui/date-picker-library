@@ -15,6 +15,7 @@ export const useDate = (): UseDateReturns => {
   const increaseMonth = (): void => {
     setDate(new Date(date.setMonth(getMonthNumber(date) + 1)));
   };
+
   const decreaseMonth = (): void => {
     setDate(new Date(date.setMonth(getMonthNumber(date) - 1)));
   };
@@ -28,7 +29,7 @@ export const useDate = (): UseDateReturns => {
     date.getMonth()
   );
 
-  const firstDayWeekdayNum = getDayWeekdayNum(
+  const currMonthStartDay = getDayWeekdayNum(
     new Date(date.getFullYear(), date.getMonth(), 1)
   );
   const lastDayWeekdayNum = getDayWeekdayNum(
@@ -45,7 +46,7 @@ export const useDate = (): UseDateReturns => {
     decreaseMonth,
     daysAmountCurrent,
     daysAmountPrev,
-    firstDayWeekdayNum,
+    currMonthStartDay,
     lastDayWeekdayNum,
     date,
   };

@@ -1,9 +1,9 @@
-import { type ChangeEvent } from "react";
-import { type DateInputProps } from "../components/DateInput/interface";
+import { type ChangeEvent } from 'react';
+import { type DateInputProps } from '../components/DateInput/interface';
 
 export type UseDateInputProps = Pick<
   DateInputProps,
-  "onClearClick" | "onDateChange"
+  'onClearClick' | 'onDateChange'
 >;
 export interface UseDateReturns {
   monthName: string;
@@ -12,7 +12,7 @@ export interface UseDateReturns {
   decreaseMonth: () => void;
   daysAmountCurrent: number;
   daysAmountPrev: number;
-  firstDayWeekdayNum: number;
+  currMonthStartDay: number;
   lastDayWeekdayNum: number;
   date: Date;
 }

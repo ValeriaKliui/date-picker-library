@@ -12,11 +12,11 @@ const MonthSlider: FC = () => {
 
   return (
     <Container>
-      <LeftArrow onClick={decreaseMonth}>minus</LeftArrow>
+      <LeftArrow onClick={decreaseMonth} />
       <MonthSliderHeader>
         {monthName} {year}
       </MonthSliderHeader>
-      <RightArrow onClick={increaseMonth}>plus</RightArrow>
+      <RightArrow onClick={increaseMonth} />
     </Container>
   );
 };
