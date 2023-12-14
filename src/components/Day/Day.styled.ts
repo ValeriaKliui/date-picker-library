@@ -7,7 +7,7 @@ import {
 import { type RangeType } from './interface';
 
 export const Container = styled.div<{
-  $disabled: boolean;
+  $shadowed: boolean;
   $selected: boolean;
   $range?: RangeType;
   $type: string;
@@ -29,14 +29,14 @@ export const Container = styled.div<{
   }
 `;
 export const DayText = styled.p<{
-  $disabled: boolean;
+  $shadowed: boolean;
   $selected: boolean;
   $range?: RangeType;
   $type?: string;
   $isHoliday: boolean;
 }>`
-  color: ${({ $disabled, $selected, $range, $isHoliday }) =>
-    getDayTextColor($disabled, $selected, $range, $isHoliday)};
+  color: ${({ $shadowed, $selected, $range, $isHoliday }) =>
+    getDayTextColor($shadowed, $selected, $range, $isHoliday)};
   font-weight: ${({ $type, theme }) =>
     $type === 'weekday' && theme.fontWeight.bold};
   text-transform: lowercase;

@@ -5,7 +5,7 @@ import { type DayProps } from './interface';
 const Day: FC<DayProps> = ({
   type,
   day,
-  disabled = false,
+  shadowed = false,
   selected = false,
   range,
   onDayClick,
@@ -13,13 +13,13 @@ const Day: FC<DayProps> = ({
 }) => (
   <Container
     onClick={onDayClick}
-    $disabled={disabled}
+    $shadowed={shadowed}
     $selected={selected}
     $range={range}
     $type={type}
   >
     <DayText
-      $disabled={disabled}
+      $shadowed={shadowed}
       $selected={selected}
       $range={range}
       $type={type}

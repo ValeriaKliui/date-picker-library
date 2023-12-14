@@ -10,11 +10,12 @@ export interface UseDateReturns {
   year: number;
   increaseMonth: () => void;
   decreaseMonth: () => void;
-  daysAmountCurrent: number;
-  daysAmountPrev: number;
-  currMonthStartDay: number;
-  lastDayWeekdayNum: number;
+  currMonthDaysAmount: number;
+  daysAmountPrevMonth: number;
+  currMonthFirstDayNum: number;
   date: Date;
+  currMonthLastDayNum: number;
+  prevMonthLastNum: number;
 }
 
 export interface UseDateInputReturns {

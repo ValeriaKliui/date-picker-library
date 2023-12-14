@@ -20,20 +20,32 @@ export const useDate = (): UseDateReturns => {
     setDate(new Date(date.setMonth(getMonthNumber(date) - 1)));
   };
 
-  const daysAmountCurrent = getDaysAmount(
+  const currMonthDaysAmount = getDaysAmount(
     date.getFullYear(),
     date.getMonth() + 1
   );
-  const daysAmountPrev = getDaysAmount(
+  const prevMonthDaysAmount = getDaysAmount(
     date.getFullYear(),
     date.getMonth()
   );
 
-  const currMonthStartDay = getDayWeekdayNum(
+  const currMonthLastDayNum = getDayWeekdayNum(
+    new Date(date.getFullYear(), date.getMonth(), currMonthDaysAmount)
+  );
+  const currMonthFirstDayNum = getDayWeekdayNum(
     new Date(date.getFullYear(), date.getMonth(), 1)
   );
-  const lastDayWeekdayNum = getDayWeekdayNum(
-    new Date(date.getFullYear(), date.getMonth() + 1, 0)
+  const prevMonthLastNum = getDayWeekdayNum(
+    new Date(
+      date.getFullYear(),
+      date.getMonth() - 1,
+      prevMonthDaysAmount
+    )
+  );
+
+  const daysAmountPrevMonth = getDaysAmount(
+    date.getFullYear(),
+    date.getMonth()
   );
 
   const monthName = getMonthName(date);
@@ -44,10 +56,11 @@ export const useDate = (): UseDateReturns => {
     year,
     increaseMonth,
     decreaseMonth,
-    daysAmountCurrent,
-    daysAmountPrev,
-    currMonthStartDay,
-    lastDayWeekdayNum,
+    currMonthDaysAmount,
+    daysAmountPrevMonth,
+    currMonthFirstDayNum,
     date,
+    currMonthLastDayNum,
+    prevMonthLastNum,
   };
 };

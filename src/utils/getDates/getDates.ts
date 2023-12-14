@@ -1,4 +1,5 @@
 import { WEEKDAYS } from '../../constants/constants/weekdays';
+import { type WeekDay } from './interface';
 
 export const getMonthNumber = (date: Date): number => date.getMonth();
 
@@ -9,6 +10,7 @@ export const getYear = (date: Date): number => date.getFullYear();
 
 export const getWeekdayByNum = (weekdayNumber: number): string =>
   WEEKDAYS[weekdayNumber] ?? '';
+
 export const getDayWeekdayNum = (date: Date): number => date.getDay();
 
 export const getDaysAmount = (year: number, month: number): number =>
@@ -22,16 +24,16 @@ export const getDaysArray = (daysAmount: number): number[] => {
   return days;
 };
 
-export const getWeekDayNames = (
-  weekdayStartNum: number
-): string[] => {
-  const weekDaysNames = Object.values(WEEKDAYS)
-    .filter((weekDay) => !Number.isInteger(weekDay))
-    .map((weekDay) => weekDay.toString().slice(0, 2));
+export const getWeekDays = (weekdayStartNum: number): WeekDay[] => {
+  const weekDays = Object.entries(WEEKDAYS)
+    .map((weekDayArr) => ({
+      weekDayNum: Number(weekDayArr[0]),
+      weekDayName: weekDayArr[1].toString().slice(0, 2),
+    }))
+    .slice(0, Object.keys(WEEKDAYS).length / 2);
 
-  const weekDaysFromDay = weekDaysNames
+  const weekDaysFromDay = weekDays
     .slice(weekdayStartNum)
-    .concat(weekDaysNames.slice(0, weekdayStartNum));
-
+    .concat(weekDays.slice(0, weekdayStartNum));
   return weekDaysFromDay;
 };
