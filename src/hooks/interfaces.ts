@@ -1,5 +1,6 @@
 import { type ChangeEvent } from 'react';
 import { type DateInputProps } from '../components/DateInput/interface';
+import { type WeekDay } from '../utils/getDates/interface';
 
 export type UseDateInputProps = Pick<
   DateInputProps,
@@ -28,4 +29,16 @@ export interface UseDateInputReturns {
 export interface UseCalendarReturns {
   setSelectedDate: (date: Date) => void;
   selectedDate: Date | null;
+  getNextMonthDaysAmount: (
+    currMonthLastDayNum: number,
+    lastWeekDay: number
+  ) => number;
+  getPrevMonthDaysAmount: (
+    currMonthFirstDayNum: number,
+    weekdayStartNum: number,
+    prevMonthLastNum: number,
+    lastWeekDay: number,
+    weekDays: WeekDay[],
+    withWeekdays?: boolean
+  ) => number;
 }

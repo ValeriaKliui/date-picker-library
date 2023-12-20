@@ -1,12 +1,12 @@
 import { type ComponentType } from 'react';
-import { HOLIDAYS } from '../../constants/constants/holidays';
 
 const withHolidays =
   <T,>(WrappedComponent: ComponentType<T>) =>
   (props: T) => {
+    const { holidays } = props;
     const passedProps = {
       ...props,
-      holidays: HOLIDAYS,
+      holidays,
     };
     return <WrappedComponent {...passedProps} />;
   };

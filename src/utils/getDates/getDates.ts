@@ -24,7 +24,10 @@ export const getDaysArray = (daysAmount: number): number[] => {
   return days;
 };
 
-export const getWeekDays = (weekdayStartNum: number): WeekDay[] => {
+export const getWeekDays = (
+  weekdayStartNum: number,
+  withWeekdays?: boolean
+): WeekDay[] => {
   const weekDays = Object.entries(WEEKDAYS)
     .map((weekDayArr) => ({
       weekDayNum: Number(weekDayArr[0]),
@@ -35,5 +38,14 @@ export const getWeekDays = (weekdayStartNum: number): WeekDay[] => {
   const weekDaysFromDay = weekDays
     .slice(weekdayStartNum)
     .concat(weekDays.slice(0, weekdayStartNum));
-  return weekDaysFromDay;
+
+  return withWeekdays === false
+    ? weekDaysFromDay.filter(
+        ({ weekDayNum }) => weekDayNum !== 0 && weekDayNum !== 6
+      )
+    : weekDaysFromDay;
 };
+export const getWeekdayNums = (): Array<number | WEEKDAYS> =>
+  Object.values(WEEKDAYS)
+    .filter((weekday) => Number.isInteger(weekday))
+    .map((weekday) => Number(weekday));
