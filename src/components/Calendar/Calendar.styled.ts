@@ -8,8 +8,8 @@ export const Container = styled.div`
   flex-direction: column;
   gap: ${({ theme }) => theme.valueInPx.px10};
 `;
-export const CalendarCells = styled.div<{ $withWeekdays?: boolean }>`
+export const CalendarCells = styled.div<{ $withWeekends?: boolean }>`
   display: grid;
-  grid-template-columns: ${({ $withWeekdays = true }) =>
-    $withWeekdays ? 'repeat(7, 1fr)' : 'repeat(5, 1fr)'};
+  grid-template-columns: ${({ $withWeekends = true }) =>
+    $withWeekends ? 'repeat(7, 1fr)' : 'repeat(5, 1fr)'};
 `;

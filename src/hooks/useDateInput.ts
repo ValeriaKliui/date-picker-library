@@ -1,5 +1,5 @@
 import { type ChangeEvent, useCallback, useState } from 'react';
-import { isValidDate } from '../utils/isValidDate/isValidDate';
+import { isValidDate } from '../utils/dates/isValidDate';
 import {
   type UseDateInputReturns,
   type UseDateInputProps,

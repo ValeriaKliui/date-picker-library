@@ -5,5 +5,5 @@ export interface Holiday {
 export interface CalendarProps {
   weekdayStartNum?: number;
   holidays?: Holiday[];
-  withWeekdays?: boolean;
+  withWeekends?: boolean;
 }

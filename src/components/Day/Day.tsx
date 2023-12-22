@@ -10,6 +10,8 @@ const Day: FC<DayProps> = ({
   range,
   onDayClick,
   isHoliday = false,
+  isWeekend = false,
+  withWeekends = false,
 }) => (
   <Container
     onClick={onDayClick}
@@ -24,6 +26,8 @@ const Day: FC<DayProps> = ({
       $range={range}
       $type={type}
       $isHoliday={isHoliday}
+      $isWeekend={isWeekend}
+      $withWeekends={withWeekends}
     >
       {day}
     </DayText>

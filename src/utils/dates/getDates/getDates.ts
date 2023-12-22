@@ -1,4 +1,4 @@
-import { WEEKDAYS } from '../../constants/constants/weekdays';
+import { WEEKDAYS } from '../../../constants/constants/weekdays';
 import { type WeekDay } from './interface';
 
 export const getMonthNumber = (date: Date): number => date.getMonth();
@@ -26,7 +26,7 @@ export const getDaysArray = (daysAmount: number): number[] => {
 
 export const getWeekDays = (
   weekdayStartNum: number,
-  withWeekdays?: boolean
+  withWeekends?: boolean
 ): WeekDay[] => {
   const weekDays = Object.entries(WEEKDAYS)
     .map((weekDayArr) => ({
@@ -39,7 +39,7 @@ export const getWeekDays = (
     .slice(weekdayStartNum)
     .concat(weekDays.slice(0, weekdayStartNum));
 
-  return withWeekdays === false
+  return withWeekends === false
     ? weekDaysFromDay.filter(
         ({ weekDayNum }) => weekDayNum !== 0 && weekDayNum !== 6
       )

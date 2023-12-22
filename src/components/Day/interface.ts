@@ -11,4 +11,6 @@ export interface DayProps {
   range?: RangeType;
   onDayClick?: () => void;
   isHoliday?: boolean;
+  isWeekend?: boolean;
+  withWeekends?: boolean;
 }

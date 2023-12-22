@@ -1,7 +1,12 @@
 import { type ChangeEvent } from 'react';
 import { type DateInputProps } from '../components/DateInput/interface';
-import { type WeekDay } from '../utils/getDates/interface';
+import { type WeekDay } from '../utils/dates/getDates/interface';
 
+export enum CalendarType {
+  REGULAR,
+  MONTH,
+  YEAR,
+}
 export type UseDateInputProps = Pick<
   DateInputProps,
   'onClearClick' | 'onDateChange'
@@ -17,6 +22,9 @@ export interface UseDateReturns {
   date: Date;
   currMonthLastDayNum: number;
   prevMonthLastNum: number;
+  increaseYear: () => void;
+  decreaseYear: () => void;
+  setYear: (year: number) => void;
 }
 
 export interface UseDateInputReturns {
@@ -39,6 +47,25 @@ export interface UseCalendarReturns {
     prevMonthLastNum: number,
     lastWeekDay: number,
     weekDays: WeekDay[],
-    withWeekdays?: boolean
+    withWeekends?: boolean
   ) => number;
+  sliderHeaderText: string;
+  onPeriodSliderClick: () => void;
+  setSliderHeaderText: (text: string) => void;
+  onPrevPeriodClick: () => void;
+}
+export type UseCalendarProps = Pick<
+  UseDateReturns,
+  'date' | 'decreaseMonth' | 'decreaseYear' | 'setYear'
+>;
+
+export interface SliderHeaderTexts {
+  getRegularSliderText: () => string;
+  getMonthSliderText: () => string;
+  getYearSliderText: () => string;
+}
+export interface SliderHeaderActions {
+  regularSliderAction: () => void;
+  monthSliderAction: () => void;
+  yearSliderAction: () => void;
 }

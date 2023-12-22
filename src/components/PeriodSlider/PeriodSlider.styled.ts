@@ -9,7 +9,7 @@ export const Container = styled.div`
   justify-content: space-between;
   min-width: ${({ theme }) => theme.valueInPx.px175};
 `;
-export const MonthSliderHeader = styled.p`
+export const PeriodHeader = styled.p`
   ${transitionAnimaton};
   font-weight: ${({ theme }) => theme.fontWeight.bold};
   cursor: pointer;

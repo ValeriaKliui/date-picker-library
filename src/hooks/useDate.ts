@@ -6,11 +6,13 @@ import {
   getMonthName,
   getMonthNumber,
   getYear,
-} from '../utils/getDates/getDates';
+} from '../utils/dates/getDates/getDates';
 import { type UseDateReturns } from './interfaces';
 
 export const useDate = (): UseDateReturns => {
   const { date, setDate } = useContext(DateContext);
+  const monthName = getMonthName(date);
+  const year = getYear(date);
 
   const increaseMonth = (): void => {
     setDate(new Date(date.setMonth(getMonthNumber(date) + 1)));
@@ -18,6 +20,15 @@ export const useDate = (): UseDateReturns => {
 
   const decreaseMonth = (): void => {
     setDate(new Date(date.setMonth(getMonthNumber(date) - 1)));
+  };
+  const increaseYear = (): void => {
+    setDate(new Date(date.setFullYear(year + 1)));
+  };
+  const decreaseYear = (): void => {
+    setDate(new Date(date.setFullYear(year - 1)));
+  };
+  const setYear = (choosenYear: number): void => {
+    setDate(new Date(date.setFullYear(choosenYear)));
   };
 
   const currMonthDaysAmount = getDaysAmount(
@@ -48,9 +59,6 @@ export const useDate = (): UseDateReturns => {
     date.getMonth()
   );
 
-  const monthName = getMonthName(date);
-  const year = getYear(date);
-
   return {
     monthName,
     year,
@@ -62,5 +70,8 @@ export const useDate = (): UseDateReturns => {
     date,
     currMonthLastDayNum,
     prevMonthLastNum,
+    increaseYear,
+    decreaseYear,
+    setYear,
   };
 };

@@ -1,5 +1,5 @@
-import { RangeType } from '../../components/Day/interface';
-import { baseTheme } from '../../constants/styles/theme';
+import { RangeType } from '../../../components/Day/interface';
+import { baseTheme } from '../../../constants/styles/theme';
 
 const {
   white,
@@ -26,7 +26,9 @@ export const getDayTextColor = (
   disabled: boolean,
   selected: boolean,
   range?: RangeType,
-  isHoliday?: boolean
+  isHoliday?: boolean,
+  isWeekend?: boolean,
+  withWeekends?: boolean
 ): string => {
   if (
     selected ||
@@ -36,7 +38,8 @@ export const getDayTextColor = (
     return white;
   if (range === RangeType.between) return blue;
   if (disabled) return darkGray;
-  if (isHoliday ?? false) return red;
+  if (isHoliday ?? false) return blue;
+  if ((isWeekend ?? false) && (withWeekends ?? false)) return red;
   return dark;
 };
 

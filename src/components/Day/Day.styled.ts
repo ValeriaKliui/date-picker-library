@@ -3,7 +3,7 @@ import {
   getDayBackgroundColor,
   getDayBorderRadius,
   getDayTextColor,
-} from '../../utils/determineDayStyle/determineDayStyle';
+} from '../../utils/calendarGrid/determineDayStyle';
 import { type RangeType } from './interface';
 
 export const Container = styled.div<{
@@ -34,9 +34,25 @@ export const DayText = styled.p<{
   $range?: RangeType;
   $type?: string;
   $isHoliday: boolean;
+  $isWeekend: boolean;
+  $withWeekends: boolean;
 }>`
-  color: ${({ $shadowed, $selected, $range, $isHoliday }) =>
-    getDayTextColor($shadowed, $selected, $range, $isHoliday)};
+  color: ${({
+    $shadowed,
+    $selected,
+    $range,
+    $isHoliday,
+    $isWeekend,
+    $withWeekends,
+  }) =>
+    getDayTextColor(
+      $shadowed,
+      $selected,
+      $range,
+      $isHoliday,
+      $isWeekend,
+      $withWeekends
+    )};
   font-weight: ${({ $type, theme }) =>
     $type === 'weekday' && theme.fontWeight.bold};
   text-transform: lowercase;

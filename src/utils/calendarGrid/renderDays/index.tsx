@@ -1,7 +1,7 @@
-import { type Holiday } from '../../components/Calendar/interface';
-import Day from '../../components/Day';
-import { type DayProps } from '../../components/Day/interface';
-import { getDaysArray } from '../getDates/getDates';
+import { type Holiday } from '../../../components/Calendar/interface';
+import Day from '../../../components/Day';
+import { type DayProps } from '../../../components/Day/interface';
+import { getDaysArray } from '../../dates/getDates/getDates';
 
 export const renderDays =
   (
@@ -11,7 +11,7 @@ export const renderDays =
     selectedDate: Date | null,
     setSelectedDate: (date: Date) => void,
     holidays?: Holiday[],
-    withWeekdays?: boolean
+    withWeekends?: boolean
   ) =>
   (
     daysAmount: number,
@@ -45,11 +45,10 @@ export const renderDays =
         dayDate.setHours(0, 0, 0).toString();
         return holidayDate.toString() === dayDate.toString();
       });
+      const isWeekend =
+        dayDate.getDay() === 6 || dayDate.getDay() === 0;
 
-      if (
-        withWeekdays === false &&
-        (dayDate.getDay() === 6 || dayDate.getDay() === 0)
-      ) {
+      if (withWeekends === false && isWeekend) {
         return null;
       }
 
@@ -61,6 +60,8 @@ export const renderDays =
           shadowed={!isCurrMonth}
           selected={isSelected}
           isHoliday={isHoliday}
+          isWeekend={isWeekend}
+          withWeekends={withWeekends}
           onDayClick={() => {
             onDayClick?.();
             setSelectedDate(dayDate);

@@ -3,17 +3,17 @@ import { WEEKDAYS } from '../../constants/constants/weekdays';
 import { useCalendar } from '../../hooks/useCalendar';
 import { useDate } from '../../hooks/useDate';
 import { useKeyPress } from '../../hooks/useKeyPress';
-import { getWeekDays } from '../../utils/getDates/getDates';
-import { renderDays } from '../../utils/renderDays/renderDays';
+import { renderDays } from '../../utils/calendarGrid/renderDays';
+import { getWeekDays } from '../../utils/dates/getDates/getDates';
 import Day from '../Day';
-import MonthSlider from '../MonthSlider';
+import PeriodSlider from '../PeriodSlider';
 import { CalendarCells, Container } from './Calendar.styled';
 import { type CalendarProps } from './interface';
 
 const Calendar: FC<CalendarProps> = ({
   weekdayStartNum = WEEKDAYS.SUNDAY,
   holidays,
-  withWeekdays,
+  withWeekends,
 }) => {
   const {
     currMonthDaysAmount,
@@ -22,17 +22,22 @@ const Calendar: FC<CalendarProps> = ({
     prevMonthLastNum,
     daysAmountPrevMonth,
     date,
-    increaseMonth,
     decreaseMonth,
+    decreaseYear,
+    setYear,
   } = useDate();
+
   const {
     selectedDate,
     setSelectedDate,
     getPrevMonthDaysAmount,
     getNextMonthDaysAmount,
-  } = useCalendar();
+    sliderHeaderText,
+    onPeriodSliderClick,
+    onPrevPeriodClick,
+  } = useCalendar({ date, decreaseMonth, decreaseYear, setYear });
 
-  const weekDays = getWeekDays(weekdayStartNum, withWeekdays);
+  const weekDays = getWeekDays(weekdayStartNum, withWeekends);
   const lastWeekDay = weekDays[weekDays.length - 1]?.weekDayNum ?? 0;
 
   const prevMonthDays = getPrevMonthDaysAmount(
@@ -41,7 +46,7 @@ const Calendar: FC<CalendarProps> = ({
     prevMonthLastNum,
     lastWeekDay,
     weekDays,
-    withWeekdays
+    withWeekends
   );
 
   const nextMonthDays = getNextMonthDaysAmount(
@@ -56,21 +61,27 @@ const Calendar: FC<CalendarProps> = ({
     selectedDate,
     setSelectedDate,
     holidays,
-    withWeekdays
+    withWeekends
   );
 
-  useKeyPress('ArrowLeft', decreaseMonth);
-  useKeyPress('ArrowRight', increaseMonth);
+  useKeyPress('ArrowLeft', onPrevPeriodClick);
+  // useKeyPress('ArrowRight', onNextMonthClick);
 
   return (
     <Container>
-      <MonthSlider />
-      <CalendarCells $withWeekdays={withWeekdays}>
+      <PeriodSlider
+        sliderHeaderText={sliderHeaderText}
+        onLeftArrow={onPrevPeriodClick}
+        // onRightArrow={onNextMonthClick}
+        onRightArrow={() => {}}
+        onPeriodSliderClick={onPeriodSliderClick}
+      />
+      <CalendarCells $withWeekends={withWeekends}>
         {weekDays.map(({ weekDayName, weekDayNum }) => (
           <Day type="weekday" day={weekDayName} key={weekDayNum} />
         ))}
         {renderCalendarDays(prevMonthDays, {
-          onDayClick: decreaseMonth,
+          onDayClick: onPrevPeriodClick,
           isPrevMonth: true,
           monthNum: date.getMonth() - 1,
         })}
@@ -79,7 +90,8 @@ const Calendar: FC<CalendarProps> = ({
           monthNum: date.getMonth(),
         })}
         {renderCalendarDays(nextMonthDays, {
-          onDayClick: increaseMonth,
+          // onDayClick: onNextMonthClick,
+          onDayClick: () => {},
           monthNum: date.getMonth() + 1,
         })}
       </CalendarCells>
