@@ -3,13 +3,13 @@ export enum RangeType {
   end = 'end',
   between = 'between',
 }
-export interface DayProps {
-  type: 'weekday' | 'day';
+export interface CalendarCellProps {
+  type: 'weekday' | 'day' | 'month' | 'year';
   day: number | string;
   shadowed?: boolean;
   selected?: boolean;
   range?: RangeType;
-  onDayClick?: () => void;
+  onCalendarCellClick?: () => void;
   isHoliday?: boolean;
   isWeekend?: boolean;
   withWeekends?: boolean;

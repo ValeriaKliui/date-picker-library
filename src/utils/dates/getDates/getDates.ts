@@ -1,4 +1,5 @@
 import { WEEKDAYS } from '../../../constants/constants/weekdays';
+import { sliceWordFromStart } from '../../data';
 import { type WeekDay } from './interface';
 
 export const getMonthNumber = (date: Date): number => date.getMonth();
@@ -16,14 +17,6 @@ export const getDayWeekdayNum = (date: Date): number => date.getDay();
 export const getDaysAmount = (year: number, month: number): number =>
   new Date(year, month, 0).getDate();
 
-export const getDaysArray = (daysAmount: number): number[] => {
-  const days = [];
-  for (let i = 1; i <= daysAmount; i += 1) {
-    days.push(i);
-  }
-  return days;
-};
-
 export const getWeekDays = (
   weekdayStartNum: number,
   withWeekends?: boolean
@@ -31,7 +24,7 @@ export const getWeekDays = (
   const weekDays = Object.entries(WEEKDAYS)
     .map((weekDayArr) => ({
       weekDayNum: Number(weekDayArr[0]),
-      weekDayName: weekDayArr[1].toString().slice(0, 2),
+      weekDayName: sliceWordFromStart(weekDayArr[1].toString(), 2),
     }))
     .slice(0, Object.keys(WEEKDAYS).length / 2);
 

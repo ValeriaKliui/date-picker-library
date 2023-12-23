@@ -30,6 +30,9 @@ export const useDate = (): UseDateReturns => {
   const setYear = (choosenYear: number): void => {
     setDate(new Date(date.setFullYear(choosenYear)));
   };
+  const setMonth = (choosenMonth: number): void => {
+    setDate(new Date(date.setMonth(choosenMonth - 1)));
+  };
 
   const currMonthDaysAmount = getDaysAmount(
     date.getFullYear(),
@@ -73,5 +76,6 @@ export const useDate = (): UseDateReturns => {
     increaseYear,
     decreaseYear,
     setYear,
+    setMonth,
   };
 };

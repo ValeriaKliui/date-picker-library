@@ -1,11 +1,14 @@
 import { type FC } from 'react';
 import { WEEKDAYS } from '../../constants/constants/weekdays';
+import { CalendarType } from '../../hooks/interfaces';
 import { useCalendar } from '../../hooks/useCalendar';
 import { useDate } from '../../hooks/useDate';
 import { useKeyPress } from '../../hooks/useKeyPress';
 import { renderDays } from '../../utils/calendarGrid/renderDays';
+import { renderMonths } from '../../utils/calendarGrid/renderMonths';
+import { renderYears } from '../../utils/calendarGrid/renderYears';
 import { getWeekDays } from '../../utils/dates/getDates/getDates';
-import Day from '../Day';
+import CalendarCell from '../CalendarCell';
 import PeriodSlider from '../PeriodSlider';
 import { CalendarCells, Container } from './Calendar.styled';
 import { type CalendarProps } from './interface';
@@ -24,7 +27,11 @@ const Calendar: FC<CalendarProps> = ({
     date,
     decreaseMonth,
     decreaseYear,
+    increaseMonth,
     setYear,
+    increaseYear,
+    year,
+    setMonth,
   } = useDate();
 
   const {
@@ -35,7 +42,20 @@ const Calendar: FC<CalendarProps> = ({
     sliderHeaderText,
     onPeriodSliderClick,
     onPrevPeriodClick,
-  } = useCalendar({ date, decreaseMonth, decreaseYear, setYear });
+    onNextPeriodClick,
+    calendarType,
+    setRegularCalendar,
+    setYearCalendar,
+    setMonthAndYearHeaderText,
+    setYearHeaderText,
+  } = useCalendar({
+    date,
+    decreaseMonth,
+    increaseMonth,
+    decreaseYear,
+    increaseYear,
+    setYear,
+  });
 
   const weekDays = getWeekDays(weekdayStartNum, withWeekends);
   const lastWeekDay = weekDays[weekDays.length - 1]?.weekDayNum ?? 0;
@@ -65,35 +85,70 @@ const Calendar: FC<CalendarProps> = ({
   );
 
   useKeyPress('ArrowLeft', onPrevPeriodClick);
-  // useKeyPress('ArrowRight', onNextMonthClick);
+  useKeyPress('ArrowRight', onNextPeriodClick);
+
+  const renderCalendarGrid = ():
+    | JSX.Element
+    | JSX.Element[]
+    | null => {
+    if (calendarType === CalendarType.REGULAR) {
+      return (
+        <>
+          {weekDays.map(({ weekDayName, weekDayNum }) => (
+            <CalendarCell
+              type="weekday"
+              day={weekDayName}
+              key={weekDayNum}
+            />
+          ))}
+          {renderCalendarDays(prevMonthDays, {
+            onCalendarCellClick: onPrevPeriodClick,
+            isPrevMonth: true,
+            monthNum: date.getMonth() - 1,
+          })}
+          {renderCalendarDays(currMonthDaysAmount, {
+            isCurrMonth: true,
+            monthNum: date.getMonth(),
+          })}
+          {renderCalendarDays(nextMonthDays, {
+            onCalendarCellClick: onNextPeriodClick,
+            monthNum: date.getMonth() + 1,
+          })}
+        </>
+      );
+    }
+    if (calendarType === CalendarType.MONTH) {
+      return renderMonths(
+        year,
+        setRegularCalendar,
+        setMonth,
+        setMonthAndYearHeaderText
+      );
+    }
+    if (calendarType === CalendarType.YEAR) {
+      return renderYears(
+        year,
+        setYear,
+        setYearCalendar,
+        setYearHeaderText
+      );
+    }
+    return null;
+  };
 
   return (
     <Container>
       <PeriodSlider
         sliderHeaderText={sliderHeaderText}
         onLeftArrow={onPrevPeriodClick}
-        // onRightArrow={onNextMonthClick}
-        onRightArrow={() => {}}
+        onRightArrow={onNextPeriodClick}
         onPeriodSliderClick={onPeriodSliderClick}
       />
-      <CalendarCells $withWeekends={withWeekends}>
-        {weekDays.map(({ weekDayName, weekDayNum }) => (
-          <Day type="weekday" day={weekDayName} key={weekDayNum} />
-        ))}
-        {renderCalendarDays(prevMonthDays, {
-          onDayClick: onPrevPeriodClick,
-          isPrevMonth: true,
-          monthNum: date.getMonth() - 1,
-        })}
-        {renderCalendarDays(currMonthDaysAmount, {
-          isCurrMonth: true,
-          monthNum: date.getMonth(),
-        })}
-        {renderCalendarDays(nextMonthDays, {
-          // onDayClick: onNextMonthClick,
-          onDayClick: () => {},
-          monthNum: date.getMonth() + 1,
-        })}
+      <CalendarCells
+        $calendarType={calendarType}
+        $withWeekends={withWeekends}
+      >
+        {renderCalendarGrid()}
       </CalendarCells>
     </Container>
   );

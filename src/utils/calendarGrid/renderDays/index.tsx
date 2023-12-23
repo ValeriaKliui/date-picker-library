@@ -1,7 +1,7 @@
 import { type Holiday } from '../../../components/Calendar/interface';
-import Day from '../../../components/Day';
-import { type DayProps } from '../../../components/Day/interface';
-import { getDaysArray } from '../../dates/getDates/getDates';
+import CalendarCell from '../../../components/CalendarCell';
+import { type CalendarCellProps } from '../../../components/CalendarCell/interface';
+import { makeArrayFromNum } from '../../data';
 
 export const renderDays =
   (
@@ -15,7 +15,7 @@ export const renderDays =
   ) =>
   (
     daysAmount: number,
-    options?: Pick<DayProps, 'onDayClick'> & {
+    options?: Pick<CalendarCellProps, 'onCalendarCellClick'> & {
       isPrevMonth?: boolean;
       isCurrMonth?: boolean;
       monthNum: number;
@@ -23,11 +23,11 @@ export const renderDays =
   ): Array<JSX.Element | null> => {
     const {
       isCurrMonth = false,
-      onDayClick,
+      onCalendarCellClick,
       isPrevMonth = false,
       monthNum = 0,
     } = options ?? {};
-    return getDaysArray(daysAmount).map((dayNum) => {
+    return makeArrayFromNum(daysAmount).map((dayNum) => {
       const dayNumber = isPrevMonth
         ? daysAmountPrevMonth - prevMonthDays + dayNum
         : dayNum;
@@ -53,7 +53,7 @@ export const renderDays =
       }
 
       return (
-        <Day
+        <CalendarCell
           day={dayNumber}
           type="day"
           key={dayNum}
@@ -62,8 +62,8 @@ export const renderDays =
           isHoliday={isHoliday}
           isWeekend={isWeekend}
           withWeekends={withWeekends}
-          onDayClick={() => {
-            onDayClick?.();
+          onCalendarCellClick={() => {
+            onCalendarCellClick?.();
             setSelectedDate(dayDate);
           }}
         />

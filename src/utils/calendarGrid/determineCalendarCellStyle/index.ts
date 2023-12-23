@@ -1,4 +1,4 @@
-import { RangeType } from '../../../components/Day/interface';
+import { RangeType } from '../../../components/CalendarCell/interface';
 import { baseTheme } from '../../../constants/styles/theme';
 
 const {
@@ -12,7 +12,7 @@ const {
 } = baseTheme.colors;
 const { px8, px0 } = baseTheme.valueInPx;
 
-export const getDayBackgroundColor = (
+export const getCalendarCellBackgroundColor = (
   selected: boolean,
   range?: RangeType
 ): string => {
@@ -22,7 +22,7 @@ export const getDayBackgroundColor = (
   return 'inherit';
 };
 
-export const getDayTextColor = (
+export const getCalendarCellTextColor = (
   disabled: boolean,
   selected: boolean,
   range?: RangeType,
@@ -43,7 +43,9 @@ export const getDayTextColor = (
   return dark;
 };
 
-export const getDayBorderRadius = (range?: RangeType): string => {
+export const getCalendarCellBorderRadius = (
+  range?: RangeType
+): string => {
   if (range === RangeType.start) return `${px8} 0 0 ${px8}`;
   if (range === RangeType.between) return px0;
   if (range === RangeType.end) return `0 ${px8} ${px8} 0`;

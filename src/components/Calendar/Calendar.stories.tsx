@@ -30,6 +30,9 @@ export const WithMondayFirst: Story = {
 export const WithoutWeekends: Story = {
   args: { withWeekends: false },
 };
+export const WithHighlitedWeekends: Story = {
+  args: { withWeekends: true },
+};
 export const WithHolidays: Story = {
   args: { holidays: HOLIDAYS },
 };

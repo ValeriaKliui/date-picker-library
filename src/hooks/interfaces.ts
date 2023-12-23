@@ -25,6 +25,7 @@ export interface UseDateReturns {
   increaseYear: () => void;
   decreaseYear: () => void;
   setYear: (year: number) => void;
+  setMonth: (month: number) => void;
 }
 
 export interface UseDateInputReturns {
@@ -53,10 +54,21 @@ export interface UseCalendarReturns {
   onPeriodSliderClick: () => void;
   setSliderHeaderText: (text: string) => void;
   onPrevPeriodClick: () => void;
+  onNextPeriodClick: () => void;
+  calendarType: CalendarType;
+  setRegularCalendar: () => void;
+  setYearCalendar: () => void;
+  setMonthAndYearHeaderText: () => void;
+  setYearHeaderText: () => void;
 }
 export type UseCalendarProps = Pick<
   UseDateReturns,
-  'date' | 'decreaseMonth' | 'decreaseYear' | 'setYear'
+  | 'date'
+  | 'decreaseMonth'
+  | 'decreaseYear'
+  | 'setYear'
+  | 'increaseMonth'
+  | 'increaseYear'
 >;
 
 export interface SliderHeaderTexts {
