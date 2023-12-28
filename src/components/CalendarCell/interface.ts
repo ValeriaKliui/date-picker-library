@@ -5,7 +5,7 @@ export enum RangeType {
 }
 export interface CalendarCellProps {
   type: 'weekday' | 'day' | 'month' | 'year';
-  day: number | string;
+  cellValue: number | string;
   shadowed?: boolean;
   selected?: boolean;
   range?: RangeType;

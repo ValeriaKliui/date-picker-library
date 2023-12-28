@@ -42,3 +42,22 @@ export const getWeekdayNums = (): Array<number | WEEKDAYS> =>
   Object.values(WEEKDAYS)
     .filter((weekday) => Number.isInteger(weekday))
     .map((weekday) => Number(weekday));
+
+export const getIncreasedMonthDate = (date: Date): Date =>
+  new Date(date.setMonth(getMonthNumber(date) + 1));
+export const getDecreasedMonthDate = (date: Date): Date =>
+  new Date(date.setMonth(getMonthNumber(date) - 1));
+
+export const getDecreasedYearDate = (date: Date): Date => {
+  const year = date.getFullYear();
+  return new Date(date.setFullYear(year - 1));
+};
+
+export const getIncreasedYearDate = (date: Date): Date => {
+  const year = date.getFullYear();
+  return new Date(date.setFullYear(year + 1));
+};
+export const getChoosenYearDate = (
+  date: Date,
+  choosenYear: number
+): Date => new Date(date.setFullYear(choosenYear));

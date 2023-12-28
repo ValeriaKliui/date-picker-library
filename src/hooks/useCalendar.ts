@@ -1,8 +1,19 @@
 import { useState } from 'react';
 import { YEARS_RANGE } from '../constants/constants/dates';
-import { getMonthName } from '../utils/dates/getDates/getDates';
+import {
+  getDecreasedMonthDate,
+  getDecreasedYearDate,
+  getIncreasedMonthDate,
+  getIncreasedYearDate,
+  getChoosenYearDate,
+} from '../utils/dates/getDates/getDates';
 import { type WeekDay } from '../utils/dates/getDates/interface';
-import { onPeriodClick } from '../utils/periodSlider';
+import {
+  getMonthAndYearTextByDate,
+  getYearRangeTextByDate,
+  getYearTextByDate,
+  onPeriodClick,
+} from '../utils/periodSlider';
 import {
   CalendarType,
   type UseCalendarProps,
@@ -16,10 +27,11 @@ export const useCalendar = (
     date,
     decreaseMonth,
     increaseMonth,
-    decreaseYear,
-    setYear,
-    increaseYear,
+    minDate = null,
+    maxDate = null,
   } = useCalendarProps;
+
+  const [tempDate, setTempDate] = useState(new Date(date));
 
   const [selectedDate, setSelectedDate] = useState<null | Date>(null);
   const [calendarType, setCalendarType] = useState(
@@ -35,72 +47,118 @@ export const useCalendar = (
     setCalendarType(CalendarType.YEAR);
   };
 
-  const getMonthAndYearText = (): string =>
-    `${getMonthName(date)} ${date.getFullYear()}`;
-  const getYearText = (): string => `${date.getFullYear()}`;
-  const getYearRange = (): string =>
-    `${date.getFullYear() - YEARS_RANGE + 1} - ${date.getFullYear()}`;
+  const decreaseMonthIfNotMin = (): void => {
+    if (minDate == null || minDate < date) {
+      decreaseMonth();
+      setTempDate(getDecreasedMonthDate(tempDate));
+    }
+  };
 
-  const decreaseYearOnAmount = (): void => {
-    setYear(date.getFullYear() - YEARS_RANGE + 1);
+  const decreaseYearIfNotMin = (): void => {
+    if (
+      minDate == null ||
+      minDate.getFullYear() < tempDate.getFullYear()
+    )
+      setTempDate(getDecreasedYearDate(tempDate));
   };
-  const increaseYearOnAmount = (): void => {
-    setYear(date.getFullYear() + YEARS_RANGE + 1);
+
+  const decreaseYearOnAmountIfNotMin = (): void => {
+    const minRangeYear = tempDate.getFullYear() - YEARS_RANGE;
+    if (minDate === null || minDate?.getFullYear() <= minRangeYear)
+      setTempDate(
+        getChoosenYearDate(
+          tempDate,
+          tempDate.getFullYear() - YEARS_RANGE
+        )
+      );
   };
+  const increaseMonthIfNotMax = (): void => {
+    if (maxDate == null || maxDate > date) {
+      increaseMonth();
+      setTempDate(getIncreasedMonthDate(tempDate));
+    }
+  };
+  const increaseYearIfNotMax = (): void => {
+    if (maxDate == null || maxDate > tempDate)
+      setTempDate(getIncreasedYearDate(tempDate));
+  };
+
+  const increaseYearOnAmountIfNotMax = (): void => {
+    const minRangeYear = tempDate.getFullYear() + 1;
+    if (maxDate == null || minRangeYear <= maxDate.getFullYear())
+      setTempDate(
+        getChoosenYearDate(
+          tempDate,
+          tempDate.getFullYear() + YEARS_RANGE
+        )
+      );
+  };
+
+  const getMonthAndYearText = getMonthAndYearTextByDate(date);
+  const getYearText = getYearTextByDate(tempDate);
+  const getYearRangeText = getYearRangeTextByDate(tempDate);
 
   const [sliderHeaderText, setSliderHeaderText] = useState(
     getMonthAndYearText()
   );
 
+  const setMonthAndYearHeaderText = (
+    headerDate: Date | null = null
+  ): void => {
+    if (headerDate !== null)
+      setSliderHeaderText(getMonthAndYearTextByDate(headerDate));
+    else setSliderHeaderText(getMonthAndYearText());
+  };
+  const setYearHeaderText = (yearNum?: number): void => {
+    if (yearNum != null) setSliderHeaderText(String(yearNum));
+    else setSliderHeaderText(getYearText());
+  };
+  const setYearRangeHeaderText = (): void => {
+    setSliderHeaderText(getYearRangeText());
+  };
+  const makeTempDataEqualToDate = (): void => {
+    setTempDate(date);
+  };
   const onPrevPeriodClick = onPeriodClick(
     calendarType,
-    setSliderHeaderText,
     {
-      getRegularSliderText: getMonthAndYearText,
-      getMonthSliderText: getYearText,
-      getYearSliderText: getYearRange,
+      setRegularSliderText: setMonthAndYearHeaderText,
+      setMonthSliderText: setYearHeaderText,
+      setYearSliderText: setYearRangeHeaderText,
     },
     {
-      regularSliderAction: decreaseMonth,
-      monthSliderAction: decreaseYear,
-      yearSliderAction: decreaseYearOnAmount,
+      regularSliderAction: decreaseMonthIfNotMin,
+      monthSliderAction: decreaseYearIfNotMin,
+      yearSliderAction: [decreaseYearOnAmountIfNotMin],
     }
   );
 
   const onPeriodSliderClick = onPeriodClick(
     calendarType,
-    setSliderHeaderText,
     {
-      getRegularSliderText: getYearText,
-      getMonthSliderText: getYearRange,
-      getYearSliderText: getMonthAndYearText,
+      setRegularSliderText: setYearHeaderText,
+      setMonthSliderText: setYearRangeHeaderText,
+      setYearSliderText: setMonthAndYearHeaderText,
     },
     {
       regularSliderAction: setYearCalendar,
       monthSliderAction: setYearRangeCalendar,
-      yearSliderAction: setRegularCalendar,
+      yearSliderAction: [setRegularCalendar, makeTempDataEqualToDate],
     }
   );
   const onNextPeriodClick = onPeriodClick(
     calendarType,
-    setSliderHeaderText,
     {
-      getRegularSliderText: getMonthAndYearText,
-      getMonthSliderText: getYearText,
-      getYearSliderText: getYearRange,
+      setRegularSliderText: setMonthAndYearHeaderText,
+      setMonthSliderText: setYearHeaderText,
+      setYearSliderText: setYearRangeHeaderText,
     },
     {
-      regularSliderAction: increaseMonth,
-      monthSliderAction: increaseYear,
-      yearSliderAction: increaseYearOnAmount,
+      regularSliderAction: increaseMonthIfNotMax,
+      monthSliderAction: increaseYearIfNotMax,
+      yearSliderAction: [increaseYearOnAmountIfNotMax],
     }
   );
-  const setMonthAndYearHeaderText = (): void => {
-    setSliderHeaderText(getMonthAndYearText());
-  };
-  const setYearHeaderText = (): void => {
-    setSliderHeaderText(getYearText());
-  };
 
   const getPrevMonthDaysAmount = (
     currMonthFirstDayNum: number,
@@ -144,5 +202,7 @@ export const useCalendar = (
     setYearCalendar,
     setMonthAndYearHeaderText,
     setYearHeaderText,
+    tempDate,
+    makeTempDataEqualToDate,
   };
 };

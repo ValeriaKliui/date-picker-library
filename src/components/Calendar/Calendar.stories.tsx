@@ -36,6 +36,12 @@ export const WithHighlitedWeekends: Story = {
 export const WithHolidays: Story = {
   args: { holidays: HOLIDAYS },
 };
+export const WithMinAndMaxDate: Story = {
+  args: {
+    minDate: new Date('2017-08-01'),
+    maxDate: new Date('2024-08-01'),
+  },
+};
 
 // const CalendarWithHolidaysDecorator = new BaseDecorator(Calendar);
 // CalendarWithHolidaysDecorator.addDecorator(withHolidays);

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { CalendarType } from '../../hooks/interfaces';
+import { type CalendarType } from '../../hooks/interfaces';
 import { determineColumnsAmount } from '../../utils/calendarGrid/determineColumnsAmount';
 
 export const Container = styled.div`

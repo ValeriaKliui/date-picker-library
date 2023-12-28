@@ -17,6 +17,8 @@ const Calendar: FC<CalendarProps> = ({
   weekdayStartNum = WEEKDAYS.SUNDAY,
   holidays,
   withWeekends,
+  minDate,
+  maxDate,
 }) => {
   const {
     currMonthDaysAmount,
@@ -26,11 +28,8 @@ const Calendar: FC<CalendarProps> = ({
     daysAmountPrevMonth,
     date,
     decreaseMonth,
-    decreaseYear,
     increaseMonth,
     setYear,
-    increaseYear,
-    year,
     setMonth,
   } = useDate();
 
@@ -48,13 +47,14 @@ const Calendar: FC<CalendarProps> = ({
     setYearCalendar,
     setMonthAndYearHeaderText,
     setYearHeaderText,
+    tempDate,
+    makeTempDataEqualToDate,
   } = useCalendar({
     date,
     decreaseMonth,
     increaseMonth,
-    decreaseYear,
-    increaseYear,
-    setYear,
+    minDate,
+    maxDate,
   });
 
   const weekDays = getWeekDays(weekdayStartNum, withWeekends);
@@ -97,7 +97,7 @@ const Calendar: FC<CalendarProps> = ({
           {weekDays.map(({ weekDayName, weekDayNum }) => (
             <CalendarCell
               type="weekday"
-              day={weekDayName}
+              cellValue={weekDayName}
               key={weekDayNum}
             />
           ))}
@@ -119,7 +119,8 @@ const Calendar: FC<CalendarProps> = ({
     }
     if (calendarType === CalendarType.MONTH) {
       return renderMonths(
-        year,
+        tempDate,
+        date,
         setRegularCalendar,
         setMonth,
         setMonthAndYearHeaderText
@@ -127,10 +128,12 @@ const Calendar: FC<CalendarProps> = ({
     }
     if (calendarType === CalendarType.YEAR) {
       return renderYears(
-        year,
+        tempDate,
+        date,
         setYear,
         setYearCalendar,
-        setYearHeaderText
+        setYearHeaderText,
+        makeTempDataEqualToDate
       );
     }
     return null;

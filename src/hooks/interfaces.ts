@@ -11,6 +11,7 @@ export type UseDateInputProps = Pick<
   DateInputProps,
   'onClearClick' | 'onDateChange'
 >;
+
 export interface UseDateReturns {
   monthName: string;
   year: number;
@@ -60,24 +61,21 @@ export interface UseCalendarReturns {
   setYearCalendar: () => void;
   setMonthAndYearHeaderText: () => void;
   setYearHeaderText: () => void;
+  tempDate: Date;
+  makeTempDataEqualToDate: () => void;
 }
 export type UseCalendarProps = Pick<
   UseDateReturns,
-  | 'date'
-  | 'decreaseMonth'
-  | 'decreaseYear'
-  | 'setYear'
-  | 'increaseMonth'
-  | 'increaseYear'
->;
+  'date' | 'decreaseMonth' | 'increaseMonth'
+> & { minDate?: Date; maxDate?: Date };
 
 export interface SliderHeaderTexts {
-  getRegularSliderText: () => string;
-  getMonthSliderText: () => string;
-  getYearSliderText: () => string;
+  setRegularSliderText: (date?: Date) => void;
+  setMonthSliderText: (date?: Date) => void;
+  setYearSliderText: (date?: Date) => void;
 }
 export interface SliderHeaderActions {
   regularSliderAction: () => void;
   monthSliderAction: () => void;
-  yearSliderAction: () => void;
+  yearSliderAction: Array<() => void>;
 }

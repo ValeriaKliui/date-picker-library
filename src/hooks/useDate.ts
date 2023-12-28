@@ -3,9 +3,13 @@ import { DateContext } from '../providers/DateProvider';
 import {
   getDaysAmount,
   getDayWeekdayNum,
+  getDecreasedYearDate,
+  getIncreasedMonthDate,
+  getIncreasedYearDate,
   getMonthName,
   getMonthNumber,
   getYear,
+  getChoosenYearDate,
 } from '../utils/dates/getDates/getDates';
 import { type UseDateReturns } from './interfaces';
 
@@ -15,20 +19,21 @@ export const useDate = (): UseDateReturns => {
   const year = getYear(date);
 
   const increaseMonth = (): void => {
-    setDate(new Date(date.setMonth(getMonthNumber(date) + 1)));
+    setDate(getIncreasedMonthDate(date));
   };
 
   const decreaseMonth = (): void => {
     setDate(new Date(date.setMonth(getMonthNumber(date) - 1)));
   };
+
   const increaseYear = (): void => {
-    setDate(new Date(date.setFullYear(year + 1)));
+    setDate(getIncreasedYearDate(date));
   };
   const decreaseYear = (): void => {
-    setDate(new Date(date.setFullYear(year - 1)));
+    setDate(getDecreasedYearDate(date));
   };
   const setYear = (choosenYear: number): void => {
-    setDate(new Date(date.setFullYear(choosenYear)));
+    setDate(getChoosenYearDate(date, choosenYear));
   };
   const setMonth = (choosenMonth: number): void => {
     setDate(new Date(date.setMonth(choosenMonth - 1)));

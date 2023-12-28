@@ -36,7 +36,7 @@ export const renderDays =
         new Date(new Date(date).setMonth(monthNum)).setDate(dayNumber)
       );
 
-      const isSelected =
+      const isChoosen =
         isCurrMonth &&
         selectedDate?.toDateString() === dayDate.toDateString();
 
@@ -54,11 +54,11 @@ export const renderDays =
 
       return (
         <CalendarCell
-          day={dayNumber}
+          cellValue={dayNumber}
           type="day"
           key={dayNum}
           shadowed={!isCurrMonth}
-          selected={isSelected}
+          selected={isChoosen}
           isHoliday={isHoliday}
           isWeekend={isWeekend}
           withWeekends={withWeekends}

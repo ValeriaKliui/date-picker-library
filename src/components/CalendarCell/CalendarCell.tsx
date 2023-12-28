@@ -4,7 +4,7 @@ import { type CalendarCellProps } from './interface';
 
 const CalendarCell: FC<CalendarCellProps> = ({
   type,
-  day,
+  cellValue,
   shadowed = false,
   selected = false,
   range,
@@ -29,7 +29,7 @@ const CalendarCell: FC<CalendarCellProps> = ({
       $isWeekend={isWeekend}
       $withWeekends={withWeekends}
     >
-      {day}
+      {cellValue}
     </CalendarCellText>
   </Container>
 );

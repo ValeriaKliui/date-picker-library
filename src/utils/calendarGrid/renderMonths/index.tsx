@@ -4,30 +4,39 @@ import { makeArrayFromNum, sliceWordFromStart } from '../../data';
 import { getMonthName } from '../../dates/getDates/getDates';
 
 export const renderMonths = (
-  year: number,
+  tempDate: Date,
+  date: Date,
   setRegularCalendar: () => void,
   setMonth: (monthNum: number) => void,
-  setMonthAndYearHeaderText: () => void
+  setMonthAndYearHeaderText: (date: Date) => void
 ): JSX.Element[] => {
   const monthNums = makeArrayFromNum(MONTHS_AMOUNT);
   return monthNums.map((monthNum) => {
-    const date = new Date(
-      new Date(new Date().setFullYear(year)).setMonth(monthNum - 1)
+    const copiedTempDate = new Date(tempDate);
+    const dateOfMonth = new Date(
+      copiedTempDate.setMonth(monthNum - 1)
     );
 
     const onMonthClick = (): void => {
       setMonth(monthNum);
       setRegularCalendar();
-      setMonthAndYearHeaderText();
+      setMonthAndYearHeaderText(dateOfMonth);
     };
 
-    const monthName = sliceWordFromStart(getMonthName(date), 3);
+    const isChoosen = (): boolean =>
+      date.getTime() === dateOfMonth.getTime();
+
+    const monthName = sliceWordFromStart(
+      getMonthName(dateOfMonth),
+      3
+    );
     return (
       <CalendarCell
-        day={monthName}
+        cellValue={monthName}
         key={monthNum}
         type="month"
         onCalendarCellClick={onMonthClick}
+        selected={isChoosen()}
       />
     );
   });
