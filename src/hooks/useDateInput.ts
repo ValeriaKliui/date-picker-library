@@ -8,6 +8,7 @@ import {
 export const useDateInput = ({
   onClearClick = () => {},
   onDateChange = () => {},
+  onValidDateInput = (_dateStr: string) => {},
 }: UseDateInputProps): UseDateInputReturns => {
   const [inputValue, setInputValue] = useState('');
   const [error, setIsError] = useState({
@@ -49,8 +50,10 @@ export const useDateInput = ({
       } else {
         setIsError({ isError: false, errorText: '' });
       }
+      if (!error.isError && value.length === 10)
+        onValidDateInput(e.target.value);
     },
-    [onDateChange]
+    [onDateChange, error.isError, onValidDateInput]
   );
 
   return { onClear, inputValue, onChange, error };

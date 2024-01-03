@@ -6,4 +6,6 @@ export interface DateProviderProps {
 export interface ContextType {
   date: Date;
   setDate: (date: Date) => void;
+  selectedDate: Date | null;
+  setSelectedDate: (date: Date) => void;
 }

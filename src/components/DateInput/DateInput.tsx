@@ -16,16 +16,19 @@ const DateInput: FC<DateInputProps> = ({
   placeholder = 'Choose Date',
   onClearClick,
   onDateChange,
+  onCalendarClick,
+  onValidDateInput,
 }) => {
   const { onClear, inputValue, onChange, error } = useDateInput({
     onClearClick,
     onDateChange,
+    onValidDateInput,
   });
   return (
     <DateInputContainer>
       <Title>{title}</Title>
       <InputWrapper $isError={error.isError}>
-        <InputIcon />
+        <InputIcon onClick={onCalendarClick} />
         <Input
           placeholder={placeholder}
           value={inputValue}

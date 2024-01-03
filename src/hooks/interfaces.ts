@@ -1,6 +1,6 @@
-import { type ChangeEvent } from "react";
-import { type DateInputProps } from "../components/DateInput/interface";
-import { type WeekDay } from "../utils/dates/getDates/interface";
+import { type ChangeEvent } from 'react';
+import { type DateInputProps } from '../components/DateInput/interface';
+import { type WeekDay } from '../utils/dates/getDates/interface';
 
 export enum CalendarType {
   REGULAR,
@@ -9,7 +9,7 @@ export enum CalendarType {
 }
 export type UseDateInputProps = Pick<
   DateInputProps,
-  "onClearClick" | "onDateChange"
+  'onClearClick' | 'onDateChange' | 'onValidDateInput'
 >;
 
 export interface UseDateReturns {
@@ -62,7 +62,7 @@ export interface UseCalendarReturns {
 }
 export type UseCalendarProps = Pick<
   UseDateReturns,
-  "date" | "decreaseMonth" | "increaseMonth"
+  'date' | 'decreaseMonth' | 'increaseMonth'
 > & { minDate?: Date; maxDate?: Date };
 
 export interface SliderHeaderActions {

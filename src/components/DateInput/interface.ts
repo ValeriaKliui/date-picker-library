@@ -3,4 +3,6 @@ export interface DateInputProps {
   placeholder?: string;
   onClearClick?: () => void;
   onDateChange?: () => void;
+  onCalendarClick?: () => void;
+  onValidDateInput?: (dateStr: string) => void;
 }

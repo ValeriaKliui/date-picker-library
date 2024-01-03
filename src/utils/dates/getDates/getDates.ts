@@ -1,16 +1,16 @@
-import { WEEKDAYS } from "../../../constants/constants/weekdays";
-import { sliceWordFromStart } from "../../data";
-import { type WeekDay } from "./interface";
+import { WEEKDAYS } from '../../../constants/constants/weekdays';
+import { sliceWordFromStart } from '../../data';
+import { type WeekDay } from './interface';
 
 export const getMonthNumber = (date: Date): number => date.getMonth();
 
 export const getMonthName = (date: Date): string =>
-  date.toLocaleString("en-GB", { month: "long" });
+  date.toLocaleString('en-GB', { month: 'long' });
 
 export const getYear = (date: Date): number => date.getFullYear();
 
 export const getWeekdayByNum = (weekdayNumber: number): string =>
-  WEEKDAYS[weekdayNumber] ?? "";
+  WEEKDAYS[weekdayNumber] ?? '';
 
 export const getDayWeekdayNum = (date: Date): number => date.getDay();
 
@@ -21,7 +21,8 @@ export const getWeekDays = (
   isMondayFirst?: boolean,
   withWeekends?: boolean
 ): WeekDay[] => {
-  const weekdayStartNum = isMondayFirst != null && isMondayFirst ? 1 : 0;
+  const weekdayStartNum =
+    isMondayFirst != null && isMondayFirst ? 1 : 0;
   const weekDays = Object.entries(WEEKDAYS)
     .map((weekDayArr) => ({
       weekDayNum: Number(weekDayArr[0]),
@@ -58,5 +59,10 @@ export const getIncreasedYearDate = (date: Date): Date => {
   const year = date.getFullYear();
   return new Date(date.setFullYear(year + 1));
 };
-export const getChoosenYearDate = (date: Date, choosenYear: number): Date =>
-  new Date(date.setFullYear(choosenYear));
+export const getChoosenYearDate = (
+  date: Date,
+  choosenYear: number
+): Date => new Date(date.setFullYear(choosenYear));
+
+export const getDateFromString = (dateStr: string): Date =>
+  new Date(Date.parse(dateStr));

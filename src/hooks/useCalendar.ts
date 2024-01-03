@@ -1,22 +1,23 @@
-import { useState } from "react";
-import { YEARS_RANGE } from "../constants/constants/dates";
+import { useContext, useState } from 'react';
+import { YEARS_RANGE } from '../constants/constants/dates';
+import { DateContext } from '../providers/DateProvider';
 import {
   getDecreasedYearDate,
   getIncreasedYearDate,
   getChoosenYearDate,
-} from "../utils/dates/getDates/getDates";
-import { type WeekDay } from "../utils/dates/getDates/interface";
+} from '../utils/dates/getDates/getDates';
+import { type WeekDay } from '../utils/dates/getDates/interface';
 import {
   getMonthAndYearTextByDate,
   getYearRangeTextByDate,
   getYearTextByDate,
   onPeriodClick,
-} from "../utils/periodSlider";
+} from '../utils/periodSlider';
 import {
   CalendarType,
   type UseCalendarProps,
   type UseCalendarReturns,
-} from "./interfaces";
+} from './interfaces';
 
 export const useCalendar = (
   useCalendarProps: UseCalendarProps
@@ -31,8 +32,11 @@ export const useCalendar = (
 
   const [tempDate, setTempDate] = useState(new Date(date));
 
-  const [selectedDate, setSelectedDate] = useState<null | Date>(null);
-  const [calendarType, setCalendarType] = useState(CalendarType.REGULAR);
+  const { selectedDate, setSelectedDate } = useContext(DateContext);
+
+  const [calendarType, setCalendarType] = useState(
+    CalendarType.REGULAR
+  );
   const setRegularCalendar = (): void => {
     setCalendarType(CalendarType.REGULAR);
   };
@@ -95,10 +99,11 @@ export const useCalendar = (
   const getHeaderText = (): string => {
     if (calendarType === CalendarType.REGULAR)
       return getMonthAndYearTextByDate(date);
-    if (calendarType === CalendarType.MONTH) return getYearTextByDate(tempDate);
+    if (calendarType === CalendarType.MONTH)
+      return getYearTextByDate(tempDate);
     if (calendarType === CalendarType.YEAR)
       return getYearRangeTextByDate(tempDate);
-    return "";
+    return '';
   };
 
   const decreaseYearTempDate = (): void => {
@@ -106,7 +111,10 @@ export const useCalendar = (
   };
   const decreaseYearRangeTempDate = (): void => {
     setTempDate(
-      getChoosenYearDate(tempDate, tempDate.getFullYear() - YEARS_RANGE)
+      getChoosenYearDate(
+        tempDate,
+        tempDate.getFullYear() - YEARS_RANGE
+      )
     );
   };
 
@@ -115,7 +123,10 @@ export const useCalendar = (
   };
   const increaseYearRangeTempDate = (): void => {
     setTempDate(
-      getChoosenYearDate(tempDate, tempDate.getFullYear() + YEARS_RANGE)
+      getChoosenYearDate(
+        tempDate,
+        tempDate.getFullYear() + YEARS_RANGE
+      )
     );
   };
 
@@ -134,7 +145,10 @@ export const useCalendar = (
   const onPeriodSliderClick = onPeriodClickCalendarTyped({
     regularSliderActions: [setYearCalendar],
     monthSliderActions: [setYearRangeCalendar],
-    yearSliderActions: [setRegularCalendar, equateTempDateToActualDate],
+    yearSliderActions: [
+      setRegularCalendar,
+      equateTempDateToActualDate,
+    ],
   });
 
   const getPrevMonthDaysAmount = (
@@ -144,7 +158,8 @@ export const useCalendar = (
     weekDays: WeekDay[],
     isMondayFirst?: boolean
   ): number => {
-    const weekdayStartNum = isMondayFirst != null && isMondayFirst ? 1 : 0;
+    const weekdayStartNum =
+      isMondayFirst != null && isMondayFirst ? 1 : 0;
     if (currMonthFirstDayNum >= weekdayStartNum) {
       return Math.abs(currMonthFirstDayNum - weekdayStartNum);
     }

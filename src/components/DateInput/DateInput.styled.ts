@@ -19,11 +19,14 @@ export const InputWrapper = styled.div<{ $isError: boolean }>`
 export const Input = styled.input`
   border: none;
   outline: none;
+  flex: 0 1 80%;
   &::placeholder {
     color: ${({ theme }) => theme.colors.darkGray};
   }
 `;
-export const InputIcon = styled(CalendarIcon)``;
+export const InputIcon = styled(CalendarIcon)`
+  cursor: pointer;
+`;
 export const ClearIcon = styled(IconClear)`
   cursor: pointer;
 `;
