@@ -1,6 +1,6 @@
-import { type ChangeEvent } from 'react';
-import { type DateInputProps } from '../components/DateInput/interface';
-import { type WeekDay } from '../utils/dates/getDates/interface';
+import { type ChangeEvent } from "react";
+import { type DateInputProps } from "../components/DateInput/interface";
+import { type WeekDay } from "../utils/dates/getDates/interface";
 
 export enum CalendarType {
   REGULAR,
@@ -9,7 +9,7 @@ export enum CalendarType {
 }
 export type UseDateInputProps = Pick<
   DateInputProps,
-  'onClearClick' | 'onDateChange'
+  "onClearClick" | "onDateChange"
 >;
 
 export interface UseDateReturns {
@@ -27,6 +27,7 @@ export interface UseDateReturns {
   decreaseYear: () => void;
   setYear: (year: number) => void;
   setMonth: (month: number) => void;
+  setDate: (date: Date) => void;
 }
 
 export interface UseDateInputReturns {
@@ -45,37 +46,27 @@ export interface UseCalendarReturns {
   ) => number;
   getPrevMonthDaysAmount: (
     currMonthFirstDayNum: number,
-    weekdayStartNum: number,
     prevMonthLastNum: number,
     lastWeekDay: number,
     weekDays: WeekDay[],
-    withWeekends?: boolean
+    isMondayFirst?: boolean
   ) => number;
-  sliderHeaderText: string;
   onPeriodSliderClick: () => void;
-  setSliderHeaderText: (text: string) => void;
   onPrevPeriodClick: () => void;
   onNextPeriodClick: () => void;
   calendarType: CalendarType;
   setRegularCalendar: () => void;
   setYearCalendar: () => void;
-  setMonthAndYearHeaderText: () => void;
-  setYearHeaderText: () => void;
   tempDate: Date;
-  makeTempDataEqualToDate: () => void;
+  getHeaderText: () => string;
 }
 export type UseCalendarProps = Pick<
   UseDateReturns,
-  'date' | 'decreaseMonth' | 'increaseMonth'
+  "date" | "decreaseMonth" | "increaseMonth"
 > & { minDate?: Date; maxDate?: Date };
 
-export interface SliderHeaderTexts {
-  setRegularSliderText: (date?: Date) => void;
-  setMonthSliderText: (date?: Date) => void;
-  setYearSliderText: (date?: Date) => void;
-}
 export interface SliderHeaderActions {
-  regularSliderAction: () => void;
-  monthSliderAction: () => void;
-  yearSliderAction: Array<() => void>;
+  regularSliderActions: Array<() => void>;
+  monthSliderActions: Array<() => void>;
+  yearSliderActions: Array<() => void>;
 }

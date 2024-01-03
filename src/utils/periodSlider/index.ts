@@ -1,46 +1,35 @@
-import { YEARS_RANGE } from '../../constants/constants/dates';
-import {
-  CalendarType,
-  type SliderHeaderActions,
-  type SliderHeaderTexts,
-} from '../../hooks/interfaces';
-import { getMonthName } from '../dates/getDates/getDates';
+import { YEARS_RANGE } from "../../constants/constants/dates";
+import { CalendarType, type SliderHeaderActions } from "../../hooks/interfaces";
+import { getMonthName } from "../dates/getDates/getDates";
 
-export const onPeriodClick = (
-  calendarType: CalendarType,
-  sliderHeaderTexts: SliderHeaderTexts,
-  sliderHeaderActions?: SliderHeaderActions
-): (() => void) => {
-  const {
-    setRegularSliderText,
-    setMonthSliderText,
-    setYearSliderText,
-  } = sliderHeaderTexts;
+export const onPeriodClick =
+  (calendarType: CalendarType) =>
+  (sliderHeaderActions: SliderHeaderActions): (() => void) => {
+    const { regularSliderActions, monthSliderActions, yearSliderActions } =
+      sliderHeaderActions ?? {};
 
-  const { regularSliderAction, monthSliderAction, yearSliderAction } =
-    sliderHeaderActions ?? {};
-
-  return () => {
-    if (calendarType === CalendarType.REGULAR) {
-      regularSliderAction?.();
-      setRegularSliderText();
-    }
-    if (calendarType === CalendarType.MONTH) {
-      monthSliderAction?.();
-      setMonthSliderText();
-    }
-    if (calendarType === CalendarType.YEAR) {
-      yearSliderAction?.forEach((action) => {
+    const doAllActions = (actions: Array<() => void>): void => {
+      actions.forEach((action) => {
         action();
       });
-      setYearSliderText();
-    }
-  };
-};
+    };
 
-export const getMonthAndYearTextByDate = (date: Date) => () =>
+    return () => {
+      if (calendarType === CalendarType.REGULAR) {
+        doAllActions(regularSliderActions);
+      }
+      if (calendarType === CalendarType.MONTH) {
+        doAllActions(monthSliderActions);
+      }
+      if (calendarType === CalendarType.YEAR) {
+        doAllActions(yearSliderActions);
+      }
+    };
+  };
+
+export const getMonthAndYearTextByDate = (date: Date): string =>
   `${getMonthName(date)} ${date.getFullYear()}`;
-export const getYearTextByDate = (date: Date) => () =>
+export const getYearTextByDate = (date: Date): string =>
   `${date.getFullYear()}`;
-export const getYearRangeTextByDate = (date: Date) => () =>
+export const getYearRangeTextByDate = (date: Date): string =>
   `${date.getFullYear() - YEARS_RANGE + 1} - ${date.getFullYear()}`;

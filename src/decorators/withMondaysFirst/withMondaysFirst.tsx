@@ -1,12 +1,11 @@
-import { type ComponentType } from 'react';
-import { WEEKDAYS } from '../../constants/constants/weekdays';
+import { type ComponentType } from "react";
 
 const withMondaysFirst =
   <T,>(WrappedComponent: ComponentType<T>) =>
   (props: T) => {
     const passedProps = {
       ...props,
-      weekdayStartNum: WEEKDAYS.MONDAY,
+      isMondayFirst: true,
     };
     return <WrappedComponent {...passedProps} />;
   };

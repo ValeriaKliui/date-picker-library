@@ -1,24 +1,22 @@
-import { useState } from 'react';
-import { YEARS_RANGE } from '../constants/constants/dates';
+import { useState } from "react";
+import { YEARS_RANGE } from "../constants/constants/dates";
 import {
-  getDecreasedMonthDate,
   getDecreasedYearDate,
-  getIncreasedMonthDate,
   getIncreasedYearDate,
   getChoosenYearDate,
-} from '../utils/dates/getDates/getDates';
-import { type WeekDay } from '../utils/dates/getDates/interface';
+} from "../utils/dates/getDates/getDates";
+import { type WeekDay } from "../utils/dates/getDates/interface";
 import {
   getMonthAndYearTextByDate,
   getYearRangeTextByDate,
   getYearTextByDate,
   onPeriodClick,
-} from '../utils/periodSlider';
+} from "../utils/periodSlider";
 import {
   CalendarType,
   type UseCalendarProps,
   type UseCalendarReturns,
-} from './interfaces';
+} from "./interfaces";
 
 export const useCalendar = (
   useCalendarProps: UseCalendarProps
@@ -27,16 +25,14 @@ export const useCalendar = (
     date,
     decreaseMonth,
     increaseMonth,
-    minDate = null,
-    maxDate = null,
+    // minDate = null,
+    // maxDate = null,
   } = useCalendarProps;
 
   const [tempDate, setTempDate] = useState(new Date(date));
 
   const [selectedDate, setSelectedDate] = useState<null | Date>(null);
-  const [calendarType, setCalendarType] = useState(
-    CalendarType.REGULAR
-  );
+  const [calendarType, setCalendarType] = useState(CalendarType.REGULAR);
   const setRegularCalendar = (): void => {
     setCalendarType(CalendarType.REGULAR);
   };
@@ -47,126 +43,108 @@ export const useCalendar = (
     setCalendarType(CalendarType.YEAR);
   };
 
-  const decreaseMonthIfNotMin = (): void => {
-    if (minDate == null || minDate < date) {
-      decreaseMonth();
-      setTempDate(getDecreasedMonthDate(tempDate));
-    }
-  };
-
-  const decreaseYearIfNotMin = (): void => {
-    if (
-      minDate == null ||
-      minDate.getFullYear() < tempDate.getFullYear()
-    )
-      setTempDate(getDecreasedYearDate(tempDate));
-  };
-
-  const decreaseYearOnAmountIfNotMin = (): void => {
-    const minRangeYear = tempDate.getFullYear() - YEARS_RANGE;
-    if (minDate === null || minDate?.getFullYear() <= minRangeYear)
-      setTempDate(
-        getChoosenYearDate(
-          tempDate,
-          tempDate.getFullYear() - YEARS_RANGE
-        )
-      );
-  };
-  const increaseMonthIfNotMax = (): void => {
-    if (maxDate == null || maxDate > date) {
-      increaseMonth();
-      setTempDate(getIncreasedMonthDate(tempDate));
-    }
-  };
-  const increaseYearIfNotMax = (): void => {
-    if (maxDate == null || maxDate > tempDate)
-      setTempDate(getIncreasedYearDate(tempDate));
-  };
-
-  const increaseYearOnAmountIfNotMax = (): void => {
-    const minRangeYear = tempDate.getFullYear() + 1;
-    if (maxDate == null || minRangeYear <= maxDate.getFullYear())
-      setTempDate(
-        getChoosenYearDate(
-          tempDate,
-          tempDate.getFullYear() + YEARS_RANGE
-        )
-      );
-  };
-
-  const getMonthAndYearText = getMonthAndYearTextByDate(date);
-  const getYearText = getYearTextByDate(tempDate);
-  const getYearRangeText = getYearRangeTextByDate(tempDate);
-
-  const [sliderHeaderText, setSliderHeaderText] = useState(
-    getMonthAndYearText()
-  );
-
-  const setMonthAndYearHeaderText = (
-    headerDate: Date | null = null
-  ): void => {
-    if (headerDate !== null)
-      setSliderHeaderText(getMonthAndYearTextByDate(headerDate));
-    else setSliderHeaderText(getMonthAndYearText());
-  };
-  const setYearHeaderText = (yearNum?: number): void => {
-    if (yearNum != null) setSliderHeaderText(String(yearNum));
-    else setSliderHeaderText(getYearText());
-  };
-  const setYearRangeHeaderText = (): void => {
-    setSliderHeaderText(getYearRangeText());
-  };
-  const makeTempDataEqualToDate = (): void => {
+  const equateTempDateToActualDate = (): void => {
     setTempDate(date);
   };
-  const onPrevPeriodClick = onPeriodClick(
-    calendarType,
-    {
-      setRegularSliderText: setMonthAndYearHeaderText,
-      setMonthSliderText: setYearHeaderText,
-      setYearSliderText: setYearRangeHeaderText,
-    },
-    {
-      regularSliderAction: decreaseMonthIfNotMin,
-      monthSliderAction: decreaseYearIfNotMin,
-      yearSliderAction: [decreaseYearOnAmountIfNotMin],
-    }
-  );
+  // const decreaseMonthIfNotMin = (): void => {
+  //   if (minDate == null || minDate < date) {
+  //     decreaseMonth();
+  //     setTempDate(getDecreasedMonthDate(tempDate));
+  //   }
+  // };
+  const decreaseTempAndCurrMonth = (): void => {
+    decreaseMonth();
+    equateTempDateToActualDate();
+  };
+  const increaseTempAndCurrMonth = (): void => {
+    increaseMonth();
+    equateTempDateToActualDate();
+  };
 
-  const onPeriodSliderClick = onPeriodClick(
-    calendarType,
-    {
-      setRegularSliderText: setYearHeaderText,
-      setMonthSliderText: setYearRangeHeaderText,
-      setYearSliderText: setMonthAndYearHeaderText,
-    },
-    {
-      regularSliderAction: setYearCalendar,
-      monthSliderAction: setYearRangeCalendar,
-      yearSliderAction: [setRegularCalendar, makeTempDataEqualToDate],
-    }
-  );
-  const onNextPeriodClick = onPeriodClick(
-    calendarType,
-    {
-      setRegularSliderText: setMonthAndYearHeaderText,
-      setMonthSliderText: setYearHeaderText,
-      setYearSliderText: setYearRangeHeaderText,
-    },
-    {
-      regularSliderAction: increaseMonthIfNotMax,
-      monthSliderAction: increaseYearIfNotMax,
-      yearSliderAction: [increaseYearOnAmountIfNotMax],
-    }
-  );
+  // const decreaseYearIfNotMin = (): void => {
+  //   if (minDate == null || minDate.getFullYear() < tempDate.getFullYear())
+  //     setTempDate(getDecreasedYearDate(tempDate));
+  // };
+
+  // const decreaseYearOnAmountIfNotMin = (): void => {
+  //   const minRangeYear = tempDate.getFullYear() - YEARS_RANGE;
+  //   if (minDate === null || minDate?.getFullYear() <= minRangeYear)
+  //     setTempDate(
+  //       getChoosenYearDate(tempDate, tempDate.getFullYear() - YEARS_RANGE)
+  //     );
+  // };
+  // const increaseMonthIfNotMax = (): void => {
+  //   if (maxDate == null || maxDate > date) {
+  //     increaseMonth();
+  //     setTempDate(getIncreasedMonthDate(tempDate));
+  //   }
+  // };
+  // const increaseYearIfNotMax = (): void => {
+  //   if (maxDate == null || maxDate > tempDate)
+  //     setTempDate(getIncreasedYearDate(tempDate));
+  // };
+
+  // const increaseYearOnAmountIfNotMax = (): void => {
+  //   const minRangeYear = tempDate.getFullYear() + 1;
+  //   if (maxDate == null || minRangeYear <= maxDate.getFullYear())
+  //     setTempDate(
+  //       getChoosenYearDate(tempDate, tempDate.getFullYear() + YEARS_RANGE)
+  //     );
+  // };
+
+  const getHeaderText = (): string => {
+    if (calendarType === CalendarType.REGULAR)
+      return getMonthAndYearTextByDate(date);
+    if (calendarType === CalendarType.MONTH) return getYearTextByDate(tempDate);
+    if (calendarType === CalendarType.YEAR)
+      return getYearRangeTextByDate(tempDate);
+    return "";
+  };
+
+  const decreaseYearTempDate = (): void => {
+    setTempDate(getDecreasedYearDate(tempDate));
+  };
+  const decreaseYearRangeTempDate = (): void => {
+    setTempDate(
+      getChoosenYearDate(tempDate, tempDate.getFullYear() - YEARS_RANGE)
+    );
+  };
+
+  const increaseYearTempDate = (): void => {
+    setTempDate(getIncreasedYearDate(tempDate));
+  };
+  const increaseYearRangeTempDate = (): void => {
+    setTempDate(
+      getChoosenYearDate(tempDate, tempDate.getFullYear() + YEARS_RANGE)
+    );
+  };
+
+  const onPeriodClickCalendarTyped = onPeriodClick(calendarType);
+  const onPrevPeriodClick = onPeriodClickCalendarTyped({
+    regularSliderActions: [decreaseTempAndCurrMonth],
+    monthSliderActions: [decreaseYearTempDate],
+    yearSliderActions: [decreaseYearRangeTempDate],
+  });
+  const onNextPeriodClick = onPeriodClickCalendarTyped({
+    regularSliderActions: [increaseTempAndCurrMonth],
+    monthSliderActions: [increaseYearTempDate],
+    yearSliderActions: [increaseYearRangeTempDate],
+  });
+
+  const onPeriodSliderClick = onPeriodClickCalendarTyped({
+    regularSliderActions: [setYearCalendar],
+    monthSliderActions: [setYearRangeCalendar],
+    yearSliderActions: [setRegularCalendar, equateTempDateToActualDate],
+  });
 
   const getPrevMonthDaysAmount = (
     currMonthFirstDayNum: number,
-    weekdayStartNum: number,
     prevMonthLastNum: number,
     lastWeekDay: number,
-    weekDays: WeekDay[]
+    weekDays: WeekDay[],
+    isMondayFirst?: boolean
   ): number => {
+    const weekdayStartNum = isMondayFirst != null && isMondayFirst ? 1 : 0;
     if (currMonthFirstDayNum >= weekdayStartNum) {
       return Math.abs(currMonthFirstDayNum - weekdayStartNum);
     }
@@ -192,17 +170,13 @@ export const useCalendar = (
     selectedDate,
     getPrevMonthDaysAmount,
     getNextMonthDaysAmount,
-    sliderHeaderText,
     onPeriodSliderClick,
-    setSliderHeaderText,
     onPrevPeriodClick,
     onNextPeriodClick,
     calendarType,
     setRegularCalendar,
     setYearCalendar,
-    setMonthAndYearHeaderText,
-    setYearHeaderText,
     tempDate,
-    makeTempDataEqualToDate,
+    getHeaderText,
   };
 };

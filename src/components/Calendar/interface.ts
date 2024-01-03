@@ -3,6 +3,7 @@ export interface Holiday {
   date: Date;
 }
 export interface CalendarProps {
+  isMondayFirst?: boolean;
   weekdayStartNum?: number;
   holidays?: Holiday[];
   withWeekends?: boolean;
