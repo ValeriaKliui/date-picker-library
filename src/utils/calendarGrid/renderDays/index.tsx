@@ -11,7 +11,8 @@ export const renderDays =
     selectedDate: Date | null,
     setSelectedDate: (date: Date) => void,
     holidays?: Holiday[],
-    withWeekends?: boolean
+    withWeekends?: boolean,
+    minDate?: Date
   ) =>
   (
     daysAmount: number,
@@ -51,20 +52,25 @@ export const renderDays =
         return null;
       }
 
+      const isDisabled = minDate != null && dayDate <= minDate;
+      const onClick = (): void => {
+        if (!isDisabled) {
+          onCalendarCellClick?.();
+          setSelectedDate(dayDate);
+        }
+      };
+
       return (
         <CalendarCell
           cellValue={dayNumber}
           type="day"
           key={dayNum}
-          shadowed={!isCurrMonth}
+          shadowed={!isCurrMonth || isDisabled}
           selected={isChoosen}
           isHoliday={isHoliday}
           isWeekend={isWeekend}
           withWeekends={withWeekends}
-          onCalendarCellClick={() => {
-            onCalendarCellClick?.();
-            setSelectedDate(dayDate);
-          }}
+          onCalendarCellClick={onClick}
         />
       );
     });

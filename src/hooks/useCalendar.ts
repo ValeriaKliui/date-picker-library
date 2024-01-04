@@ -1,23 +1,25 @@
-import { useContext, useState } from 'react';
-import { YEARS_RANGE } from '../constants/constants/dates';
-import { DateContext } from '../providers/DateProvider';
+import { useContext, useState } from "react";
+import { YEARS_RANGE } from "../constants/constants/dates";
+import { DateContext } from "../providers/DateProvider";
 import {
   getDecreasedYearDate,
   getIncreasedYearDate,
   getChoosenYearDate,
-} from '../utils/dates/getDates/getDates';
-import { type WeekDay } from '../utils/dates/getDates/interface';
+  getDecreasedMonthDate,
+  getDecreasedYearRange,
+} from "../utils/dates/getDates/getDates";
+import { type WeekDay } from "../utils/dates/getDates/interface";
 import {
   getMonthAndYearTextByDate,
   getYearRangeTextByDate,
   getYearTextByDate,
   onPeriodClick,
-} from '../utils/periodSlider';
+} from "../utils/periodSlider";
 import {
   CalendarType,
   type UseCalendarProps,
   type UseCalendarReturns,
-} from './interfaces';
+} from "./interfaces";
 
 export const useCalendar = (
   useCalendarProps: UseCalendarProps
@@ -26,17 +28,14 @@ export const useCalendar = (
     date,
     decreaseMonth,
     increaseMonth,
-    // minDate = null,
+    minDate = null,
     // maxDate = null,
   } = useCalendarProps;
 
   const [tempDate, setTempDate] = useState(new Date(date));
-
   const { selectedDate, setSelectedDate } = useContext(DateContext);
 
-  const [calendarType, setCalendarType] = useState(
-    CalendarType.REGULAR
-  );
+  const [calendarType, setCalendarType] = useState(CalendarType.REGULAR);
   const setRegularCalendar = (): void => {
     setCalendarType(CalendarType.REGULAR);
   };
@@ -50,6 +49,27 @@ export const useCalendar = (
   const equateTempDateToActualDate = (): void => {
     setTempDate(date);
   };
+
+  const tempDateYear = tempDate.getFullYear();
+  const tempDateMonth = tempDate.getMonth();
+
+  const getPrevDate = (): Date => {
+    if (calendarType === CalendarType.REGULAR)
+      return getDecreasedMonthDate(tempDateYear, tempDateMonth);
+    if (calendarType === CalendarType.MONTH)
+      return getDecreasedYearDate(tempDateYear, tempDateMonth);
+    return getDecreasedYearRange(tempDate);
+  };
+
+  const minDateMonth = minDate?.getMonth();
+  const minDateDay = minDate?.getDate();
+  const prevDate =
+    minDateMonth != null &&
+    minDateDay != null &&
+    new Date(getPrevDate().setDate(minDate?.getDate()));
+
+  const canDecreaseDate = minDate === null || prevDate >= minDate;
+
   // const decreaseMonthIfNotMin = (): void => {
   //   if (minDate == null || minDate < date) {
   //     decreaseMonth();
@@ -57,12 +77,33 @@ export const useCalendar = (
   //   }
   // };
   const decreaseTempAndCurrMonth = (): void => {
-    decreaseMonth();
-    equateTempDateToActualDate();
+    if (canDecreaseDate) {
+      decreaseMonth();
+      equateTempDateToActualDate();
+    }
+  };
+
+  const decreaseYearTempDate = (): void => {
+    if (canDecreaseDate)
+      setTempDate(getDecreasedYearDate(tempDateYear, minDateMonth));
+  };
+  const decreaseYearRangeTempDate = (): void => {
+    if (canDecreaseDate)
+      setTempDate(
+        getChoosenYearDate(tempDate, tempDate.getFullYear() - YEARS_RANGE)
+      );
   };
   const increaseTempAndCurrMonth = (): void => {
     increaseMonth();
     equateTempDateToActualDate();
+  };
+  const increaseYearTempDate = (): void => {
+    setTempDate(getIncreasedYearDate(tempDate));
+  };
+  const increaseYearRangeTempDate = (): void => {
+    setTempDate(
+      getChoosenYearDate(tempDate, tempDate.getFullYear() + YEARS_RANGE)
+    );
   };
 
   // const decreaseYearIfNotMin = (): void => {
@@ -99,56 +140,29 @@ export const useCalendar = (
   const getHeaderText = (): string => {
     if (calendarType === CalendarType.REGULAR)
       return getMonthAndYearTextByDate(date);
-    if (calendarType === CalendarType.MONTH)
-      return getYearTextByDate(tempDate);
+    if (calendarType === CalendarType.MONTH) return getYearTextByDate(tempDate);
     if (calendarType === CalendarType.YEAR)
       return getYearRangeTextByDate(tempDate);
-    return '';
+    return "";
   };
 
-  const decreaseYearTempDate = (): void => {
-    setTempDate(getDecreasedYearDate(tempDate));
-  };
-  const decreaseYearRangeTempDate = (): void => {
-    setTempDate(
-      getChoosenYearDate(
-        tempDate,
-        tempDate.getFullYear() - YEARS_RANGE
-      )
-    );
-  };
+  const onPeriodClickPrepared = onPeriodClick(calendarType);
 
-  const increaseYearTempDate = (): void => {
-    setTempDate(getIncreasedYearDate(tempDate));
-  };
-  const increaseYearRangeTempDate = (): void => {
-    setTempDate(
-      getChoosenYearDate(
-        tempDate,
-        tempDate.getFullYear() + YEARS_RANGE
-      )
-    );
-  };
-
-  const onPeriodClickCalendarTyped = onPeriodClick(calendarType);
-  const onPrevPeriodClick = onPeriodClickCalendarTyped({
+  const onPrevPeriodClick = onPeriodClickPrepared({
     regularSliderActions: [decreaseTempAndCurrMonth],
     monthSliderActions: [decreaseYearTempDate],
     yearSliderActions: [decreaseYearRangeTempDate],
   });
-  const onNextPeriodClick = onPeriodClickCalendarTyped({
+  const onNextPeriodClick = onPeriodClickPrepared({
     regularSliderActions: [increaseTempAndCurrMonth],
     monthSliderActions: [increaseYearTempDate],
     yearSliderActions: [increaseYearRangeTempDate],
   });
 
-  const onPeriodSliderClick = onPeriodClickCalendarTyped({
+  const onPeriodSliderClick = onPeriodClickPrepared({
     regularSliderActions: [setYearCalendar],
     monthSliderActions: [setYearRangeCalendar],
-    yearSliderActions: [
-      setRegularCalendar,
-      equateTempDateToActualDate,
-    ],
+    yearSliderActions: [setRegularCalendar, equateTempDateToActualDate],
   });
 
   const getPrevMonthDaysAmount = (
@@ -158,8 +172,7 @@ export const useCalendar = (
     weekDays: WeekDay[],
     isMondayFirst?: boolean
   ): number => {
-    const weekdayStartNum =
-      isMondayFirst != null && isMondayFirst ? 1 : 0;
+    const weekdayStartNum = isMondayFirst != null && isMondayFirst ? 1 : 0;
     if (currMonthFirstDayNum >= weekdayStartNum) {
       return Math.abs(currMonthFirstDayNum - weekdayStartNum);
     }

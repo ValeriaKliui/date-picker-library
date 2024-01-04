@@ -75,7 +75,8 @@ const Calendar: FC<CalendarProps> = ({
     selectedDate,
     setSelectedDate,
     holidays,
-    withWeekends
+    withWeekends,
+    minDate
   );
 
   useKeyPress("ArrowLeft", onPrevPeriodClick);

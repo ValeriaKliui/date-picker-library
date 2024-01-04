@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import CalendarIcon from '../../assets/icons/calendar.svg';
-import IconClear from '../../assets/icons/clear.svg';
+import styled from "styled-components";
+import CalendarIcon from "../../assets/icons/calendar.svg";
+import IconClear from "../../assets/icons/clear.svg";
 
 export const DateInputContainer = styled.div``;
 export const Title = styled.h3``;
@@ -8,6 +8,7 @@ export const InputWrapper = styled.div<{ $isError: boolean }>`
   display: flex;
   position: relative;
   align-items: center;
+  justify-content: space-between;
   gap: ${({ theme }) => theme.valueInPx.px8};
   border-radius: ${({ theme }) => theme.valueInPx.px8};
   padding: ${({ theme }) => theme.valueInPx.px8}
