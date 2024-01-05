@@ -1,6 +1,6 @@
-import CalendarCell from "../../../components/CalendarCell";
-import { YEARS_RANGE } from "../../../constants/constants/dates";
-import { makeArrayFromNum } from "../../data";
+import CalendarCell from "../../../../components/CalendarCell";
+import { YEARS_RANGE } from "../../../../constants/constants/dates";
+import { makeArrayFromNum } from "../../../data";
 
 export const renderYears = (
   tempDate: Date,

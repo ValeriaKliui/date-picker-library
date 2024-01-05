@@ -1,7 +1,7 @@
 import { YEARS_RANGE } from "../../../constants/constants/dates";
 import { WEEKDAYS } from "../../../constants/constants/weekdays";
 import { sliceWordFromStart } from "../../data";
-import { type WeekDay } from "./interface";
+import { DateObj, type WeekDay } from "./interface";
 
 export const getMonthNumber = (date: Date): number => date.getMonth();
 
@@ -45,8 +45,11 @@ export const getWeekdayNums = (): Array<number | WEEKDAYS> =>
     .filter((weekday) => Number.isInteger(weekday))
     .map((weekday) => Number(weekday));
 
-export const getIncreasedMonthDate = (date: Date): Date =>
-  new Date(date.setMonth(getMonthNumber(date) + 1));
+export const getIncreasedMonthDate = (
+  dateYear: number,
+  dateMonth: number
+): Date =>
+  new Date(new Date(new Date().setFullYear(dateYear)).setMonth(dateMonth + 1));
 
 export const getDecreasedMonthDate = (
   dateYear: number,
@@ -60,16 +63,24 @@ export const getDecreasedYearDate = (
 ): Date =>
   new Date(new Date(new Date().setMonth(dateMonth)).setFullYear(dateYear - 1));
 
+export const getIncreasedYearDate = (
+  dateYear: number,
+  dateMonth: number
+): Date =>
+  new Date(new Date(new Date().setMonth(dateMonth)).setFullYear(dateYear + 1));
+
 export const getDecreasedYearRange = (date: Date): Date => {
   const copiedDate = new Date(date);
   const year = copiedDate.getFullYear();
   return new Date(copiedDate.setFullYear(year - YEARS_RANGE));
 };
 
-export const getIncreasedYearDate = (date: Date): Date => {
-  const year = date.getFullYear();
-  return new Date(date.setFullYear(year + 1));
+export const getIncreasedYearRange = (date: Date): Date => {
+  const copiedDate = new Date(date);
+  const year = copiedDate.getFullYear();
+  return new Date(copiedDate.setFullYear(year + YEARS_RANGE));
 };
+
 export const getChoosenYearDate = (date: Date, choosenYear: number): Date => {
   const copiedDate = new Date(date);
   return new Date(copiedDate.setFullYear(choosenYear));
@@ -84,4 +95,16 @@ export const formatDate = (date: Date): string => {
     date.getMonth() + 1 > 10 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
   const day = date.getDay() > 10 ? date.getDay() : `0${date.getDay()}`;
   return `${day}/${month}/${year}`;
+};
+export const getDateObj = (date: Date | null): DateObj => {
+  if (date == null)
+    return { year: 0, month: 0, day: 0, hours: 0, minutes: 0, seconds: 0 };
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const day = date.getDate();
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const seconds = date.getSeconds();
+  const milisec = date.getMilliseconds();
+  return { year, month, day, hours, minutes, seconds, milisec };
 };

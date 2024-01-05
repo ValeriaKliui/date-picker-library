@@ -1,14 +1,11 @@
-import { createContext, type FC, useMemo, useState } from 'react';
-import {
-  type ContextType,
-  type DateProviderProps,
-} from './interface';
+import { createContext, type FC, useMemo, useState } from "react";
+import { type ContextType, type DateProviderProps } from "./interface";
 
 export const DateContext = createContext<ContextType>({
   date: new Date(),
   setDate: (_date: Date) => {},
   selectedDate: null,
-  setSelectedDate: (_date: Date) => {},
+  setSelectedDate: (_date: Date | null) => {},
 });
 
 export const DateProvider: FC<DateProviderProps> = ({ children }) => {

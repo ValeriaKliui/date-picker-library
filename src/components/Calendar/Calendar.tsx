@@ -3,9 +3,9 @@ import { CalendarType } from "../../hooks/interfaces";
 import { useCalendar } from "../../hooks/useCalendar";
 import { useDate } from "../../hooks/useDate";
 import { useKeyPress } from "../../hooks/useKeyPress";
-import { renderDays } from "../../utils/calendarGrid/renderDays";
-import { renderMonths } from "../../utils/calendarGrid/renderMonths";
-import { renderYears } from "../../utils/calendarGrid/renderYears";
+import { renderDays } from "../../utils/calendar/calendarGrid/renderDays";
+import { renderMonths } from "../../utils/calendar/calendarGrid/renderMonths";
+import { renderYears } from "../../utils/calendar/calendarGrid/renderYears";
 import { getWeekDays } from "../../utils/dates/getDates/getDates";
 import CalendarCell from "../CalendarCell";
 import PeriodSlider from "../PeriodSlider";
@@ -43,7 +43,7 @@ const Calendar: FC<CalendarProps> = ({
     setRegularCalendar,
     setYearCalendar,
     tempDate,
-    getHeaderText,
+    headerText,
   } = useCalendar({
     date,
     decreaseMonth,
@@ -117,7 +117,6 @@ const Calendar: FC<CalendarProps> = ({
     }
     return null;
   };
-  const headerText = getHeaderText();
 
   return (
     <Container>

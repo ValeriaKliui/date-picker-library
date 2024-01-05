@@ -7,6 +7,9 @@ import {
   getChoosenYearDate,
   getDecreasedMonthDate,
   getDecreasedYearRange,
+  getDateObj,
+  getIncreasedMonthDate,
+  getIncreasedYearRange,
 } from "../utils/dates/getDates/getDates";
 import { type WeekDay } from "../utils/dates/getDates/interface";
 import {
@@ -20,6 +23,7 @@ import {
   type UseCalendarProps,
   type UseCalendarReturns,
 } from "./interfaces";
+import { getInCaseOfCalendar } from "../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
 
 export const useCalendar = (
   useCalendarProps: UseCalendarProps
@@ -29,11 +33,28 @@ export const useCalendar = (
     decreaseMonth,
     increaseMonth,
     minDate = null,
-    // maxDate = null,
+    maxDate = null,
   } = useCalendarProps;
 
   const [tempDate, setTempDate] = useState(new Date(date));
   const { selectedDate, setSelectedDate } = useContext(DateContext);
+  const { year: tempYear, month: tempMonth } = getDateObj(tempDate);
+  const {
+    month: minMonth,
+    day: minDay,
+    hours: minHours,
+    minutes: minMinutes,
+    seconds: minSeconds,
+    milisec: minMilisec,
+  } = getDateObj(minDate);
+  const {
+    month: maxMonth,
+    day: maxDay,
+    hours: maxHours,
+    minutes: maxMinutes,
+    seconds: maxSeconds,
+    milisec: maxMilisec,
+  } = getDateObj(maxDate);
 
   const [calendarType, setCalendarType] = useState(CalendarType.REGULAR);
   const setRegularCalendar = (): void => {
@@ -50,32 +71,38 @@ export const useCalendar = (
     setTempDate(date);
   };
 
-  const tempDateYear = tempDate.getFullYear();
-  const tempDateMonth = tempDate.getMonth();
+  const prevDate = getInCaseOfCalendar<Date>(calendarType, {
+    regularGetter: () => getDecreasedMonthDate(tempYear, tempMonth),
+    monthGetter: () => getDecreasedYearDate(tempYear, tempMonth),
+    yearGetter: () => getDecreasedYearRange(tempDate),
+  });
+  const nextDate = getInCaseOfCalendar<Date>(calendarType, {
+    regularGetter: () => getIncreasedMonthDate(tempYear, tempMonth),
+    monthGetter: () => getIncreasedYearDate(tempYear, tempMonth),
+    yearGetter: () => getIncreasedYearRange(tempDate),
+  });
+  const prevDateSettedMinDateDay = new Date(
+    new Date(prevDate.setDate(minDay)).setHours(
+      minHours,
+      minMinutes,
+      minSeconds,
+      minMilisec
+    )
+  );
+  const nextDateSettedMaxDateDay = new Date(
+    new Date(nextDate.setDate(maxDay)).setHours(
+      maxHours,
+      maxMinutes,
+      maxSeconds,
+      maxMilisec
+    )
+  );
+  const canDecreaseDate =
+    minDate === null || prevDateSettedMinDateDay >= minDate;
 
-  const getPrevDate = (): Date => {
-    if (calendarType === CalendarType.REGULAR)
-      return getDecreasedMonthDate(tempDateYear, tempDateMonth);
-    if (calendarType === CalendarType.MONTH)
-      return getDecreasedYearDate(tempDateYear, tempDateMonth);
-    return getDecreasedYearRange(tempDate);
-  };
+  const canIncreaseDate =
+    maxDate === null || nextDateSettedMaxDateDay.getTime() <= maxDate.getTime();
 
-  const minDateMonth = minDate?.getMonth();
-  const minDateDay = minDate?.getDate();
-  const prevDate =
-    minDateMonth != null &&
-    minDateDay != null &&
-    new Date(getPrevDate().setDate(minDate?.getDate()));
-
-  const canDecreaseDate = minDate === null || prevDate >= minDate;
-
-  // const decreaseMonthIfNotMin = (): void => {
-  //   if (minDate == null || minDate < date) {
-  //     decreaseMonth();
-  //     setTempDate(getDecreasedMonthDate(tempDate));
-  //   }
-  // };
   const decreaseTempAndCurrMonth = (): void => {
     if (canDecreaseDate) {
       decreaseMonth();
@@ -84,8 +111,7 @@ export const useCalendar = (
   };
 
   const decreaseYearTempDate = (): void => {
-    if (canDecreaseDate)
-      setTempDate(getDecreasedYearDate(tempDateYear, minDateMonth));
+    if (canDecreaseDate) setTempDate(getDecreasedYearDate(tempYear, minMonth));
   };
   const decreaseYearRangeTempDate = (): void => {
     if (canDecreaseDate)
@@ -94,57 +120,27 @@ export const useCalendar = (
       );
   };
   const increaseTempAndCurrMonth = (): void => {
-    increaseMonth();
-    equateTempDateToActualDate();
+    if (canIncreaseDate) {
+      increaseMonth();
+      equateTempDateToActualDate();
+    }
   };
   const increaseYearTempDate = (): void => {
-    setTempDate(getIncreasedYearDate(tempDate));
+    if (canIncreaseDate) setTempDate(getIncreasedYearDate(tempYear, maxMonth));
   };
   const increaseYearRangeTempDate = (): void => {
-    setTempDate(
-      getChoosenYearDate(tempDate, tempDate.getFullYear() + YEARS_RANGE)
-    );
+    if (canIncreaseDate) {
+      setTempDate(
+        getChoosenYearDate(tempDate, tempDate.getFullYear() + YEARS_RANGE)
+      );
+    }
   };
 
-  // const decreaseYearIfNotMin = (): void => {
-  //   if (minDate == null || minDate.getFullYear() < tempDate.getFullYear())
-  //     setTempDate(getDecreasedYearDate(tempDate));
-  // };
-
-  // const decreaseYearOnAmountIfNotMin = (): void => {
-  //   const minRangeYear = tempDate.getFullYear() - YEARS_RANGE;
-  //   if (minDate === null || minDate?.getFullYear() <= minRangeYear)
-  //     setTempDate(
-  //       getChoosenYearDate(tempDate, tempDate.getFullYear() - YEARS_RANGE)
-  //     );
-  // };
-  // const increaseMonthIfNotMax = (): void => {
-  //   if (maxDate == null || maxDate > date) {
-  //     increaseMonth();
-  //     setTempDate(getIncreasedMonthDate(tempDate));
-  //   }
-  // };
-  // const increaseYearIfNotMax = (): void => {
-  //   if (maxDate == null || maxDate > tempDate)
-  //     setTempDate(getIncreasedYearDate(tempDate));
-  // };
-
-  // const increaseYearOnAmountIfNotMax = (): void => {
-  //   const minRangeYear = tempDate.getFullYear() + 1;
-  //   if (maxDate == null || minRangeYear <= maxDate.getFullYear())
-  //     setTempDate(
-  //       getChoosenYearDate(tempDate, tempDate.getFullYear() + YEARS_RANGE)
-  //     );
-  // };
-
-  const getHeaderText = (): string => {
-    if (calendarType === CalendarType.REGULAR)
-      return getMonthAndYearTextByDate(date);
-    if (calendarType === CalendarType.MONTH) return getYearTextByDate(tempDate);
-    if (calendarType === CalendarType.YEAR)
-      return getYearRangeTextByDate(tempDate);
-    return "";
-  };
+  const headerText = getInCaseOfCalendar<string>(calendarType, {
+    regularGetter: () => getMonthAndYearTextByDate(date),
+    monthGetter: () => getYearTextByDate(tempDate),
+    yearGetter: () => getYearRangeTextByDate(tempDate),
+  });
 
   const onPeriodClickPrepared = onPeriodClick(calendarType);
 
@@ -205,6 +201,6 @@ export const useCalendar = (
     setRegularCalendar,
     setYearCalendar,
     tempDate,
-    getHeaderText,
+    headerText,
   };
 };

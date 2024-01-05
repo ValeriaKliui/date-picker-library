@@ -1,7 +1,7 @@
-import { type Holiday } from "../../../components/Calendar/interface";
-import CalendarCell from "../../../components/CalendarCell";
-import { type CalendarCellProps } from "../../../components/CalendarCell/interface";
-import { makeArrayFromNum } from "../../data";
+import { type Holiday } from "../../../../components/Calendar/interface";
+import CalendarCell from "../../../../components/CalendarCell";
+import { type CalendarCellProps } from "../../../../components/CalendarCell/interface";
+import { makeArrayFromNum } from "../../../data";
 
 export const renderDays =
   (

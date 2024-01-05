@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { type CalendarType } from '../../hooks/interfaces';
-import { determineColumnsAmount } from '../../utils/calendarGrid/determineColumnsAmount';
+import styled from "styled-components";
+import { type CalendarType } from "../../hooks/interfaces";
+import { determineColumnsAmount } from "../../utils/calendar/calendarGrid/determineColumnsAmount";
 
 export const Container = styled.div`
   border-radius: ${({ theme }) => theme.valueInPx.px8};
@@ -15,8 +15,6 @@ export const CalendarCells = styled.div<{
   $withWeekends?: boolean;
 }>`
   display: grid;
-  grid-template-columns: ${({
-    $withWeekends = true,
-    $calendarType,
-  }) => determineColumnsAmount($calendarType, $withWeekends)};
+  grid-template-columns: ${({ $withWeekends = true, $calendarType }) =>
+    determineColumnsAmount($calendarType, $withWeekends)};
 `;

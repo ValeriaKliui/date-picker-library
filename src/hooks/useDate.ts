@@ -16,10 +16,11 @@ import { type UseDateReturns } from "./interfaces";
 export const useDate = (): UseDateReturns => {
   const { date, setDate } = useContext(DateContext);
   const monthName = getMonthName(date);
+  const monthNum = getMonthNumber(date);
   const year = getYear(date);
 
   const increaseMonth = (): void => {
-    setDate(getIncreasedMonthDate(date));
+    setDate(getIncreasedMonthDate(year, monthNum));
   };
 
   const decreaseMonth = (): void => {
@@ -30,7 +31,7 @@ export const useDate = (): UseDateReturns => {
     setDate(getIncreasedYearDate(date));
   };
   const decreaseYear = (): void => {
-    setDate(getDecreasedYearDate(date));
+    setDate(getDecreasedYearDate(year, monthNum));
   };
   const setYear = (choosenYear: number): void => {
     setDate(getChoosenYearDate(date, choosenYear));

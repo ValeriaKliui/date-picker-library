@@ -1,7 +1,7 @@
-import CalendarCell from "../../../components/CalendarCell";
-import { MONTHS_AMOUNT } from "../../../constants/constants/dates";
-import { makeArrayFromNum, sliceWordFromStart } from "../../data";
-import { getMonthName } from "../../dates/getDates/getDates";
+import CalendarCell from "../../../../components/CalendarCell";
+import { MONTHS_AMOUNT } from "../../../../constants/constants/dates";
+import { makeArrayFromNum, sliceWordFromStart } from "../../../data";
+import { getMonthName } from "../../../dates/getDates/getDates";
 
 export const renderMonths = (
   tempDate: Date,
