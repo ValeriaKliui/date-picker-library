@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { DateContext } from "../providers/DateProvider";
+import { useContext } from 'react';
+import { DateContext } from '../providers/DateProvider';
 import {
   getDaysAmount,
   getDayWeekdayNum,
@@ -10,8 +10,8 @@ import {
   getMonthNumber,
   getYear,
   getChoosenYearDate,
-} from "../utils/dates/getDates/getDates";
-import { type UseDateReturns } from "./interfaces";
+} from '../utils/dates/getDates/getDates';
+import { type UseDateReturns } from './interfaces';
 
 export const useDate = (): UseDateReturns => {
   const { date, setDate } = useContext(DateContext);
@@ -28,7 +28,7 @@ export const useDate = (): UseDateReturns => {
   };
 
   const increaseYear = (): void => {
-    setDate(getIncreasedYearDate(date));
+    setDate(getIncreasedYearDate(year, monthNum));
   };
   const decreaseYear = (): void => {
     setDate(getDecreasedYearDate(year, monthNum));
@@ -56,7 +56,11 @@ export const useDate = (): UseDateReturns => {
     new Date(date.getFullYear(), date.getMonth(), 1)
   );
   const prevMonthLastNum = getDayWeekdayNum(
-    new Date(date.getFullYear(), date.getMonth() - 1, prevMonthDaysAmount)
+    new Date(
+      date.getFullYear(),
+      date.getMonth() - 1,
+      prevMonthDaysAmount
+    )
   );
 
   const daysAmountPrevMonth = getDaysAmount(

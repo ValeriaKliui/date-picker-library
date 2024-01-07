@@ -7,6 +7,7 @@ export interface CalendarProps {
   weekdayStartNum?: number;
   holidays?: Holiday[];
   withWeekends?: boolean;
-  minDate?: Date;
-  maxDate?: Date;
+  minDate?: Date | number;
+  maxDate?: Date | number;
+  withRange?: boolean;
 }

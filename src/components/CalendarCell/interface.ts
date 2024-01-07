@@ -8,7 +8,7 @@ export interface CalendarCellProps {
   cellValue: number | string;
   shadowed?: boolean;
   selected?: boolean;
-  range?: RangeType;
+  range?: RangeType | null;
   onCalendarCellClick?: () => void;
   isHoliday?: boolean;
   isWeekend?: boolean;

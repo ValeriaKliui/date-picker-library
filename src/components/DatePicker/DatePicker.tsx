@@ -1,10 +1,10 @@
-import { type FC, useContext, useState } from "react";
-import { DateContext } from "../../providers/DateProvider";
-import { getDateFromString } from "../../utils/dates/getDates/getDates";
-import Calendar from "../Calendar";
-import DateInput from "../DateInput";
+import { type FC, useContext, useState } from 'react';
+import { DateContext } from '../../providers/DateProvider';
+import { getDateFromString } from '../../utils/dates/getDates/getDates';
+import DateInput from '../DateInput';
+import { type DatePickerProps } from './interfaces';
 
-export const DatePicker: FC = () => {
+const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
   const [isCalendarOpened, setIsCalendarOpened] = useState(false);
 
   const toggleCalendar = (): void => {
@@ -39,3 +39,5 @@ export const DatePicker: FC = () => {
     </>
   );
 };
+
+export default DatePicker;

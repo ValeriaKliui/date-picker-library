@@ -1,16 +1,25 @@
-import { type FC } from "react";
-import { CalendarType } from "../../hooks/interfaces";
-import { useCalendar } from "../../hooks/useCalendar";
-import { useDate } from "../../hooks/useDate";
-import { useKeyPress } from "../../hooks/useKeyPress";
-import { renderDays } from "../../utils/calendar/calendarGrid/renderDays";
-import { renderMonths } from "../../utils/calendar/calendarGrid/renderMonths";
-import { renderYears } from "../../utils/calendar/calendarGrid/renderYears";
-import { getWeekDays } from "../../utils/dates/getDates/getDates";
-import CalendarCell from "../CalendarCell";
-import PeriodSlider from "../PeriodSlider";
-import { CalendarCells, Container } from "./Calendar.styled";
-import { type CalendarProps } from "./interface";
+import { type FC } from 'react';
+import { CalendarType } from '../../hooks/interfaces';
+import { useCalendar } from '../../hooks/useCalendar';
+import { useDate } from '../../hooks/useDate';
+import { useKeyPress } from '../../hooks/useKeyPress';
+import { useRange } from '../../hooks/useRange';
+import { renderDays } from '../../utils/calendar/calendarGrid/renderDays';
+import { renderMonths } from '../../utils/calendar/calendarGrid/renderMonths';
+import { renderYears } from '../../utils/calendar/calendarGrid/renderYears';
+import {
+  getDateFromTimestamp,
+  getWeekDays,
+} from '../../utils/dates/getDates/getDates';
+import CalendarCell from '../CalendarCell';
+import PeriodSlider from '../PeriodSlider';
+import {
+  CalendarCells,
+  Container,
+  CalendarDates,
+  CalendarButton,
+} from './Calendar.styled';
+import { type CalendarProps } from './interface';
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst,
@@ -18,7 +27,11 @@ const Calendar: FC<CalendarProps> = ({
   withWeekends,
   minDate,
   maxDate,
+  withRange,
 }) => {
+  const maxDateParsed = getDateFromTimestamp(maxDate);
+  const minDateParsed = getDateFromTimestamp(minDate);
+
   const {
     currMonthDaysAmount,
     currMonthLastDayNum,
@@ -30,7 +43,6 @@ const Calendar: FC<CalendarProps> = ({
     increaseMonth,
     setDate,
   } = useDate();
-
   const {
     selectedDate,
     setSelectedDate,
@@ -46,10 +58,15 @@ const Calendar: FC<CalendarProps> = ({
     headerText,
   } = useCalendar({
     date,
+    setDate,
     decreaseMonth,
     increaseMonth,
-    minDate,
-    maxDate,
+    minDate: minDateParsed,
+    maxDate: maxDateParsed,
+  });
+  const { getDayDate, getRangeType, cleanRange } = useRange({
+    selectedDate,
+    setSelectedDate,
   });
 
   const weekDays = getWeekDays(isMondayFirst, withWeekends);
@@ -74,15 +91,21 @@ const Calendar: FC<CalendarProps> = ({
     date,
     selectedDate,
     setSelectedDate,
+    getDayDate,
+    getRangeType,
     holidays,
     withWeekends,
-    minDate
+    minDateParsed,
+    withRange
   );
 
-  useKeyPress("ArrowLeft", onPrevPeriodClick);
-  useKeyPress("ArrowRight", onNextPeriodClick);
+  useKeyPress('ArrowLeft', onPrevPeriodClick);
+  useKeyPress('ArrowRight', onNextPeriodClick);
 
-  const renderCalendarGrid = (): JSX.Element | JSX.Element[] | null => {
+  const renderCalendarGrid = ():
+    | JSX.Element
+    | JSX.Element[]
+    | null => {
     if (calendarType === CalendarType.REGULAR) {
       return (
         <>
@@ -110,7 +133,12 @@ const Calendar: FC<CalendarProps> = ({
       );
     }
     if (calendarType === CalendarType.MONTH) {
-      return renderMonths(tempDate, date, setRegularCalendar, setDate);
+      return renderMonths(
+        tempDate,
+        date,
+        setRegularCalendar,
+        setDate
+      );
     }
     if (calendarType === CalendarType.YEAR) {
       return renderYears(tempDate, date, setYearCalendar);
@@ -120,15 +148,23 @@ const Calendar: FC<CalendarProps> = ({
 
   return (
     <Container>
-      <PeriodSlider
-        sliderHeaderText={headerText}
-        onLeftArrow={onPrevPeriodClick}
-        onRightArrow={onNextPeriodClick}
-        onPeriodSliderClick={onPeriodSliderClick}
-      />
-      <CalendarCells $calendarType={calendarType} $withWeekends={withWeekends}>
-        {renderCalendarGrid()}
-      </CalendarCells>
+      <CalendarDates>
+        <PeriodSlider
+          sliderHeaderText={headerText}
+          onLeftArrow={onPrevPeriodClick}
+          onRightArrow={onNextPeriodClick}
+          onPeriodSliderClick={onPeriodSliderClick}
+        />
+        <CalendarCells
+          $calendarType={calendarType}
+          $withWeekends={withWeekends}
+        >
+          {renderCalendarGrid()}
+        </CalendarCells>
+      </CalendarDates>
+      {withRange === true && (
+        <CalendarButton onClick={cleanRange}>Clear</CalendarButton>
+      )}
     </Container>
   );
 };

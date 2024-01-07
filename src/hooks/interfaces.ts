@@ -1,6 +1,7 @@
-import { type ChangeEvent } from "react";
-import { type DateInputProps } from "../components/DateInput/interface";
-import { type WeekDay } from "../utils/dates/getDates/interface";
+import { type ChangeEvent } from 'react';
+import { type RangeType } from '../components/CalendarCell/interface';
+import { type DateInputProps } from '../components/DateInput/interface';
+import { type WeekDay } from '../utils/dates/getDates/interface';
 
 export enum CalendarType {
   REGULAR,
@@ -9,7 +10,7 @@ export enum CalendarType {
 }
 export type UseDateInputProps = Pick<
   DateInputProps,
-  "onClearClick" | "onDateChange" | "onValidDateInput"
+  'onClearClick' | 'onDateChange' | 'onValidDateInput'
 >;
 
 export interface UseDateReturns {
@@ -38,7 +39,7 @@ export interface UseDateInputReturns {
 }
 
 export interface UseCalendarReturns {
-  setSelectedDate: (date: Date) => void;
+  setSelectedDate: (date: Date | null) => void;
   selectedDate: Date | null;
   getNextMonthDaysAmount: (
     currMonthLastDayNum: number,
@@ -62,11 +63,24 @@ export interface UseCalendarReturns {
 }
 export type UseCalendarProps = Pick<
   UseDateReturns,
-  "date" | "decreaseMonth" | "increaseMonth"
-> & { minDate?: Date; maxDate?: Date };
+  'date' | 'decreaseMonth' | 'increaseMonth' | 'setDate'
+> & { minDate?: Date; maxDate?: Date | null };
 
 export interface SliderHeaderActions {
   regularSliderActions: Array<() => void>;
   monthSliderActions: Array<() => void>;
   yearSliderActions: Array<() => void>;
+}
+export interface UseRangeProps {
+  selectedDate: Date | null;
+  setSelectedDate: (date: Date | null) => void;
+}
+export interface RangeInitType {
+  rangeStart: null | Date;
+  rangeEnd: null | Date;
+}
+export interface UseRangeReturns {
+  getRangeType: () => RangeType | null;
+  getDayDate: (dayDate: Date) => void;
+  cleanRange: () => void;
 }
