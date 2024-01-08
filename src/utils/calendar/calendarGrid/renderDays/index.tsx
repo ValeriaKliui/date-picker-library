@@ -1,11 +1,11 @@
-import { type Holiday } from '../../../../components/Calendar/interface';
-import CalendarCell from '../../../../components/CalendarCell';
+import { type Holiday } from "../../../../components/Calendar/interface";
+import CalendarCell from "../../../../components/CalendarCell";
 import {
   type RangeType,
   type CalendarCellProps,
-} from '../../../../components/CalendarCell/interface';
-import { makeArrayFromNum } from '../../../data';
-import { setInitTime } from '../../../dates/getDates/getDates';
+} from "../../../../components/CalendarCell/interface";
+import { makeArrayFromNum } from "../../../data";
+import { setInitTime } from "../../../dates/getDates/getDates";
 
 export const renderDays =
   (
@@ -19,11 +19,12 @@ export const renderDays =
     holidays?: Holiday[],
     withWeekends?: boolean,
     minDate?: Date | null,
+    maxDate?: Date | null,
     withRange: boolean = false
   ) =>
   (
     daysAmount: number,
-    options?: Pick<CalendarCellProps, 'onCalendarCellClick'> & {
+    options?: Pick<CalendarCellProps, "onCalendarCellClick"> & {
       isPrevMonth?: boolean;
       isCurrMonth?: boolean;
       monthNum: number;
@@ -36,6 +37,10 @@ export const renderDays =
       monthNum = 0,
     } = options ?? {};
 
+    if (minDate != null) setInitTime(minDate);
+    if (maxDate != null) setInitTime(maxDate);
+    if (selectedDate != null) setInitTime(selectedDate);
+
     return makeArrayFromNum(daysAmount).map((dayNum) => {
       const dayNumber = isPrevMonth
         ? daysAmountPrevMonth - prevMonthDays + dayNum
@@ -45,24 +50,25 @@ export const renderDays =
         new Date(new Date(date).setMonth(monthNum)).setDate(dayNumber)
       );
 
-      if (selectedDate != null) setInitTime(selectedDate);
       setInitTime(dayDate);
       getDayDate(dayDate);
 
       const isChoosen =
-        isCurrMonth &&
-        selectedDate?.toDateString() === dayDate.toDateString();
+        isCurrMonth && selectedDate?.toDateString() === dayDate.toDateString();
 
       const isHoliday = holidays?.some(({ date: holidayDate }) => {
-        holidayDate.setHours(0, 0, 0).toString();
-        dayDate.setHours(0, 0, 0).toString();
+        setInitTime(holidayDate);
+        holidayDate.toString();
+        dayDate.toString();
         return holidayDate.toString() === dayDate.toString();
       });
 
-      const isWeekend =
-        dayDate.getDay() === 6 || dayDate.getDay() === 0;
+      const isWeekend = dayDate.getDay() === 6 || dayDate.getDay() === 0;
 
-      const isDisabled = minDate != null && dayDate <= minDate;
+      const isDisabled =
+        (minDate != null && dayDate.getTime() < minDate.getTime()) ||
+        (maxDate != null && dayDate > maxDate);
+
       const onClick = (): void => {
         if (!isDisabled) {
           onCalendarCellClick?.();

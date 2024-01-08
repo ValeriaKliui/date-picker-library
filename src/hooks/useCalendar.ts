@@ -1,6 +1,6 @@
-import { useContext, useEffect, useState } from 'react';
-import { YEARS_RANGE } from '../constants/constants/dates';
-import { DateContext } from '../providers/DateProvider';
+import { useContext, useState } from "react";
+import { YEARS_RANGE } from "../constants/constants/dates";
+import { DateContext } from "../providers/DateProvider";
 import {
   getDecreasedYearDate,
   getIncreasedYearDate,
@@ -10,20 +10,21 @@ import {
   getDateObj,
   getIncreasedMonthDate,
   getIncreasedYearRange,
-} from '../utils/dates/getDates/getDates';
-import { type WeekDay } from '../utils/dates/getDates/interface';
+  setInitTime,
+} from "../utils/dates/getDates/getDates";
+import { type WeekDay } from "../utils/dates/getDates/interface";
 import {
   getMonthAndYearTextByDate,
   getYearRangeTextByDate,
   getYearTextByDate,
   onPeriodClick,
-} from '../utils/periodSlider';
+} from "../utils/periodSlider";
 import {
   CalendarType,
   type UseCalendarProps,
   type UseCalendarReturns,
-} from './interfaces';
-import { getInCaseOfCalendar } from '../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar';
+} from "./interfaces";
+import { getInCaseOfCalendar } from "../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
 
 export const useCalendar = (
   useCalendarProps: UseCalendarProps
@@ -34,39 +35,16 @@ export const useCalendar = (
     increaseMonth,
     minDate = null,
     maxDate = null,
-    setDate,
   } = useCalendarProps;
 
   const [tempDate, setTempDate] = useState(new Date(date));
   const { selectedDate, setSelectedDate } = useContext(DateContext);
   const { year: tempYear, month: tempMonth } = getDateObj(tempDate);
-  const {
-    month: minMonth,
-    day: minDay,
-    hours: minHours,
-    minutes: minMinutes,
-    seconds: minSeconds,
-    milisec: minMilisec,
-  } = getDateObj(minDate);
-  const {
-    month: maxMonth,
-    day: maxDay,
-    hours: maxHours,
-    minutes: maxMinutes,
-    seconds: maxSeconds,
-    milisec: maxMilisec,
-  } = getDateObj(maxDate);
+  const { month: minMonth } = getDateObj(minDate);
+  const { month: maxMonth } = getDateObj(maxDate);
+  const JANUARY_NUM = 0;
 
-  useEffect(() => {
-    // if (selectedDate != null) {
-    //   setTempDate(selectedDate);
-    //   setDate(selectedDate);
-    // }
-  }, [selectedDate, setDate]);
-
-  const [calendarType, setCalendarType] = useState(
-    CalendarType.REGULAR
-  );
+  const [calendarType, setCalendarType] = useState(CalendarType.REGULAR);
   const setRegularCalendar = (): void => {
     setCalendarType(CalendarType.REGULAR);
   };
@@ -88,31 +66,17 @@ export const useCalendar = (
   });
   const nextDate = getInCaseOfCalendar<Date>(calendarType, {
     regularGetter: () => getIncreasedMonthDate(tempYear, tempMonth),
-    monthGetter: () => getIncreasedYearDate(tempYear, tempMonth),
+    monthGetter: () => getIncreasedYearDate(tempYear, JANUARY_NUM),
     yearGetter: () => getIncreasedYearRange(tempDate),
   });
-  const prevDateSettedMinDateDay = new Date(
-    new Date(prevDate.setDate(minDay)).setHours(
-      minHours,
-      minMinutes,
-      minSeconds,
-      minMilisec
-    )
-  );
-  const nextDateSettedMaxDateDay = new Date(
-    new Date(nextDate.setDate(maxDay)).setHours(
-      maxHours,
-      maxMinutes,
-      maxSeconds,
-      maxMilisec
-    )
-  );
-  const canDecreaseDate =
-    minDate === null || prevDateSettedMinDateDay >= minDate;
 
-  const canIncreaseDate =
-    maxDate === null ||
-    nextDateSettedMaxDateDay.getTime() <= maxDate.getTime();
+  if (minDate != null) setInitTime(minDate);
+  if (maxDate != null) setInitTime(maxDate);
+  setInitTime(prevDate);
+  setInitTime(nextDate);
+
+  const canDecreaseDate = minDate === null || prevDate >= minDate;
+  const canIncreaseDate = maxDate === null || nextDate <= maxDate;
 
   const decreaseTempAndCurrMonth = (): void => {
     if (canDecreaseDate) {
@@ -122,16 +86,12 @@ export const useCalendar = (
   };
 
   const decreaseYearTempDate = (): void => {
-    if (canDecreaseDate)
-      setTempDate(getDecreasedYearDate(tempYear, minMonth));
+    if (canDecreaseDate) setTempDate(getDecreasedYearDate(tempYear, minMonth));
   };
   const decreaseYearRangeTempDate = (): void => {
     if (canDecreaseDate)
       setTempDate(
-        getChoosenYearDate(
-          tempDate,
-          tempDate.getFullYear() - YEARS_RANGE
-        )
+        getChoosenYearDate(tempDate, tempDate.getFullYear() - YEARS_RANGE)
       );
   };
   const increaseTempAndCurrMonth = (): void => {
@@ -141,16 +101,12 @@ export const useCalendar = (
     }
   };
   const increaseYearTempDate = (): void => {
-    if (canIncreaseDate)
-      setTempDate(getIncreasedYearDate(tempYear, maxMonth));
+    if (canIncreaseDate) setTempDate(getIncreasedYearDate(tempYear, maxMonth));
   };
   const increaseYearRangeTempDate = (): void => {
     if (canIncreaseDate) {
       setTempDate(
-        getChoosenYearDate(
-          tempDate,
-          tempDate.getFullYear() + YEARS_RANGE
-        )
+        getChoosenYearDate(tempDate, tempDate.getFullYear() + YEARS_RANGE)
       );
     }
   };
@@ -177,10 +133,7 @@ export const useCalendar = (
   const onPeriodSliderClick = onPeriodClickPrepared({
     regularSliderActions: [setYearCalendar],
     monthSliderActions: [setYearRangeCalendar],
-    yearSliderActions: [
-      setRegularCalendar,
-      equateTempDateToActualDate,
-    ],
+    yearSliderActions: [setRegularCalendar, equateTempDateToActualDate],
   });
 
   const getPrevMonthDaysAmount = (
@@ -190,8 +143,7 @@ export const useCalendar = (
     weekDays: WeekDay[],
     isMondayFirst?: boolean
   ): number => {
-    const weekdayStartNum =
-      isMondayFirst != null && isMondayFirst ? 1 : 0;
+    const weekdayStartNum = isMondayFirst != null && isMondayFirst ? 1 : 0;
     if (currMonthFirstDayNum >= weekdayStartNum) {
       return Math.abs(currMonthFirstDayNum - weekdayStartNum);
     }

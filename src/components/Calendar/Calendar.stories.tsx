@@ -1,16 +1,16 @@
-import { type Meta, type StoryObj } from '@storybook/react';
-import { HOLIDAYS } from '../../constants/constants/holidays';
-import Calendar from './Calendar';
+import { type Meta, type StoryObj } from "@storybook/react";
+import { HOLIDAYS } from "../../constants/constants/holidays";
+import Calendar from "./Calendar";
 
 const meta: Meta<typeof Calendar> = {
-  title: 'UI/Calendar',
+  title: "UI/Calendar",
   component: Calendar,
-  tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  tags: ["autodocs"],
+  parameters: { layout: "centered" },
   argTypes: {
-    isMondayFirst: { type: 'boolean', name: 'monday first' },
-    withWeekends: { type: 'boolean', name: 'with weekends' },
-    withRange: { type: 'boolean', name: 'with range' },
+    isMondayFirst: { type: "boolean", name: "monday first" },
+    withWeekends: { type: "boolean", name: "with weekends" },
+    withRange: { type: "boolean", name: "with range" },
   },
 };
 
@@ -33,8 +33,8 @@ export const WithHolidays: Story = {
 };
 export const WithMinAndMaxDate: Story = {
   args: {
-    minDate: new Date('2017-08-08'),
-    maxDate: new Date('2024-08-01'),
+    minDate: new Date("2017-08-08"),
+    maxDate: new Date("2024-08-05"),
   },
 };
 export const WithRange: Story = {

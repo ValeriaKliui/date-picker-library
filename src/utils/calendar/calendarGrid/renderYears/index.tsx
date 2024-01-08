@@ -5,7 +5,9 @@ import { makeArrayFromNum } from "../../../data";
 export const renderYears = (
   tempDate: Date,
   date: Date,
-  setYearCalendar: () => void
+  setYearCalendar: () => void,
+  minDate?: Date,
+  maxDate?: Date
 ): JSX.Element => {
   const yearsAmount = makeArrayFromNum(YEARS_RANGE);
   const year = tempDate.getFullYear();
@@ -14,12 +16,18 @@ export const renderYears = (
   return (
     <>
       {years.map((yearNum) => {
-        const onYearClick = (): void => {
-          date.setFullYear(yearNum);
-          tempDate.setFullYear(yearNum);
-          setYearCalendar();
-        };
         const isChoosen = (): boolean => date.getFullYear() === yearNum;
+        const isDisabled =
+          (minDate != null && yearNum < minDate.getFullYear()) ||
+          (maxDate != null && yearNum > maxDate.getFullYear());
+
+        const onYearClick = (): void => {
+          if (!isDisabled) {
+            date.setFullYear(yearNum);
+            tempDate.setFullYear(yearNum);
+            setYearCalendar();
+          }
+        };
 
         return (
           <CalendarCell
@@ -27,6 +35,7 @@ export const renderYears = (
             type="year"
             onCalendarCellClick={onYearClick}
             selected={isChoosen()}
+            shadowed={isDisabled}
             key={yearNum}
           />
         );
