@@ -20,10 +20,10 @@ export const useDate = (): UseDateReturns => {
   const year = getYear(date);
 
   const increaseMonth = (): void => {
-    setDate(getIncreasedMonthDate(year, monthNum));
+    setDate(getIncreasedMonthDate(date));
   };
 
-  const decreaseMonth = (): void => {
+  const decreaseCalendarMonth = (): void => {
     setDate(new Date(date.setMonth(getMonthNumber(date) - 1)));
   };
 
@@ -31,7 +31,7 @@ export const useDate = (): UseDateReturns => {
     setDate(getIncreasedYearDate(year, monthNum));
   };
   const decreaseYear = (): void => {
-    setDate(getDecreasedYearDate(year, monthNum));
+    setDate(getDecreasedYearDate(date));
   };
   const setYear = (choosenYear: number): void => {
     setDate(getChoosenYearDate(date, choosenYear));
@@ -72,7 +72,7 @@ export const useDate = (): UseDateReturns => {
     monthName,
     year,
     increaseMonth,
-    decreaseMonth,
+    decreaseCalendarMonth,
     currMonthDaysAmount,
     daysAmountPrevMonth,
     currMonthFirstDayNum,

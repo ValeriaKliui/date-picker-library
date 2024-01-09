@@ -1,25 +1,26 @@
-import { type FC } from "react";
-import { CalendarType } from "../../hooks/interfaces";
-import { useCalendar } from "../../hooks/useCalendar";
-import { useDate } from "../../hooks/useDate";
-import { useKeyPress } from "../../hooks/useKeyPress";
-import { useRange } from "../../hooks/useRange";
-import { renderDays } from "../../utils/calendar/calendarGrid/renderDays";
-import { renderMonths } from "../../utils/calendar/calendarGrid/renderMonths";
-import { renderYears } from "../../utils/calendar/calendarGrid/renderYears";
+import { type FC } from 'react';
+import { CalendarType } from '../../hooks/interfaces';
+import { useCalendar } from '../../hooks/useCalendar';
+import { useDate } from '../../hooks/useDate';
+import { useKeyPress } from '../../hooks/useKeyPress';
+import { useRange } from '../../hooks/useRange';
+import { renderDays } from '../../utils/calendar/calendarGrid/renderDays';
+import { renderMonths } from '../../utils/calendar/calendarGrid/renderMonths';
+import { renderYears } from '../../utils/calendar/calendarGrid/renderYears';
 import {
   getDateFromTimestamp,
   getWeekDays,
-} from "../../utils/dates/getDates/getDates";
-import CalendarCell from "../CalendarCell";
-import PeriodSlider from "../PeriodSlider";
+  setInitTime,
+} from '../../utils/dates/getDates/getDates';
+import CalendarCell from '../CalendarCell';
+import PeriodSlider from '../PeriodSlider';
 import {
   CalendarCells,
   Container,
   CalendarDates,
   CalendarButton,
-} from "./Calendar.styled";
-import { type CalendarProps } from "./interface";
+} from './Calendar.styled';
+import { type CalendarProps } from './interface';
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst,
@@ -32,6 +33,8 @@ const Calendar: FC<CalendarProps> = ({
   const maxDateParsed = getDateFromTimestamp(maxDate);
   const minDateParsed = getDateFromTimestamp(minDate);
 
+  setInitTime(maxDateParsed, minDateParsed);
+
   const {
     currMonthDaysAmount,
     currMonthLastDayNum,
@@ -39,7 +42,7 @@ const Calendar: FC<CalendarProps> = ({
     prevMonthLastNum,
     daysAmountPrevMonth,
     date,
-    decreaseMonth,
+    decreaseCalendarMonth,
     increaseMonth,
     setDate,
   } = useDate();
@@ -59,7 +62,7 @@ const Calendar: FC<CalendarProps> = ({
   } = useCalendar({
     date,
     setDate,
-    decreaseMonth,
+    decreaseCalendarMonth,
     increaseMonth,
     minDate: minDateParsed,
     maxDate: maxDateParsed,
@@ -100,10 +103,13 @@ const Calendar: FC<CalendarProps> = ({
     withRange
   );
 
-  useKeyPress("ArrowLeft", onPrevPeriodClick);
-  useKeyPress("ArrowRight", onNextPeriodClick);
+  useKeyPress('ArrowLeft', onPrevPeriodClick);
+  useKeyPress('ArrowRight', onNextPeriodClick);
 
-  const renderCalendarGrid = (): JSX.Element | JSX.Element[] | null => {
+  const renderCalendarGrid = ():
+    | JSX.Element
+    | JSX.Element[]
+    | null => {
     if (calendarType === CalendarType.REGULAR) {
       return (
         <>

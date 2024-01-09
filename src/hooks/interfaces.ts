@@ -17,7 +17,7 @@ export interface UseDateReturns {
   monthName: string;
   year: number;
   increaseMonth: () => void;
-  decreaseMonth: () => void;
+  decreaseCalendarMonth: () => void;
   currMonthDaysAmount: number;
   daysAmountPrevMonth: number;
   currMonthFirstDayNum: number;
@@ -63,7 +63,7 @@ export interface UseCalendarReturns {
 }
 export type UseCalendarProps = Pick<
   UseDateReturns,
-  'date' | 'decreaseMonth' | 'increaseMonth' | 'setDate'
+  'date' | 'decreaseCalendarMonth' | 'increaseMonth' | 'setDate'
 > & { minDate?: Date; maxDate?: Date | null };
 
 export interface SliderHeaderActions {

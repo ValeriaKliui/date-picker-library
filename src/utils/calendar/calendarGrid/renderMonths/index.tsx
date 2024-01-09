@@ -1,7 +1,11 @@
-import CalendarCell from "../../../../components/CalendarCell";
-import { MONTHS_AMOUNT } from "../../../../constants/constants/dates";
-import { makeArrayFromNum, sliceWordFromStart } from "../../../data";
-import { getMonthName, setInitTime } from "../../../dates/getDates/getDates";
+import CalendarCell from '../../../../components/CalendarCell';
+import { MONTHS_AMOUNT } from '../../../../constants/constants/dates';
+import { makeArrayFromNum, sliceWordFromStart } from '../../../data';
+import {
+  getDateObj,
+  getMonthName,
+  setInitTime,
+} from '../../../dates/getDates/getDates';
 
 export const renderMonths = (
   tempDate: Date,
@@ -13,14 +17,20 @@ export const renderMonths = (
 ): JSX.Element[] => {
   const monthNums = makeArrayFromNum(MONTHS_AMOUNT);
   return monthNums.map((monthNum) => {
-    const copiedTempDate = new Date(tempDate);
-    const dateOfMonth = new Date(copiedTempDate.setMonth(monthNum - 1));
+    const minDateDay = minDate != null ? minDate.getDate() : 1;
+    const dateOfMonth = new Date(
+      tempDate.getFullYear(),
+      monthNum - 1,
+      minDateDay
+    );
+    const { month, year } = getDateObj(dateOfMonth);
+    const { month: dateMonth, year: dateYear } = getDateObj(date);
 
-    if (minDate != null)
-      setInitTime(new Date(dateOfMonth.setDate(minDate.getDate())));
-    // if (maxDate != null) evacuateFirstDateTimeToSecond(dateOfMonth, maxDate);
+    setInitTime(dateOfMonth);
 
-    const isChoosen = (): boolean => date.getTime() === dateOfMonth.getTime();
+    const isChoosen = (): boolean =>
+      month === dateMonth && year === dateYear;
+
     const isDisabled =
       (minDate != null && dateOfMonth <= minDate) ||
       (maxDate != null && dateOfMonth >= maxDate);
@@ -31,7 +41,10 @@ export const renderMonths = (
         setRegularCalendar();
       }
     };
-    const monthName = sliceWordFromStart(getMonthName(dateOfMonth), 3);
+    const monthName = sliceWordFromStart(
+      getMonthName(dateOfMonth),
+      3
+    );
     return (
       <CalendarCell
         cellValue={monthName}

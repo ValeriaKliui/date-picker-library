@@ -6,6 +6,7 @@ import { type DatePickerProps } from './interfaces';
 
 const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
   const [isCalendarOpened, setIsCalendarOpened] = useState(false);
+  const { setSelectedDate, setDate } = useContext(DateContext);
 
   const toggleCalendar = (): void => {
     setIsCalendarOpened((isSeen) => !isSeen);
@@ -19,14 +20,15 @@ const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
     openCalendar();
   };
 
-  const { setSelectedDate } = useContext(DateContext);
-
   const onValidDateInput = (dateString: string): void => {
-    setSelectedDate(getDateFromString(dateString));
+    const date = getDateFromString(dateString);
+    setSelectedDate(date);
+    setDate(date);
   };
   const onClearClick = (): void => {
     setSelectedDate(null);
   };
+
   return (
     <>
       <DateInput

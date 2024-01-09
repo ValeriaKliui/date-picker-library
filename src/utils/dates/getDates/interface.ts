@@ -6,8 +6,5 @@ export interface DateObj {
   year: number;
   month: number;
   day: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-  milisec: number;
 }
+export type DateOrNullOrUndef = Date | null | undefined;

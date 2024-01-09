@@ -1,11 +1,11 @@
-import { type Holiday } from "../../../../components/Calendar/interface";
-import CalendarCell from "../../../../components/CalendarCell";
+import { type Holiday } from '../../../../components/Calendar/interface';
+import CalendarCell from '../../../../components/CalendarCell';
 import {
   type RangeType,
   type CalendarCellProps,
-} from "../../../../components/CalendarCell/interface";
-import { makeArrayFromNum } from "../../../data";
-import { setInitTime } from "../../../dates/getDates/getDates";
+} from '../../../../components/CalendarCell/interface';
+import { makeArrayFromNum } from '../../../data';
+import { setInitTime } from '../../../dates/getDates/getDates';
 
 export const renderDays =
   (
@@ -24,7 +24,7 @@ export const renderDays =
   ) =>
   (
     daysAmount: number,
-    options?: Pick<CalendarCellProps, "onCalendarCellClick"> & {
+    options?: Pick<CalendarCellProps, 'onCalendarCellClick'> & {
       isPrevMonth?: boolean;
       isCurrMonth?: boolean;
       monthNum: number;
@@ -36,10 +36,6 @@ export const renderDays =
       isPrevMonth = false,
       monthNum = 0,
     } = options ?? {};
-
-    if (minDate != null) setInitTime(minDate);
-    if (maxDate != null) setInitTime(maxDate);
-    if (selectedDate != null) setInitTime(selectedDate);
 
     return makeArrayFromNum(daysAmount).map((dayNum) => {
       const dayNumber = isPrevMonth
@@ -54,7 +50,8 @@ export const renderDays =
       getDayDate(dayDate);
 
       const isChoosen =
-        isCurrMonth && selectedDate?.toDateString() === dayDate.toDateString();
+        isCurrMonth &&
+        selectedDate?.toDateString() === dayDate.toDateString();
 
       const isHoliday = holidays?.some(({ date: holidayDate }) => {
         setInitTime(holidayDate);
@@ -63,7 +60,8 @@ export const renderDays =
         return holidayDate.toString() === dayDate.toString();
       });
 
-      const isWeekend = dayDate.getDay() === 6 || dayDate.getDay() === 0;
+      const isWeekend =
+        dayDate.getDay() === 6 || dayDate.getDay() === 0;
 
       const isDisabled =
         (minDate != null && dayDate.getTime() < minDate.getTime()) ||

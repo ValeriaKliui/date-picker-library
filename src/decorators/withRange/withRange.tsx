@@ -1,13 +1,13 @@
 import { type ComponentType } from 'react';
 
-const withWeekends =
+const withRange =
   <T,>(WrappedComponent: ComponentType<T>) =>
   (props: T) => {
     const passedProps = {
       ...props,
-      withWeekends: true,
+      withRange: true,
     };
     return <WrappedComponent {...passedProps} />;
   };
 
-export default withWeekends;
+export default withRange;
