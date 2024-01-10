@@ -1,26 +1,27 @@
-import { type FC } from 'react';
-import { CalendarType } from '../../hooks/interfaces';
-import { useCalendar } from '../../hooks/useCalendar';
-import { useDate } from '../../hooks/useDate';
-import { useKeyPress } from '../../hooks/useKeyPress';
-import { useRange } from '../../hooks/useRange';
-import { renderDays } from '../../utils/calendar/calendarGrid/renderDays';
-import { renderMonths } from '../../utils/calendar/calendarGrid/renderMonths';
-import { renderYears } from '../../utils/calendar/calendarGrid/renderYears';
+import { type FC } from "react";
+import { CalendarType } from "../../hooks/interfaces";
+import { useCalendar } from "../../hooks/useCalendar";
+import { useDate } from "../../hooks/useDate";
+import { useKeyPress } from "../../hooks/useKeyPress";
+import { useRange } from "../../hooks/useRange";
+import { renderDays } from "../../utils/calendar/calendarGrid/renderDays";
+import { renderMonths } from "../../utils/calendar/calendarGrid/renderMonths";
+import { renderYears } from "../../utils/calendar/calendarGrid/renderYears";
 import {
   getDateFromTimestamp,
   getWeekDays,
   setInitTime,
-} from '../../utils/dates/getDates/getDates';
-import CalendarCell from '../CalendarCell';
-import PeriodSlider from '../PeriodSlider';
+} from "../../utils/dates/getDates/getDates";
+// import CalendarCell from "../CalendarCell";
+import PeriodSlider from "../PeriodSlider";
 import {
   CalendarCells,
   Container,
   CalendarDates,
   CalendarButton,
-} from './Calendar.styled';
-import { type CalendarProps } from './interface';
+} from "./Calendar.styled";
+import { type CalendarProps } from "./interface";
+import { useRegularCalendar } from "../../utils/calendar/calendarGrid/renderRegularCalendar";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst,
@@ -36,15 +37,15 @@ const Calendar: FC<CalendarProps> = ({
   setInitTime(maxDateParsed, minDateParsed);
 
   const {
-    currMonthDaysAmount,
+    // currMonthDaysAmount,
     currMonthLastDayNum,
     currMonthFirstDayNum,
     prevMonthLastNum,
     daysAmountPrevMonth,
-    date,
+    calendarDate,
     decreaseCalendarMonth,
     increaseMonth,
-    setDate,
+    setCalendarDate,
   } = useDate();
   const {
     selectedDate,
@@ -60,13 +61,14 @@ const Calendar: FC<CalendarProps> = ({
     tempDate,
     headerText,
   } = useCalendar({
-    date,
-    setDate,
+    calendarDate,
+    setCalendarDate,
     decreaseCalendarMonth,
     increaseMonth,
     minDate: minDateParsed,
     maxDate: maxDateParsed,
   });
+
   const { getDayDate, getRangeType, cleanRange } = useRange({
     selectedDate,
     setSelectedDate,
@@ -91,7 +93,7 @@ const Calendar: FC<CalendarProps> = ({
   const renderCalendarDays = renderDays(
     daysAmountPrevMonth,
     prevMonthDays,
-    date,
+    calendarDate,
     selectedDate,
     setSelectedDate,
     getDayDate,
@@ -103,45 +105,21 @@ const Calendar: FC<CalendarProps> = ({
     withRange
   );
 
-  useKeyPress('ArrowLeft', onPrevPeriodClick);
-  useKeyPress('ArrowRight', onNextPeriodClick);
+  useKeyPress("ArrowLeft", onPrevPeriodClick);
+  useKeyPress("ArrowRight", onNextPeriodClick);
 
-  const renderCalendarGrid = ():
-    | JSX.Element
-    | JSX.Element[]
-    | null => {
+  const regularCalendar = useRegularCalendar({ weekDays });
+
+  const renderCalendarGrid = (): JSX.Element | JSX.Element[] | null => {
     if (calendarType === CalendarType.REGULAR) {
-      return (
-        <>
-          {weekDays.map(({ weekDayName, weekDayNum }) => (
-            <CalendarCell
-              type="weekday"
-              cellValue={weekDayName}
-              key={weekDayNum}
-            />
-          ))}
-          {renderCalendarDays(prevMonthDays, {
-            onCalendarCellClick: onPrevPeriodClick,
-            isPrevMonth: true,
-            monthNum: date.getMonth() - 1,
-          })}
-          {renderCalendarDays(currMonthDaysAmount, {
-            isCurrMonth: true,
-            monthNum: date.getMonth(),
-          })}
-          {renderCalendarDays(nextMonthDays, {
-            onCalendarCellClick: onNextPeriodClick,
-            monthNum: date.getMonth() + 1,
-          })}
-        </>
-      );
+      return regularCalendar;
     }
     if (calendarType === CalendarType.MONTH) {
       return renderMonths(
         tempDate,
-        date,
+        calendarDate,
         setRegularCalendar,
-        setDate,
+        setCalendarDate,
         minDateParsed,
         maxDateParsed
       );
@@ -149,7 +127,7 @@ const Calendar: FC<CalendarProps> = ({
     if (calendarType === CalendarType.YEAR) {
       return renderYears(
         tempDate,
-        date,
+        calendarDate,
         setYearCalendar,
         minDateParsed,
         maxDateParsed

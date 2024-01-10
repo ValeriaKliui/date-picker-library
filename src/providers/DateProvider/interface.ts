@@ -4,8 +4,8 @@ export interface DateProviderProps {
   children: ReactNode;
 }
 export interface ContextType {
-  date: Date;
-  setDate: (date: Date) => void;
+  calendarDate: Date;
+  setCalendarDate: (date: Date) => void;
   selectedDate: Date | null;
   setSelectedDate: (date: Date | null) => void;
 }

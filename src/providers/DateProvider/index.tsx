@@ -2,19 +2,19 @@ import { createContext, type FC, useMemo, useState } from "react";
 import { type ContextType, type DateProviderProps } from "./interface";
 
 export const DateContext = createContext<ContextType>({
-  date: new Date(),
-  setDate: (_date: Date) => {},
+  calendarDate: new Date(),
+  setCalendarDate: (_date: Date) => {},
   selectedDate: null,
   setSelectedDate: (_date: Date | null) => {},
 });
 
 export const DateProvider: FC<DateProviderProps> = ({ children }) => {
-  const [date, setDate] = useState(new Date());
+  const [calendarDate, setCalendarDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<null | Date>(null);
 
   const DateProviderValue = useMemo(
-    () => ({ date, setDate, selectedDate, setSelectedDate }),
-    [date, setDate, selectedDate, setSelectedDate]
+    () => ({ calendarDate, setCalendarDate, selectedDate, setSelectedDate }),
+    [calendarDate, setCalendarDate, selectedDate, setSelectedDate]
   );
 
   return (

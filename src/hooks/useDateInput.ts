@@ -4,37 +4,34 @@ import {
   useState,
   useContext,
   useEffect,
-} from 'react';
-import { isValidDate } from '../utils/dates/isValidDate';
-import {
-  type UseDateInputReturns,
-  type UseDateInputProps,
-} from './interfaces';
-import { DateContext } from '../providers/DateProvider';
-import { formatDate } from '../utils/dates/getDates/getDates';
+} from "react";
+import { isValidDate } from "../utils/dates/isValidDate";
+import { type UseDateInputReturns, type UseDateInputProps } from "./interfaces";
+import { DateContext } from "../providers/DateProvider";
+import { formatDate } from "../utils/dates/getDates/getDates";
 
 export const useDateInput = ({
+  setInputValue = () => {},
   onClearClick = () => {},
   onDateChange = () => {},
   onValidDateInput = (_dateStr: string) => {},
 }: UseDateInputProps): UseDateInputReturns => {
-  const [inputValue, setInputValue] = useState('');
+  // const [inputValue, setInputValue] = useState('');
   const [error, setIsError] = useState({
     isError: false,
-    errorText: '',
+    errorText: "",
   });
 
   const { selectedDate } = useContext(DateContext);
 
   const onClear = (): void => {
     onClearClick();
-    setIsError({ isError: false, errorText: '' });
-    setInputValue('');
+    setIsError({ isError: false, errorText: "" });
+    setInputValue("");
   };
   useEffect(() => {
-    if (selectedDate !== null)
-      setInputValue(formatDate(selectedDate));
-  }, [selectedDate]);
+    if (selectedDate !== null) setInputValue(formatDate(selectedDate));
+  }, [selectedDate, setInputValue]);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,12 +44,9 @@ export const useDateInput = ({
       if (notNumberRegex.test(value)) {
         setIsError({
           isError: true,
-          errorText: 'Only numbers are allowed',
+          errorText: "Only numbers are allowed",
         });
-      } else if (
-        !dateFormatRegex.test(value) &&
-        value.length === 10
-      ) {
+      } else if (!dateFormatRegex.test(value) && value.length === 10) {
         setIsError({
           isError: true,
           errorText: 'Format should be "dd/mm/yyyy"',
@@ -60,10 +54,10 @@ export const useDateInput = ({
       } else if (!isValidDate(value) && value.length === 10) {
         setIsError({
           isError: true,
-          errorText: 'Date is incorrect',
+          errorText: "Date is incorrect",
         });
       } else {
-        setIsError({ isError: false, errorText: '' });
+        setIsError({ isError: false, errorText: "" });
       }
       if (!error.isError && value.length === 10) {
         onValidDateInput(value);
@@ -72,5 +66,5 @@ export const useDateInput = ({
     [onDateChange, error.isError, onValidDateInput]
   );
 
-  return { onClear, inputValue, onChange, error };
+  return { onClear, onChange, error };
 };

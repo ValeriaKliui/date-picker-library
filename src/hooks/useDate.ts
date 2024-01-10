@@ -1,7 +1,7 @@
-import { useContext } from 'react';
-import { DateContext } from '../providers/DateProvider';
+import { useContext } from "react";
+import { DateContext } from "../providers/DateProvider";
 import {
-  getDaysAmount,
+  getDaysAmountInMonth,
   getDayWeekdayNum,
   getDecreasedYearDate,
   getIncreasedMonthDate,
@@ -10,62 +10,68 @@ import {
   getMonthNumber,
   getYear,
   getChoosenYearDate,
-} from '../utils/dates/getDates/getDates';
-import { type UseDateReturns } from './interfaces';
+} from "../utils/dates/getDates/getDates";
+import { type UseDateReturns } from "./interfaces";
 
 export const useDate = (): UseDateReturns => {
-  const { date, setDate } = useContext(DateContext);
-  const monthName = getMonthName(date);
-  const monthNum = getMonthNumber(date);
-  const year = getYear(date);
+  const { calendarDate, setCalendarDate } = useContext(DateContext);
+  const monthName = getMonthName(calendarDate);
+  const monthNum = getMonthNumber(calendarDate);
+  const year = getYear(calendarDate);
 
   const increaseMonth = (): void => {
-    setDate(getIncreasedMonthDate(date));
+    setCalendarDate(getIncreasedMonthDate(calendarDate));
   };
 
   const decreaseCalendarMonth = (): void => {
-    setDate(new Date(date.setMonth(getMonthNumber(date) - 1)));
+    setCalendarDate(
+      new Date(calendarDate.setMonth(getMonthNumber(calendarDate) - 1))
+    );
   };
 
   const increaseYear = (): void => {
-    setDate(getIncreasedYearDate(year, monthNum));
+    setCalendarDate(getIncreasedYearDate(year, monthNum));
   };
   const decreaseYear = (): void => {
-    setDate(getDecreasedYearDate(date));
+    setCalendarDate(getDecreasedYearDate(calendarDate));
   };
   const setYear = (choosenYear: number): void => {
-    setDate(getChoosenYearDate(date, choosenYear));
+    setCalendarDate(getChoosenYearDate(calendarDate, choosenYear));
   };
   const setMonth = (choosenMonth: number): void => {
-    setDate(new Date(date.setMonth(choosenMonth - 1)));
+    setCalendarDate(new Date(calendarDate.setMonth(choosenMonth - 1)));
   };
 
-  const currMonthDaysAmount = getDaysAmount(
-    date.getFullYear(),
-    date.getMonth() + 1
+  const currMonthDaysAmount = getDaysAmountInMonth(
+    calendarDate.getFullYear(),
+    calendarDate.getMonth() + 1
   );
-  const prevMonthDaysAmount = getDaysAmount(
-    date.getFullYear(),
-    date.getMonth()
+  const prevMonthDaysAmount = getDaysAmountInMonth(
+    calendarDate.getFullYear(),
+    calendarDate.getMonth()
   );
 
   const currMonthLastDayNum = getDayWeekdayNum(
-    new Date(date.getFullYear(), date.getMonth(), currMonthDaysAmount)
+    new Date(
+      calendarDate.getFullYear(),
+      calendarDate.getMonth(),
+      currMonthDaysAmount
+    )
   );
   const currMonthFirstDayNum = getDayWeekdayNum(
-    new Date(date.getFullYear(), date.getMonth(), 1)
+    new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 1)
   );
   const prevMonthLastNum = getDayWeekdayNum(
     new Date(
-      date.getFullYear(),
-      date.getMonth() - 1,
+      calendarDate.getFullYear(),
+      calendarDate.getMonth() - 1,
       prevMonthDaysAmount
     )
   );
 
-  const daysAmountPrevMonth = getDaysAmount(
-    date.getFullYear(),
-    date.getMonth()
+  const daysAmountPrevMonth = getDaysAmountInMonth(
+    calendarDate.getFullYear(),
+    calendarDate.getMonth()
   );
 
   return {
@@ -76,13 +82,13 @@ export const useDate = (): UseDateReturns => {
     currMonthDaysAmount,
     daysAmountPrevMonth,
     currMonthFirstDayNum,
-    date,
+    calendarDate,
     currMonthLastDayNum,
     prevMonthLastNum,
     increaseYear,
     decreaseYear,
     setYear,
     setMonth,
-    setDate,
+    setCalendarDate,
   };
 };

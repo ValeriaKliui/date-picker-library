@@ -1,7 +1,7 @@
-import { type ChangeEvent } from 'react';
-import { type RangeType } from '../components/CalendarCell/interface';
-import { type DateInputProps } from '../components/DateInput/interface';
-import { type WeekDay } from '../utils/dates/getDates/interface';
+import { type ChangeEvent } from "react";
+import { type RangeType } from "../components/CalendarCell/interface";
+import { type DateInputProps } from "../components/DateInput/interface";
+import { type WeekDay } from "../utils/dates/getDates/interface";
 
 export enum CalendarType {
   REGULAR,
@@ -10,7 +10,7 @@ export enum CalendarType {
 }
 export type UseDateInputProps = Pick<
   DateInputProps,
-  'onClearClick' | 'onDateChange' | 'onValidDateInput'
+  "onClearClick" | "onDateChange" | "onValidDateInput" | "setInputValue"
 >;
 
 export interface UseDateReturns {
@@ -21,21 +21,20 @@ export interface UseDateReturns {
   currMonthDaysAmount: number;
   daysAmountPrevMonth: number;
   currMonthFirstDayNum: number;
-  date: Date;
+  calendarDate: Date;
   currMonthLastDayNum: number;
   prevMonthLastNum: number;
   increaseYear: () => void;
   decreaseYear: () => void;
   setYear: (year: number) => void;
   setMonth: (month: number) => void;
-  setDate: (date: Date) => void;
+  setCalendarDate: (date: Date) => void;
 }
 
 export interface UseDateInputReturns {
   onClear: () => void;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
   error: { isError: boolean; errorText: string };
-  inputValue: string;
 }
 
 export interface UseCalendarReturns {
@@ -63,7 +62,7 @@ export interface UseCalendarReturns {
 }
 export type UseCalendarProps = Pick<
   UseDateReturns,
-  'date' | 'decreaseCalendarMonth' | 'increaseMonth' | 'setDate'
+  "calendarDate" | "decreaseCalendarMonth" | "increaseMonth" | "setCalendarDate"
 > & { minDate?: Date; maxDate?: Date | null };
 
 export interface SliderHeaderActions {
