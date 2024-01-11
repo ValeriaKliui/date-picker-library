@@ -21,10 +21,11 @@ import {
   CalendarButton,
 } from "./Calendar.styled";
 import { type CalendarProps } from "./interface";
-import { useRegularCalendar } from "../../utils/calendar/calendarGrid/renderRegularCalendar";
+import { useRegularCalendar } from "../../hooks/useRegularCalendar";
+// import { useRegularCalendar } from "../../utils/calendar/calendarGrid/renderRegularCalendar";
 
 const Calendar: FC<CalendarProps> = ({
-  isMondayFirst,
+  isMondayFirst = false,
   holidays,
   withWeekends,
   minDate,
@@ -73,7 +74,7 @@ const Calendar: FC<CalendarProps> = ({
     selectedDate,
     setSelectedDate,
   });
-
+  console.log(withWeekends);
   const weekDays = getWeekDays(isMondayFirst, withWeekends);
   const lastWeekDay = weekDays[weekDays.length - 1]?.weekDayNum ?? 0;
 
@@ -108,7 +109,11 @@ const Calendar: FC<CalendarProps> = ({
   useKeyPress("ArrowLeft", onPrevPeriodClick);
   useKeyPress("ArrowRight", onNextPeriodClick);
 
-  const regularCalendar = useRegularCalendar({ weekDays });
+  const regularCalendar = useRegularCalendar({
+    weekDays,
+    isMondayFirst,
+    withWeekends,
+  });
 
   const renderCalendarGrid = (): JSX.Element | JSX.Element[] | null => {
     if (calendarType === CalendarType.REGULAR) {

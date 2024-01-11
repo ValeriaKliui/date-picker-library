@@ -150,7 +150,27 @@ export const getDateWithLastDay = (date: Date): Date => {
 
 export const getDayInWeekNum = (date: Date): number => date.getDay();
 
-export const getMonthLeftDaysAmount = (
+export const getMonthLeftDaysAmountPrev = (
   weekdayStartNum: number,
   currMonthStartNum: number
 ): number => Math.abs(weekdayStartNum - currMonthStartNum);
+
+export const getMonthLeftDaysAmountNext = (
+  weekEnd: number,
+  currMonthLastDayInWeek: number,
+  isMondayFirst: boolean
+): number => {
+  const addWeekLength = isMondayFirst ? 7 : 0;
+  return addWeekLength + weekEnd - currMonthLastDayInWeek;
+};
+
+export const getPrevMonth = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth() - 1);
+
+export const getNextMonth = (date: Date) =>
+  new Date(date.getFullYear(), date.getMonth() + 1);
+
+export const getDayDateByMonthAndDay = (
+  monthDate: Date,
+  dayNum: number
+): Date => new Date(monthDate.getFullYear(), monthDate.getMonth(), dayNum);

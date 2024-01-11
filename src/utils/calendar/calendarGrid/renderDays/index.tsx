@@ -3,9 +3,14 @@ import CalendarCell from "../../../../components/CalendarCell";
 import {
   type RangeType,
   type CalendarCellProps,
+  CellType,
 } from "../../../../components/CalendarCell/interface";
+import { WEEKDAYS } from "../../../../constants/constants/weekdays";
 import { makeArrayFromNum } from "../../../data";
-import { setInitTime } from "../../../dates/getDates/getDates";
+import {
+  getDayDateByMonthAndDay,
+  setInitTime,
+} from "../../../dates/getDates/getDates";
 
 export const renderDays =
   (
@@ -92,3 +97,39 @@ export const renderDays =
       );
     });
   };
+
+export const renderCellsDays = (
+  monthDate: Date,
+  daysAmount: number,
+  withWeekends: boolean,
+  options: {
+    type: CellType;
+    shadowed?: boolean;
+  }
+): JSX.Element => {
+  const { type, shadowed } = options;
+
+  return (
+    <>
+      {makeArrayFromNum(daysAmount).map((dayNum) => {
+        const dayDate = getDayDateByMonthAndDay(monthDate, dayNum);
+
+        console.log(withWeekends);
+        const isWeekend =
+          !withWeekends &&
+          (dayDate.getDay() === WEEKDAYS.SATURDAY ||
+            dayDate.getDay() === WEEKDAYS.SUNDAY);
+
+        return (
+          <CalendarCell
+            type={type}
+            cellValue={dayNum}
+            key={dayNum}
+            shadowed={shadowed}
+            hidden={withWeekends && isWeekend}
+          />
+        );
+      })}
+    </>
+  );
+};

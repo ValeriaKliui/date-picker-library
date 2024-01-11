@@ -1,10 +1,10 @@
 export enum RangeType {
-  start = 'start',
-  end = 'end',
-  between = 'between',
+  start = "start",
+  end = "end",
+  between = "between",
 }
 export interface CalendarCellProps {
-  type: 'weekday' | 'day' | 'month' | 'year';
+  type: "weekday" | "day" | "month" | "year";
   cellValue: number | string;
   shadowed?: boolean;
   selected?: boolean;
@@ -13,4 +13,5 @@ export interface CalendarCellProps {
   isHoliday?: boolean;
   isWeekend?: boolean;
   withWeekends?: boolean;
+  hidden?: boolean;
 }
