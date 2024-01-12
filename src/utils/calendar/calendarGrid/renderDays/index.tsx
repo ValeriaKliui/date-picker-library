@@ -1,4 +1,8 @@
-import { type Holiday } from "../../../../components/Calendar/interface";
+import { useContext } from "react";
+import {
+  CalendarProps,
+  type Holiday,
+} from "../../../../components/Calendar/interface";
 import CalendarCell from "../../../../components/CalendarCell";
 import {
   type RangeType,
@@ -11,6 +15,7 @@ import {
   getDayDateByMonthAndDay,
   setInitTime,
 } from "../../../dates/getDates/getDates";
+import { DateContext } from "../../../../providers/DateProvider";
 
 export const renderDays =
   (
@@ -98,38 +103,51 @@ export const renderDays =
     });
   };
 
-export const renderCellsDays = (
-  monthDate: Date,
-  daysAmount: number,
-  withWeekends: boolean,
-  options: {
-    type: CellType;
-    shadowed?: boolean;
-  }
-): JSX.Element => {
-  const { type, shadowed } = options;
+export const renderCellsDays =
+  (calendarOptions: Pick<CalendarProps, "withWeekends" | "holidays">) =>
+  (
+    monthDate: Date,
+    daysAmount: number,
+    cellOptions: Pick<CalendarCellProps, "type" | "shadowed">
+  ): JSX.Element => {
+    const { selectedDate, setSelectedDate } = useContext(DateContext);
+    const { withWeekends = true, holidays = [] } = calendarOptions;
+    const { type, shadowed } = cellOptions;
 
-  return (
-    <>
-      {makeArrayFromNum(daysAmount).map((dayNum) => {
-        const dayDate = getDayDateByMonthAndDay(monthDate, dayNum);
+    return (
+      <>
+        {makeArrayFromNum(daysAmount).map((dayNum) => {
+          const dayDate = getDayDateByMonthAndDay(monthDate, dayNum);
 
-        console.log(withWeekends);
-        const isWeekend =
-          !withWeekends &&
-          (dayDate.getDay() === WEEKDAYS.SATURDAY ||
-            dayDate.getDay() === WEEKDAYS.SUNDAY);
+          const isWeekend =
+            dayDate.getDay() === WEEKDAYS.SATURDAY ||
+            dayDate.getDay() === WEEKDAYS.SUNDAY;
 
-        return (
-          <CalendarCell
-            type={type}
-            cellValue={dayNum}
-            key={dayNum}
-            shadowed={shadowed}
-            hidden={withWeekends && isWeekend}
-          />
-        );
-      })}
-    </>
-  );
-};
+          const isHoliday = holidays.some(({ date }) => {
+            setInitTime(date);
+            return date.getTime() === dayDate.getTime();
+          });
+          const onCalendarCellClick = (): void => {
+            setSelectedDate(dayDate);
+          };
+          const isSelected =
+            selectedDate !== null &&
+            dayDate.getTime() === selectedDate.getTime();
+
+          return (
+            <CalendarCell
+              type={type}
+              cellValue={dayNum}
+              key={dayNum}
+              shadowed={shadowed}
+              hidden={!withWeekends && isWeekend}
+              selected={isSelected}
+              isWeekend={withWeekends && isWeekend}
+              isHoliday={isHoliday}
+              onCalendarCellClick={onCalendarCellClick}
+            />
+          );
+        })}
+      </>
+    );
+  };

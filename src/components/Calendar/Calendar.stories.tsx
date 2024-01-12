@@ -24,10 +24,15 @@ export const WithMondayFirst: Story = {
 };
 export const WithoutWeekends: Story = {
   args: { withWeekends: false },
+  argTypes: {
+    isMondayFirst: {
+      table: {
+        disable: true,
+      },
+    },
+  },
 };
-export const WithHighlitedWeekends: Story = {
-  args: { withWeekends: true },
-};
+
 export const WithHolidays: Story = {
   args: { holidays: HOLIDAYS },
 };

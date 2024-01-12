@@ -22,12 +22,11 @@ import {
 } from "./Calendar.styled";
 import { type CalendarProps } from "./interface";
 import { useRegularCalendar } from "../../hooks/useRegularCalendar";
-// import { useRegularCalendar } from "../../utils/calendar/calendarGrid/renderRegularCalendar";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
   holidays,
-  withWeekends,
+  withWeekends = true,
   minDate,
   maxDate,
   withRange,
@@ -74,7 +73,7 @@ const Calendar: FC<CalendarProps> = ({
     selectedDate,
     setSelectedDate,
   });
-  console.log(withWeekends);
+
   const weekDays = getWeekDays(isMondayFirst, withWeekends);
   const lastWeekDay = weekDays[weekDays.length - 1]?.weekDayNum ?? 0;
 
@@ -113,6 +112,7 @@ const Calendar: FC<CalendarProps> = ({
     weekDays,
     isMondayFirst,
     withWeekends,
+    holidays,
   });
 
   const renderCalendarGrid = (): JSX.Element | JSX.Element[] | null => {

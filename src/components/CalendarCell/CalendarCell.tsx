@@ -11,7 +11,7 @@ const CalendarCell: FC<CalendarCellProps> = ({
   onCalendarCellClick,
   isHoliday = false,
   isWeekend = false,
-  withWeekends = false,
+  withWeekends = true,
   hidden = false,
 }) => {
   if (!hidden)

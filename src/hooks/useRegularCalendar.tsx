@@ -13,15 +13,21 @@ import {
 } from "../utils/dates/getDates/getDates";
 import { renderCellsDays } from "../utils/calendar/calendarGrid/renderDays";
 import CalendarCell from "../components/CalendarCell/CalendarCell";
-import { WEEKDAYS } from "../constants/constants/weekdays";
+import { Holiday } from "../components/Calendar/interface";
 
 export const useRegularCalendar = (props: {
   weekDays: WeekDay[];
   isMondayFirst: boolean;
   withWeekends: boolean;
+  holidays?: Holiday[];
 }): JSX.Element => {
   const { calendarDate } = useContext(DateContext);
-  const { weekDays, isMondayFirst, withWeekends = false } = props;
+  const {
+    weekDays,
+    isMondayFirst,
+    withWeekends = false,
+    holidays = [],
+  } = props;
 
   /// ////////
   calendarDate.setMonth(0);
@@ -50,19 +56,21 @@ export const useRegularCalendar = (props: {
   );
   const prevMonthDate = getPrevMonth(calendarDate);
   const nextMonthDate = getNextMonth(calendarDate);
+
+  const renderDays = renderCellsDays({ withWeekends, holidays });
   return (
     <>
       {weekDays.map(({ weekDayName, weekDayNum }) => (
         <CalendarCell type="weekday" cellValue={weekDayName} key={weekDayNum} />
       ))}
-      {renderCellsDays(prevMonthDate, prevMonthDaysAmount, withWeekends, {
+      {renderDays(prevMonthDate, prevMonthDaysAmount, {
         type: "day",
         shadowed: true,
       })}
-      {renderCellsDays(calendarDate, currMonthDaysAmount, withWeekends, {
+      {renderDays(calendarDate, currMonthDaysAmount, {
         type: "day",
       })}
-      {renderCellsDays(nextMonthDate, nextMonthDaysAmount, withWeekends, {
+      {renderDays(nextMonthDate, nextMonthDaysAmount, {
         type: "day",
         shadowed: true,
       })}
