@@ -1,7 +1,8 @@
-import { type ChangeEvent } from "react";
-import { type RangeType } from "../components/CalendarCell/interface";
-import { type DateInputProps } from "../components/DateInput/interface";
-import { type WeekDay } from "../utils/dates/getDates/interface";
+import { type ChangeEvent } from 'react';
+import { CalendarProps } from '../components/Calendar/interface';
+import { type RangeType } from '../components/CalendarCell/interface';
+import { type DateInputProps } from '../components/DateInput/interface';
+import { type WeekDay } from '../utils/dates/getDates/interface';
 
 export enum CalendarType {
   REGULAR,
@@ -10,14 +11,17 @@ export enum CalendarType {
 }
 export type UseDateInputProps = Pick<
   DateInputProps,
-  "onClearClick" | "onDateChange" | "onValidDateInput" | "setInputValue"
+  | 'onClearClick'
+  | 'onDateChange'
+  | 'onValidDateInput'
+  | 'setInputValue'
 >;
 
 export interface UseDateReturns {
   monthName: string;
   year: number;
   increaseMonth: () => void;
-  decreaseCalendarMonth: () => void;
+  decreaseMonth: () => void;
   currMonthDaysAmount: number;
   daysAmountPrevMonth: number;
   currMonthFirstDayNum: number;
@@ -29,6 +33,8 @@ export interface UseDateReturns {
   setYear: (year: number) => void;
   setMonth: (month: number) => void;
   setCalendarDate: (date: Date) => void;
+  increaseYearOnAmount: (amount: number) => void;
+  decreaseYearOnAmount: (amount: number) => void;
 }
 
 export interface UseDateInputReturns {
@@ -56,14 +62,24 @@ export interface UseCalendarReturns {
   onNextPeriodClick: () => void;
   calendarType: CalendarType;
   setRegularCalendar: () => void;
-  setYearCalendar: () => void;
   tempDate: Date;
-  headerText: string;
+  getHeaderText: () => string;
+  regularCalendar: JSX.Element;
+  monthCalendar: JSX.Element;
+  yearCalendar: JSX.Element;
 }
 export type UseCalendarProps = Pick<
-  UseDateReturns,
-  "calendarDate" | "decreaseCalendarMonth" | "increaseMonth" | "setCalendarDate"
-> & { minDate?: Date; maxDate?: Date | null };
+  CalendarProps,
+  'holidays' | 'isMondayFirst' | 'withWeekends'
+> & { weekDays: WeekDay[] };
+
+// Pick<
+//   UseDateReturns,
+//   | 'calendarDate'
+//   | 'decreaseMonth'
+//   | 'increaseMonth'
+//   | 'setCalendarDate'
+// > & { minDate?: Date; maxDate?: Date | null };
 
 export interface SliderHeaderActions {
   regularSliderActions: Array<() => void>;

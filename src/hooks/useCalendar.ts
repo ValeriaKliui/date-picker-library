@@ -15,7 +15,20 @@
 //   increaseMonthDate,
 //   equateFirstDateDayToSecond,
 // } from "../utils/dates/getDates/getDates";
-import { type WeekDay } from "../utils/dates/getDates/interface";
+import { useContext, useState } from 'react';
+import { YEARS_RANGE } from '../constants/constants/dates';
+import { DateContext } from '../providers/DateProvider';
+import {
+  getRegularCalendarHeaderText,
+  getYearCalendarHeaderText,
+  getYearRangeCalendarHeaderText,
+} from '../utils/calendar/calendarGrid/datePicker';
+import { getMonthCalendar } from '../utils/calendar/calendarGrid/getMonthCalendar';
+import { getRegularCalendar } from '../utils/calendar/calendarGrid/getRegularCalendar';
+import { getYearCalendar } from '../utils/calendar/calendarGrid/getYearCalendar/index.tsx';
+import { doInCaseOfCalendar } from '../utils/calendar/doInCaseOfCalendar/doInCaseOfCalendar';
+import { getInCaseOfCalendar } from '../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar';
+import { type WeekDay } from '../utils/dates/getDates/interface';
 // import {
 //   getMonthAndYearTextByDate,
 //   getYearRangeTextByDate,
@@ -24,41 +37,53 @@ import { type WeekDay } from "../utils/dates/getDates/interface";
 // } from "../utils/periodSlider";
 import {
   CalendarType,
-  // type UseCalendarProps,
+  type UseCalendarProps,
   type UseCalendarReturns,
-} from "./interfaces";
+} from './interfaces';
+import { useDate } from './useDate';
 // import { getInCaseOfCalendar } from "../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
 
-export const useCalendar = () // useCalendarProps: UseCalendarProps
-: UseCalendarReturns => {
-  // const {
-  //   date,
-  //   decreaseCalendarMonth,
-  //   increaseMonth,
-  //   minDate = null,
-  //   maxDate = null,
-  // } = useCalendarProps;
+export const useCalendar = (
+  useCalendarProps: UseCalendarProps
+): UseCalendarReturns => {
+  const {
+    holidays = [],
+    withWeekends = true,
+    weekDays,
+    isMondayFirst = false,
+  } = useCalendarProps;
 
   // const [tempDate, setTempDate] = useState(new Date(date));
-  // const { selectedDate, setSelectedDate } = useContext(DateContext);
+  const { selectedDate, setSelectedDate } = useContext(DateContext);
+
+  const {
+    calendarDate,
+    setCalendarDate,
+    decreaseMonth,
+    increaseMonth,
+    decreaseYear,
+    increaseYear,
+    increaseYearOnAmount,
+    decreaseYearOnAmount,
+  } = useDate();
 
   // const { year: tempYear } = getDateObj(tempDate);
 
   // const { month: maxMonth } = getDateObj(maxDate);
   // const JANUARY_NUM = 0;
 
-  // const [calendarType, setCalendarType] = useState(
-  //   CalendarType.REGULAR
-  // );
-  // const setRegularCalendar = (): void => {
-  //   setCalendarType(CalendarType.REGULAR);
-  // };
-  // const setYearCalendar = (): void => {
-  //   setCalendarType(CalendarType.MONTH);
-  // };
-  // const setYearRangeCalendar = (): void => {
-  //   setCalendarType(CalendarType.YEAR);
-  // };
+  const [calendarType, setCalendarType] = useState(
+    CalendarType.REGULAR
+  );
+  const setRegularCalendar = (): void => {
+    setCalendarType(CalendarType.REGULAR);
+  };
+  const setMonthCalendar = (): void => {
+    setCalendarType(CalendarType.MONTH);
+  };
+  const setYearRangeCalendar = (): void => {
+    setCalendarType(CalendarType.YEAR);
+  };
 
   // const equateTempDateToActualDate = (): void => {
   //   setTempDate(date);
@@ -183,16 +208,53 @@ export const useCalendar = () // useCalendarProps: UseCalendarProps
   //   return lastWeekDay - currMonthLastDayNum;
   // };
 
-  const onPeriodSliderClick = () => {};
-  const onPrevPeriodClick = () => {};
-  const onNextPeriodClick = () => {};
-  const calendarType = CalendarType.REGULAR;
-  const setRegularCalendar = () => {};
-  const setYearCalendar = () => {};
+  const decreaseYearRange = (): void => {
+    decreaseYearOnAmount(YEARS_RANGE);
+  };
+  const increaseYearRange = (): void => {
+    increaseYearOnAmount(YEARS_RANGE);
+  };
+  const onPeriodClick = doInCaseOfCalendar(calendarType);
+
+  const onPeriodSliderClick = (): void => {
+    onPeriodClick({
+      regularSliderActions: setMonthCalendar,
+      monthSliderActions: setYearRangeCalendar,
+      yearSliderActions: setRegularCalendar,
+    });
+  };
+
+  const onPrevPeriodClick = (): void => {
+    onPeriodClick({
+      regularSliderActions: decreaseMonth,
+      monthSliderActions: decreaseYear,
+      yearSliderActions: decreaseYearRange,
+    });
+  };
+
+  const onNextPeriodClick = (): void => {
+    onPeriodClick({
+      regularSliderActions: increaseMonth,
+      monthSliderActions: increaseYear,
+      yearSliderActions: increaseYearRange,
+    });
+  };
+
+  const getHeaderText = (): string =>
+    getInCaseOfCalendar<ReturnType<typeof getHeaderText>>(
+      calendarType,
+      {
+        regularGetter: () =>
+          getRegularCalendarHeaderText(calendarDate),
+        monthGetter: () => getYearCalendarHeaderText(calendarDate),
+        yearGetter: () =>
+          getYearRangeCalendarHeaderText(calendarDate),
+      }
+    );
+
+  ////////////////
+
   const tempDate = new Date();
-  const headerText = "string";
-  const setSelectedDate = () => {};
-  const selectedDate = null;
 
   const getNextMonthDaysAmount = (
     currMonthLastDayNum: number,
@@ -207,6 +269,24 @@ export const useCalendar = () // useCalendarProps: UseCalendarProps
     isMondayFirst?: boolean
   ) => 0;
 
+  const regularCalendar = getRegularCalendar({
+    calendarDate,
+    weekDays,
+    isMondayFirst,
+    withWeekends,
+    holidays,
+  });
+  const monthCalendar = getMonthCalendar({
+    calendarDate,
+    setRegularCalendar,
+    setCalendarDate,
+  });
+  const yearCalendar = getYearCalendar({
+    calendarDate,
+    setCalendarDate,
+    setMonthCalendar,
+  });
+
   return {
     setSelectedDate,
     selectedDate,
@@ -217,8 +297,11 @@ export const useCalendar = () // useCalendarProps: UseCalendarProps
     onNextPeriodClick,
     calendarType,
     setRegularCalendar,
-    setYearCalendar,
+    setYearRangeCalendar,
     tempDate,
-    headerText,
+    getHeaderText,
+    regularCalendar,
+    monthCalendar,
+    yearCalendar,
   };
 };

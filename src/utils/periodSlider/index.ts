@@ -1,12 +1,18 @@
-import { YEARS_RANGE } from "../../constants/constants/dates";
-import { CalendarType, type SliderHeaderActions } from "../../hooks/interfaces";
-import { getMonthName } from "../dates/getDates/getDates";
+import { YEARS_RANGE } from '../../constants/constants/dates';
+import {
+  CalendarType,
+  type SliderHeaderActions,
+} from '../../hooks/interfaces';
+import { getMonthName } from '../dates/getDates/getDates';
 
 export const onPeriodClick =
   (calendarType: CalendarType) =>
   (sliderHeaderActions: SliderHeaderActions): (() => void) => {
-    const { regularSliderActions, monthSliderActions, yearSliderActions } =
-      sliderHeaderActions ?? {};
+    const {
+      regularSliderActions,
+      monthSliderActions,
+      yearSliderActions,
+    } = sliderHeaderActions ?? {};
 
     const doAllActions = (actions: Array<() => void>): void => {
       actions.forEach((action) => {
@@ -32,4 +38,4 @@ export const getMonthAndYearTextByDate = (date: Date): string =>
 export const getYearTextByDate = (date: Date): string =>
   `${date.getFullYear()}`;
 export const getYearRangeTextByDate = (date: Date): string =>
-  `${date.getFullYear() - YEARS_RANGE + 1} - ${date.getFullYear()}`;
+  `${date.getFullYear() - YEARS_RANGE} - ${date.getFullYear()}`;

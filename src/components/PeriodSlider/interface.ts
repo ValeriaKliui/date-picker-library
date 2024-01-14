@@ -1,6 +1,6 @@
 export interface PeriodSliderProps {
   sliderHeaderText: string;
-  onLeftArrow: () => void;
-  onRightArrow: () => void;
+  onLeftArrowClick: () => void;
+  onRightArrowClick: () => void;
   onPeriodSliderClick: () => void;
 }

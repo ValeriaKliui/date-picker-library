@@ -1,5 +1,9 @@
-import { createContext, type FC, useMemo, useState } from "react";
-import { type ContextType, type DateProviderProps } from "./interface";
+import { createContext, type FC, useMemo, useState } from 'react';
+import { setInitTime } from '../../utils/dates/getDates/getDates';
+import {
+  type ContextType,
+  type DateProviderProps,
+} from './interface';
 
 export const DateContext = createContext<ContextType>({
   calendarDate: new Date(),
@@ -12,8 +16,15 @@ export const DateProvider: FC<DateProviderProps> = ({ children }) => {
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<null | Date>(null);
 
+  setInitTime(calendarDate, selectedDate);
+
   const DateProviderValue = useMemo(
-    () => ({ calendarDate, setCalendarDate, selectedDate, setSelectedDate }),
+    () => ({
+      calendarDate,
+      setCalendarDate,
+      selectedDate,
+      setSelectedDate,
+    }),
     [calendarDate, setCalendarDate, selectedDate, setSelectedDate]
   );
 

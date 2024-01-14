@@ -1,6 +1,5 @@
-import { useContext } from "react";
-import { WeekDay } from "../utils/dates/getDates/interface";
-import { DateContext } from "../providers/DateProvider";
+import { Holiday } from '../../../../components/Calendar/interface';
+import CalendarCell from '../../../../components/CalendarCell';
 import {
   getDateWith01Day,
   getDateWithLastDay,
@@ -10,28 +9,24 @@ import {
   getMonthLeftDaysAmountPrev,
   getNextMonth,
   getPrevMonth,
-} from "../utils/dates/getDates/getDates";
-import { renderCellsDays } from "../utils/calendar/calendarGrid/renderDays";
-import CalendarCell from "../components/CalendarCell/CalendarCell";
-import { Holiday } from "../components/Calendar/interface";
+} from '../../../dates/getDates/getDates';
+import { WeekDay } from '../../../dates/getDates/interface';
+import { renderCellsDays } from '../renderDays';
 
-export const useRegularCalendar = (props: {
+export const getRegularCalendar = (props: {
+  calendarDate: Date;
   weekDays: WeekDay[];
   isMondayFirst: boolean;
   withWeekends: boolean;
   holidays?: Holiday[];
 }): JSX.Element => {
-  const { calendarDate } = useContext(DateContext);
   const {
+    calendarDate,
     weekDays,
     isMondayFirst,
     withWeekends = false,
     holidays = [],
   } = props;
-
-  /// ////////
-  calendarDate.setMonth(0);
-  /// ///
 
   const weekStart = weekDays[0] != null ? weekDays[0].weekDayNum : 0;
   const weekEnd = weekDays[6] != null ? weekDays[6].weekDayNum : 6;
@@ -61,17 +56,21 @@ export const useRegularCalendar = (props: {
   return (
     <>
       {weekDays.map(({ weekDayName, weekDayNum }) => (
-        <CalendarCell type="weekday" cellValue={weekDayName} key={weekDayNum} />
+        <CalendarCell
+          type="weekday"
+          cellValue={weekDayName}
+          key={weekDayNum}
+        />
       ))}
       {renderDays(prevMonthDate, prevMonthDaysAmount, {
-        type: "day",
+        type: 'day',
         shadowed: true,
-      })}
+      }), }
       {renderDays(calendarDate, currMonthDaysAmount, {
-        type: "day",
+        type: 'day',
       })}
       {renderDays(nextMonthDate, nextMonthDaysAmount, {
-        type: "day",
+        type: 'day',
         shadowed: true,
       })}
       {/* {renderCalendarDays(prevMonthDays, {

@@ -1,26 +1,29 @@
-import { YEARS_RANGE } from "../../../constants/constants/dates";
-import { WEEKDAYS } from "../../../constants/constants/weekdays";
-import { sliceWordFromStart } from "../../data";
-import { type DateObj, type WeekDay } from "./interface";
+import { YEARS_RANGE } from '../../../constants/constants/dates';
+import { WEEKDAYS } from '../../../constants/constants/weekdays';
+import { sliceWordFromStart } from '../../data';
+import { type DateObj, type WeekDay } from './interface';
 
 export const getMonthNumber = (date: Date): number => date.getMonth();
 
 export const getMonthName = (date: Date): string =>
-  date.toLocaleString("en-GB", { month: "long" });
+  date.toLocaleString('en-GB', { month: 'long' });
 
 export const getYear = (date: Date): number => date.getFullYear();
 
 export const getWeekdayByNum = (weekdayNumber: number): string =>
-  WEEKDAYS[weekdayNumber] ?? "";
+  WEEKDAYS[weekdayNumber] ?? '';
 
 export const getDayWeekdayNum = (date: Date): number => date.getDay();
 
 export const getDaysAmountInMonth = (date: Date): number => {
-  const copiedDate = new Date(date);
-  return new Date(copiedDate.setDate(0)).getDate();
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  return new Date(year, month + 1, 0).getDate();
 };
 
-export const getDateObj = (date: Date | null | undefined): DateObj => {
+export const getDateObj = (
+  date: Date | null | undefined
+): DateObj => {
   if (date == null)
     return {
       year: 0,
@@ -37,7 +40,8 @@ export const getWeekDays = (
   isMondayFirst?: boolean,
   withWeekends?: boolean
 ): WeekDay[] => {
-  const weekdayStartNum = isMondayFirst != null && isMondayFirst ? 1 : 0;
+  const weekdayStartNum =
+    isMondayFirst != null && isMondayFirst ? 1 : 0;
   const weekDays = Object.entries(WEEKDAYS)
     .map((weekDayArr) => ({
       weekDayNum: Number(weekDayArr[0]),
@@ -65,22 +69,34 @@ export const getIncreasedMonthDate = (date: Date): Date => {
   return new Date(year, month + 1, day);
 };
 
-export const getDecreasedMonthDate = (date: Date): Date => {
-  const { year, month, day } = getDateObj(date);
-  // console.log(date);
-  return new Date(year, month - 1, day);
-};
+export const getDecreasedMonthDate = (date: Date): Date =>
+  new Date(date.getFullYear(), date.getMonth() - 1, date.getDate());
 
-export const getDecreasedYearDate = (date: Date): Date => {
-  const { year, month } = getDateObj(date);
-  return new Date(year - 1, month);
-};
+export const getDecreasedYearDate = (date: Date): Date =>
+  new Date(date.getFullYear() - 1, date.getMonth(), date.getDate());
 
-export const getIncreasedYearDate = (
-  dateYear: number,
-  dateMonth: number
+export const getIncreasedYearDate = (date: Date): Date =>
+  new Date(date.getFullYear() + 1, date.getMonth(), date.getDate());
+
+export const getIncreasedYearDateOnAmount = (
+  date: Date,
+  amount: number
 ): Date =>
-  new Date(new Date(new Date().setMonth(dateMonth)).setFullYear(dateYear + 1));
+  new Date(
+    date.getFullYear() + amount,
+    date.getMonth(),
+    date.getDate()
+  );
+
+export const getDecreasedYearDateOnAmount = (
+  date: Date,
+  amount: number
+): Date =>
+  new Date(
+    date.getFullYear() - amount,
+    date.getMonth(),
+    date.getDate()
+  );
 
 export const getDecreasedYearRange = (date: Date): Date => {
   const copiedDate = new Date(date);
@@ -94,7 +110,10 @@ export const getIncreasedYearRange = (date: Date): Date => {
   return new Date(copiedDate.setFullYear(year + YEARS_RANGE));
 };
 
-export const getChoosenYearDate = (date: Date, choosenYear: number): Date => {
+export const getChoosenYearDate = (
+  date: Date,
+  choosenYear: number
+): Date => {
   const copiedDate = new Date(date);
   return new Date(copiedDate.setFullYear(choosenYear));
 };
@@ -109,14 +128,18 @@ export const getDateFromString = (dateStr: string): Date => {
 export const formatDate = (date: Date): string => {
   const year = date.getFullYear();
   const month =
-    date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
-  const day = date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`;
+    date.getMonth() + 1 > 9
+      ? date.getMonth() + 1
+      : `0${date.getMonth() + 1}`;
+  const day =
+    date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`;
   return `${day}/${month}/${year}`;
 };
 
 export const getDateFromTimestamp = (
   timestampOrDate?: number | Date
-): Date | null => (timestampOrDate != null ? new Date(timestampOrDate) : null);
+): Date | null =>
+  timestampOrDate != null ? new Date(timestampOrDate) : null;
 
 export const setInitTime = (...dates: DateOrNull[]): void => {
   dates.forEach((date) => date?.setHours(0, 0, 0, 0));
@@ -173,4 +196,15 @@ export const getNextMonth = (date: Date) =>
 export const getDayDateByMonthAndDay = (
   monthDate: Date,
   dayNum: number
-): Date => new Date(monthDate.getFullYear(), monthDate.getMonth(), dayNum);
+): Date =>
+  new Date(monthDate.getFullYear(), monthDate.getMonth(), dayNum);
+
+export const getMonthDateByMonthNumAndDate = (
+  date: Date,
+  monthNum: number
+): Date => new Date(date.getFullYear(), monthNum, date.getDate());
+
+export const getYearDateByYearNumAndDate = (
+  date: Date,
+  yearNum: number
+): Date => new Date(yearNum, date.getMonth(), date.getDate());
