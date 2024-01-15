@@ -1,28 +1,34 @@
-import { useState } from "react";
-import { useDate } from "../useDate";
-import { type UseCalendarProps, type UseCalendarReturns } from "./interfaces";
-import { CalendarType } from "../interfaces";
-import { YEARS_RANGE } from "../../constants/constants/dates";
-import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
+import { useState } from 'react';
+import { useCalendarDate } from '../useCalendarDate';
+import {
+  type UseCalendarProps,
+  type UseCalendarReturns,
+} from './interfaces';
+import { CalendarType } from '../interfaces';
+import { YEARS_RANGE } from '../../constants/constants/dates';
+import { getInCaseOfCalendar } from '../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar';
 import {
   getDateSecondDateDay,
   getDateSecondDateDayMonth,
   getDecreasedYearDate,
   getIncreasedYearDate,
-} from "../../utils/dates/getDates/getDates";
-import { decreaseDate, increaseDate } from "../../utils/dates/changeDates";
-import { doInCaseOfCalendar } from "../../utils/calendar/doInCaseOfCalendar/doInCaseOfCalendar";
+} from '../../utils/dates/getDates/getDates';
+import {
+  decreaseDate,
+  increaseDate,
+} from '../../utils/dates/changeDates';
+import { doInCaseOfCalendar } from '../../utils/calendar/doInCaseOfCalendar/doInCaseOfCalendar';
 import {
   getRegularCalendarHeaderText,
   getYearCalendarHeaderText,
   getYearRangeCalendarHeaderText,
-} from "../../utils/calendar/calendarGrid/datePicker";
-import { getRegularCalendar } from "../../utils/calendar/calendarGrid/getRegularCalendar";
-import { getMonthCalendar } from "../../utils/calendar/calendarGrid/getMonthCalendar";
-import { getYearCalendar } from "../../utils/calendar/calendarGrid/getYearCalendar";
+} from '../../utils/calendar/calendarGrid/datePicker';
+import { getRegularCalendar } from '../../utils/calendar/calendarGrid/getRegularCalendar';
+import { getMonthCalendar } from '../../utils/calendar/calendarGrid/getMonthCalendar';
+import { getYearCalendar } from '../../utils/calendar/calendarGrid/getYearCalendar';
 
 export const useCalendar = (
-  useCalendarProps: UseCalendarProps
+  props: UseCalendarProps
 ): UseCalendarReturns => {
   const {
     holidays = [],
@@ -31,7 +37,7 @@ export const useCalendar = (
     isMondayFirst = false,
     minDate = null,
     maxDate = null,
-  } = useCalendarProps;
+  } = props;
 
   const {
     calendarDate,
@@ -42,9 +48,11 @@ export const useCalendar = (
     increaseYear,
     increaseYearOnAmount,
     decreaseYearOnAmount,
-  } = useDate();
+  } = useCalendarDate();
 
-  const [calendarType, setCalendarType] = useState(CalendarType.REGULAR);
+  const [calendarType, setCalendarType] = useState(
+    CalendarType.REGULAR
+  );
   const setRegularCalendar = (): void => {
     setCalendarType(CalendarType.REGULAR);
   };
@@ -64,17 +72,25 @@ export const useCalendar = (
 
   const comparedWithMinDate = getInCaseOfCalendar(calendarType, {
     regularGetter: () => getDateSecondDateDay(calendarDate, minDate),
-    monthGetter: () => getDateSecondDateDayMonth(calendarDate, minDate),
+    monthGetter: () =>
+      getDateSecondDateDayMonth(calendarDate, minDate),
     yearGetter: () => getDecreasedYearDate(calendarDate),
   });
   const comparedWithMaxDate = getInCaseOfCalendar(calendarType, {
     regularGetter: () => getDateSecondDateDay(calendarDate, maxDate),
-    monthGetter: () => getDateSecondDateDayMonth(calendarDate, maxDate),
+    monthGetter: () =>
+      getDateSecondDateDayMonth(calendarDate, maxDate),
     yearGetter: () => getIncreasedYearDate(calendarDate),
   });
 
-  const decreaseDateIfCan = decreaseDate(minDate, comparedWithMinDate);
-  const increaseDateIfCan = increaseDate(maxDate, comparedWithMaxDate);
+  const decreaseDateIfCan = decreaseDate(
+    minDate,
+    comparedWithMinDate
+  );
+  const increaseDateIfCan = increaseDate(
+    maxDate,
+    comparedWithMaxDate
+  );
 
   const onPeriodClick = doInCaseOfCalendar(calendarType);
 

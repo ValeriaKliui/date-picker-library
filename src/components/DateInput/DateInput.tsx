@@ -1,6 +1,6 @@
-import { type FC } from "react";
-import { useDateInput } from "../../hooks/useDateInput";
-import { type DateInputProps } from "./interface";
+import { type FC } from 'react';
+import { useCalendarDateInput } from '../../hooks/useCalendarDateInput';
+import { type DateInputProps } from './interface';
 import {
   Title,
   InputWrapper,
@@ -9,11 +9,11 @@ import {
   ClearIcon,
   Error,
   DateInputContainer,
-} from "./DateInput.styled";
+} from './DateInput.styled';
 
 const DateInput: FC<DateInputProps> = ({
   title,
-  placeholder = "Choose Date",
+  placeholder = 'Choose Date',
   value,
   setInputValue,
   onClearClick,
@@ -21,7 +21,7 @@ const DateInput: FC<DateInputProps> = ({
   onCalendarClick,
   onValidDateInput,
 }) => {
-  const { onClear, onChange, error } = useDateInput({
+  const { onClear, onChange, error } = useCalendarDateInput({
     setInputValue,
     onClearClick,
     onDateChange,

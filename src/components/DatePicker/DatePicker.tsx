@@ -1,13 +1,14 @@
-import { type FC, useContext, useState } from "react";
-import { DateContext } from "../../providers/DateProvider";
-import { getDateFromString } from "../../utils/dates/getDates/getDates";
-import DateInput from "../DateInput";
-import { type DatePickerProps } from "./interfaces";
+import { type FC, useContext, useState } from 'react';
+import { DateContext } from '../../providers/DateProvider';
+import { getDateFromString } from '../../utils/dates/getDates/getDates';
+import DateInput from '../DateInput';
+import { type DatePickerProps } from './interfaces';
 
 const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
   const [isCalendarOpened, setIsCalendarOpened] = useState(false);
-  const [inputValue, setInputValue] = useState("");
-  const { setSelectedDate, setDate } = useContext(DateContext);
+  const [inputValue, setInputValue] = useState('');
+  const { setSelectedDate, setCalendarDate } =
+    useContext(DateContext);
 
   const toggleCalendar = (): void => {
     setIsCalendarOpened((isSeen) => !isSeen);
@@ -24,7 +25,7 @@ const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
   const onValidDateInput = (dateString: string): void => {
     const date = getDateFromString(dateString);
     setSelectedDate(date);
-    setDate(date);
+    setCalendarDate(date);
   };
   const onClearClick = (): void => {
     setSelectedDate(null);
