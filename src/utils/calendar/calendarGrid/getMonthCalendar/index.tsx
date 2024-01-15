@@ -5,7 +5,7 @@ import {
   getMonthDateByMonthNumAndDate,
   getMonthName,
 } from '../../../dates/getDates/getDates';
-import { MonthCalendarProps } from './interface';
+import { type MonthCalendarProps } from './interface';
 
 export const getMonthCalendar = (
   monthCalendarProps: MonthCalendarProps

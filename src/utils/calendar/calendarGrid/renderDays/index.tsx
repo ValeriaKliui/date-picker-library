@@ -1,22 +1,19 @@
-import { useContext } from 'react';
-import {
-  CalendarProps,
-  type Holiday,
-} from '../../../../components/Calendar/interface';
-import CalendarCell from '../../../../components/CalendarCell';
+import { useContext } from "react";
+import { type Holiday } from "../../../../components/Calendar/interface";
+import CalendarCell from "../../../../components/CalendarCell";
 import {
   type RangeType,
   type CalendarCellProps,
-  CellType,
-} from '../../../../components/CalendarCell/interface';
-import { WEEKDAYS } from '../../../../constants/constants/weekdays';
-import { makeArrayFromNum } from '../../../data';
+} from "../../../../components/CalendarCell/interface";
+import { WEEKDAYS } from "../../../../constants/constants/weekdays";
+import { makeArrayFromNum } from "../../../data";
 import {
   getDayDateByMonthAndDay,
+  getDaysAmountInMonth,
   setInitTime,
-} from '../../../dates/getDates/getDates';
-import { DateContext } from '../../../../providers/DateProvider';
-import { CalendarOptions, DaysCellOptions } from './interface';
+} from "../../../dates/getDates/getDates";
+import { DateContext } from "../../../../providers/DateProvider";
+import { type DaysCellOptions } from "./interface";
 
 export const renderDays =
   (
@@ -35,7 +32,7 @@ export const renderDays =
   ) =>
   (
     daysAmount: number,
-    options?: Pick<CalendarCellProps, 'onCalendarCellClick'> & {
+    options?: Pick<CalendarCellProps, "onCalendarCellClick"> & {
       isPrevMonth?: boolean;
       isCurrMonth?: boolean;
       monthNum: number;
@@ -61,8 +58,7 @@ export const renderDays =
       getDayDate(dayDate);
 
       const isChoosen =
-        isCurrMonth &&
-        selectedDate?.toDateString() === dayDate.toDateString();
+        isCurrMonth && selectedDate?.toDateString() === dayDate.toDateString();
 
       const isHoliday = holidays?.some(({ date: holidayDate }) => {
         setInitTime(holidayDate);
@@ -71,8 +67,7 @@ export const renderDays =
         return holidayDate.toString() === dayDate.toString();
       });
 
-      const isWeekend =
-        dayDate.getDay() === 6 || dayDate.getDay() === 0;
+      const isWeekend = dayDate.getDay() === 6 || dayDate.getDay() === 0;
 
       const isDisabled =
         (minDate != null && dayDate.getTime() < minDate.getTime()) ||
@@ -111,16 +106,21 @@ export const renderCellsDays =
   (
     monthDate: Date,
     daysAmount: number,
-    cellOptions: Pick<CalendarCellProps, 'type' | 'shadowed'>,
+    cellOptions: Pick<CalendarCellProps, "type" | "shadowed">,
     isPrevMonth?: boolean
   ): JSX.Element => {
     const { selectedDate, setSelectedDate } = useContext(DateContext);
     const { withWeekends = true, holidays = [] } = daysCellOptions;
     const { type, shadowed } = cellOptions;
+    const daysAmountInMonth = getDaysAmountInMonth(monthDate);
 
     return (
       <>
-        {makeArrayFromNum(daysAmount).map((dayNum) => {
+        {makeArrayFromNum(daysAmount).map((index) => {
+          const dayNum =
+            isPrevMonth != null
+              ? Math.abs(daysAmount - index - daysAmountInMonth)
+              : index;
           const dayDate = getDayDateByMonthAndDay(monthDate, dayNum);
 
           const isWeekend =

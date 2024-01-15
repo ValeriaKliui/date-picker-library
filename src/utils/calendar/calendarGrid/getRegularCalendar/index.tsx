@@ -1,5 +1,5 @@
-import { Holiday } from '../../../../components/Calendar/interface';
-import CalendarCell from '../../../../components/CalendarCell';
+import { type Holiday } from "../../../../components/Calendar/interface";
+import CalendarCell from "../../../../components/CalendarCell";
 import {
   getDateWith01Day,
   getDateWithLastDay,
@@ -9,9 +9,9 @@ import {
   getMonthLeftDaysAmountPrev,
   getNextMonth,
   getPrevMonth,
-} from '../../../dates/getDates/getDates';
-import { WeekDay } from '../../../dates/getDates/interface';
-import { renderCellsDays } from '../renderDays';
+} from "../../../dates/getDates/getDates";
+import { type WeekDay } from "../../../dates/getDates/interface";
+import { renderCellsDays } from "../renderDays";
 
 export const getRegularCalendar = (props: {
   calendarDate: Date;
@@ -56,36 +56,24 @@ export const getRegularCalendar = (props: {
   return (
     <>
       {weekDays.map(({ weekDayName, weekDayNum }) => (
-        <CalendarCell
-          type="weekday"
-          cellValue={weekDayName}
-          key={weekDayNum}
-        />
+        <CalendarCell type="weekday" cellValue={weekDayName} key={weekDayNum} />
       ))}
-      {renderDays(prevMonthDate, prevMonthDaysAmount, {
-        type: 'day',
-        shadowed: true,
-      }), }
+      {renderDays(
+        prevMonthDate,
+        prevMonthDaysAmount,
+        {
+          type: "day",
+          shadowed: true,
+        },
+        true
+      )}
       {renderDays(calendarDate, currMonthDaysAmount, {
-        type: 'day',
+        type: "day",
       })}
       {renderDays(nextMonthDate, nextMonthDaysAmount, {
-        type: 'day',
+        type: "day",
         shadowed: true,
       })}
-      {/* {renderCalendarDays(prevMonthDays, {
-        onCalendarCellClick: onPrevPeriodClick,
-        isPrevMonth: true,
-        monthNum: calendarDate.getMonth() - 1,
-      })}
-      {renderCalendarDays(currMonthDaysAmount, {
-        isCurrMonth: true,
-        monthNum: calendarDate.getMonth(),
-      })}
-      {renderCalendarDays(nextMonthDays, {
-        onCalendarCellClick: onNextPeriodClick,
-        monthNum: calendarDate.getMonth() + 1,
-      })} */}
     </>
   );
 };

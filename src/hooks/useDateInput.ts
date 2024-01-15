@@ -16,7 +16,6 @@ export const useDateInput = ({
   onDateChange = () => {},
   onValidDateInput = (_dateStr: string) => {},
 }: UseDateInputProps): UseDateInputReturns => {
-  // const [inputValue, setInputValue] = useState('');
   const [error, setIsError] = useState({
     isError: false,
     errorText: "",
@@ -63,7 +62,7 @@ export const useDateInput = ({
         onValidDateInput(value);
       }
     },
-    [onDateChange, error.isError, onValidDateInput]
+    [onDateChange, error.isError, onValidDateInput, setInputValue]
   );
 
   return { onClear, onChange, error };

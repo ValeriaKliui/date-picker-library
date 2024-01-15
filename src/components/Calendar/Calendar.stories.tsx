@@ -38,8 +38,8 @@ export const WithHolidays: Story = {
 };
 export const WithMinAndMaxDate: Story = {
   args: {
-    minDate: new Date("2017-08-08"),
-    maxDate: new Date("2024-08-05"),
+    minDate: new Date("2015-08-08"),
+    maxDate: new Date("2027-08-05"),
   },
 };
 export const WithRange: Story = {

@@ -1,5 +1,5 @@
 import { CalendarType } from '../../../hooks/interfaces';
-import { CalendarAction } from './interface';
+import { type CalendarAction } from './interface';
 
 export const doInCaseOfCalendar =
   (calendarType: CalendarType) => (actions: CalendarAction) => {
