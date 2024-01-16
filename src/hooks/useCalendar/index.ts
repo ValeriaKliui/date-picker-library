@@ -1,32 +1,37 @@
-import { useState } from "react";
-import { useCalendarDate } from "../useCalendarDate";
+import { useState } from 'react';
+import { useCalendarDate } from '../useCalendarDate';
 import {
   CalendarType,
   type UseCalendarProps,
   type UseCalendarReturns,
-} from "./interfaces";
+} from './interfaces';
 
-import { YEARS_RANGE } from "../../constants/constants/dates";
-import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
+import { YEARS_RANGE } from '../../constants/constants/dates';
+import { getInCaseOfCalendar } from '../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar';
 import {
   getDateSecondDateDay,
   getDateSecondDateDayMonth,
   getDecreasedYearDate,
   getIncreasedYearDate,
-} from "../../utils/dates/getDates/getDates";
-import { decreaseDate, increaseDate } from "../../utils/dates/changeDates";
-import { doInCaseOfCalendar } from "../../utils/calendar/doInCaseOfCalendar/doInCaseOfCalendar";
+} from '../../utils/dates/getDates/getDates';
+import {
+  decreaseDate,
+  increaseDate,
+} from '../../utils/dates/changeDates';
+import { doInCaseOfCalendar } from '../../utils/calendar/doInCaseOfCalendar/doInCaseOfCalendar';
 import {
   getRegularCalendarHeaderText,
   getYearCalendarHeaderText,
   getYearRangeCalendarHeaderText,
-} from "../../utils/calendar/calendarGrid/datePicker";
-import { getRegularCalendar } from "../../utils/calendar/calendarGrid/getRegularCalendar";
-import { getMonthCalendar } from "../../utils/calendar/calendarGrid/getMonthCalendar";
-import { getYearCalendar } from "../../utils/calendar/calendarGrid/getYearCalendar";
-import { useRange } from "../useRange";
+} from '../../utils/calendar/calendarGrid/datePicker';
+import { getRegularCalendar } from '../../utils/calendar/calendarGrid/getRegularCalendar';
+import { getMonthCalendar } from '../../utils/calendar/calendarGrid/getMonthCalendar';
+import { getYearCalendar } from '../../utils/calendar/calendarGrid/getYearCalendar';
+import { useRange } from '../useRange';
 
-export const useCalendar = (props: UseCalendarProps): UseCalendarReturns => {
+export const useCalendar = (
+  props: UseCalendarProps
+): UseCalendarReturns => {
   const {
     holidays = [],
     withWeekends,
@@ -36,6 +41,7 @@ export const useCalendar = (props: UseCalendarProps): UseCalendarReturns => {
     maxDate,
     rangeStart,
     rangeEnd,
+    todos,
   } = props;
 
   const {
@@ -51,7 +57,9 @@ export const useCalendar = (props: UseCalendarProps): UseCalendarReturns => {
 
   const { range, clearRange } = useRange({ rangeStart, rangeEnd });
 
-  const [calendarType, setCalendarType] = useState(CalendarType.REGULAR);
+  const [calendarType, setCalendarType] = useState(
+    CalendarType.REGULAR
+  );
   const setRegularCalendar = (): void => {
     setCalendarType(CalendarType.REGULAR);
   };
@@ -71,17 +79,25 @@ export const useCalendar = (props: UseCalendarProps): UseCalendarReturns => {
 
   const comparedWithMinDate = getInCaseOfCalendar(calendarType, {
     regularGetter: () => getDateSecondDateDay(calendarDate, minDate),
-    monthGetter: () => getDateSecondDateDayMonth(calendarDate, minDate),
+    monthGetter: () =>
+      getDateSecondDateDayMonth(calendarDate, minDate),
     yearGetter: () => getDecreasedYearDate(calendarDate),
   });
   const comparedWithMaxDate = getInCaseOfCalendar(calendarType, {
     regularGetter: () => getDateSecondDateDay(calendarDate, maxDate),
-    monthGetter: () => getDateSecondDateDayMonth(calendarDate, maxDate),
+    monthGetter: () =>
+      getDateSecondDateDayMonth(calendarDate, maxDate),
     yearGetter: () => getIncreasedYearDate(calendarDate),
   });
 
-  const decreaseDateIfCan = decreaseDate(minDate, comparedWithMinDate);
-  const increaseDateIfCan = increaseDate(maxDate, comparedWithMaxDate);
+  const decreaseDateIfCan = decreaseDate(
+    minDate,
+    comparedWithMinDate
+  );
+  const increaseDateIfCan = increaseDate(
+    maxDate,
+    comparedWithMaxDate
+  );
 
   const onPeriodClick = doInCaseOfCalendar(calendarType);
 
@@ -123,6 +139,7 @@ export const useCalendar = (props: UseCalendarProps): UseCalendarReturns => {
     withWeekends,
     holidays,
     range,
+    todos,
   });
   const monthCalendar = getMonthCalendar({
     calendarDate,

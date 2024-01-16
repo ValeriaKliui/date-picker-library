@@ -11,6 +11,7 @@ export const Container = styled.div<{
   $selected: boolean;
   $range?: RangeType;
   $type?: string;
+  $isInTodo?: boolean;
 }>`
   min-width: ${({ theme }) => theme.valueInPx.px40};
   min-height: ${({ theme }) => theme.valueInPx.px40};
@@ -20,8 +21,8 @@ export const Container = styled.div<{
   align-items: center;
   border-radius: ${({ $range }) =>
     getCalendarCellBorderRadius($range)};
-  background-color: ${({ $selected, $range }) =>
-    getCalendarCellBackgroundColor($selected, $range)};
+  background-color: ${({ $selected, $range, $isInTodo }) =>
+    getCalendarCellBackgroundColor($selected, $range, $isInTodo)};
   &:hover {
     background-color: ${({ theme, $selected, $range }) =>
       $selected || $range !== undefined

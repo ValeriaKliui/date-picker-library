@@ -1,8 +1,12 @@
-import { type CalendarProps } from "../../components/Calendar/interface";
-import { type NotNum, type NotUndef } from "../../constants/interfaces/interfaces";
+import { type CalendarProps } from '../../components/Calendar/interface';
+import {
+  type NotNum,
+  type NotUndef,
+} from '../../constants/interfaces/interfaces';
 
-import { type WeekDay } from "../../utils/dates/getDates/interface";
-import { type UseRangeReturns } from "../useRange/interfaces";
+import { type WeekDay } from '../../utils/dates/getDates/interface';
+import { type UseRangeReturns } from '../useRange/interfaces';
+import { UseTodosReturns } from './useTodos/interfaces';
 
 export type UseCalendarReturns = {
   onPeriodSliderClick: () => void;
@@ -16,16 +20,16 @@ export type UseCalendarReturns = {
 } & UseRangeReturns;
 
 export type MinMaxDate = NotUndef<
-  NotNum<Pick<CalendarProps, "maxDate" | "minDate">>
+  NotNum<Pick<CalendarProps, 'maxDate' | 'minDate'>>
 >;
 
-export type UseCalendarProps = Pick<
+export type UseCalendarProps = Omit<
   CalendarProps,
-  "holidays" | "isMondayFirst" | "withWeekends" | "rangeEnd" | "rangeStart"
+  'weekdayStartNum'
 > &
   MinMaxDate & {
     weekDays: WeekDay[];
-  };
+  } & UseTodosReturns;
 
 export enum CalendarType {
   REGULAR,

@@ -1,27 +1,27 @@
-import { useContext } from "react";
-import CalendarCell from "../../../../components/CalendarCell";
-import { type CalendarCellProps } from "../../../../components/CalendarCell/interface";
-import { WEEKDAYS } from "../../../../constants/constants/weekdays";
-import { makeArrayFromNum } from "../../../data";
+import { useContext } from 'react';
+import CalendarCell from '../../../../components/CalendarCell';
+import { type CalendarCellProps } from '../../../../components/CalendarCell/interface';
+import { WEEKDAYS } from '../../../../constants/constants/weekdays';
+import { makeArrayFromNum } from '../../../data';
 import {
   getDayDateByMonthAndDay,
   getDaysAmountInMonth,
   setInitTime,
-} from "../../../dates/getDates/getDates";
-import { DateContext } from "../../../../providers/DateProvider";
-import { type DaysCellOptions } from "./interface";
-import { getRangeType } from "../range";
+} from '../../../dates/getDates/getDates';
+import { DateContext } from '../../../../providers/DateProvider';
+import { type DaysCellOptions } from './interface';
+import { getRangeType } from '../range';
 
 export const renderCellsDays =
   (daysCellOptions: DaysCellOptions) =>
   (
     monthDate: Date,
     daysAmount: number,
-    cellOptions: Pick<CalendarCellProps, "type" | "shadowed">,
+    cellOptions: Pick<CalendarCellProps, 'type' | 'shadowed'>,
     isPrevMonth?: boolean
   ): JSX.Element => {
     const { selectedDate, setSelectedDate } = useContext(DateContext);
-    const { withWeekends, holidays, range } = daysCellOptions;
+    const { withWeekends, holidays, range, todos } = daysCellOptions;
     const { type, shadowed } = cellOptions;
     const daysAmountInMonth = getDaysAmountInMonth(monthDate);
 
@@ -52,6 +52,9 @@ export const renderCellsDays =
             dayDate.getTime() === selectedDate.getTime();
 
           const rangeType = getRangeType(dayDate, range);
+          const isInTodo = todos.some(
+            ({ todoDate }) => todoDate.getTime() == dayDate.getTime()
+          );
 
           return (
             <CalendarCell
@@ -63,6 +66,7 @@ export const renderCellsDays =
               selected={isSelected}
               isWeekend={withWeekends && isWeekend}
               isHoliday={isHoliday}
+              isInTodo={isInTodo}
               onCalendarCellClick={onCalendarCellClick}
               range={rangeType}
             />

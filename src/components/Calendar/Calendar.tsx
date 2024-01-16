@@ -1,20 +1,23 @@
-import { type FC } from "react";
-import { useCalendar } from "../../hooks/useCalendar";
-import { useKeyPress } from "../../hooks/useKeyPress";
+import { type FC } from 'react';
+import { useCalendar } from '../../hooks/useCalendar';
+import { useKeyPress } from '../../hooks/useKeyPress';
 import {
   getDateFromTimestamp,
   getWeekDays,
   setInitTime,
-} from "../../utils/dates/getDates/getDates";
-import PeriodSlider from "../PeriodSlider";
+} from '../../utils/dates/getDates/getDates';
+import PeriodSlider from '../PeriodSlider';
 import {
   CalendarCells,
   Container,
   CalendarDates,
   CalendarButton,
-} from "./Calendar.styled";
-import { type CalendarProps } from "./interface";
-import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
+} from './Calendar.styled';
+import { type CalendarProps } from './interface';
+import { getInCaseOfCalendar } from '../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar';
+import { useTodos } from '../../hooks/useCalendar/useTodos';
+import Input from '../Input';
+import { TodoForm } from '../TodoForm';
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
@@ -24,6 +27,7 @@ const Calendar: FC<CalendarProps> = ({
   maxDate = null,
   rangeStart,
   rangeEnd,
+  withTodos = false,
 }) => {
   const maxDateParsed = getDateFromTimestamp(maxDate);
   const minDateParsed = getDateFromTimestamp(minDate);
@@ -32,6 +36,9 @@ const Calendar: FC<CalendarProps> = ({
 
   const weekDays = getWeekDays(isMondayFirst, withWeekends);
 
+  const { todos, addTodo, getTodoText } = useTodos();
+
+  console.log(todos);
   const {
     onPeriodSliderClick,
     onPrevPeriodClick,
@@ -52,10 +59,11 @@ const Calendar: FC<CalendarProps> = ({
     minDate: minDateParsed,
     rangeStart,
     rangeEnd,
+    todos,
   });
 
-  useKeyPress("ArrowLeft", onPrevPeriodClick);
-  useKeyPress("ArrowRight", onNextPeriodClick);
+  useKeyPress('ArrowLeft', onPrevPeriodClick);
+  useKeyPress('ArrowRight', onNextPeriodClick);
 
   const renderCalendarGrid = (): JSX.Element =>
     getInCaseOfCalendar(calendarType, {
@@ -82,8 +90,12 @@ const Calendar: FC<CalendarProps> = ({
           {renderCalendarGrid()}
         </CalendarCells>
       </CalendarDates>
-      {(range.rangeEnd !== undefined || range.rangeStart !== undefined) && (
+      {(range.rangeEnd !== undefined ||
+        range.rangeStart !== undefined) && (
         <CalendarButton onClick={clearRange}>Clear</CalendarButton>
+      )}
+      {withTodos && (
+        <TodoForm addTodo={addTodo} onSubmit={getTodoText} />
       )}
     </Container>
   );

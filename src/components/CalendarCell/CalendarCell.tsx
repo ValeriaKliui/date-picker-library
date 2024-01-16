@@ -1,6 +1,6 @@
-import { type FC } from "react";
-import { Container, CalendarCellText } from "./CalendarCell.styled";
-import { type CalendarCellProps } from "./interface";
+import { type FC } from 'react';
+import { Container, CalendarCellText } from './CalendarCell.styled';
+import { type CalendarCellProps } from './interface';
 
 const CalendarCell: FC<CalendarCellProps> = ({
   type,
@@ -13,6 +13,7 @@ const CalendarCell: FC<CalendarCellProps> = ({
   isWeekend = false,
   withWeekends = true,
   hidden = false,
+  isInTodo = false,
 }) => {
   if (!hidden)
     return (
@@ -22,6 +23,7 @@ const CalendarCell: FC<CalendarCellProps> = ({
         $selected={selected}
         $range={range}
         $type={type}
+        $isInTodo={isInTodo}
       >
         <CalendarCellText
           $shadowed={shadowed}
