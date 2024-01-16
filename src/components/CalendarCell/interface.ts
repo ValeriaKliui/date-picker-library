@@ -1,4 +1,4 @@
-export enum RangeType {
+export enum RangeTypes {
   start = "start",
   end = "end",
   between = "between",
@@ -8,7 +8,7 @@ export interface CalendarCellProps {
   cellValue: number | string;
   shadowed?: boolean;
   selected?: boolean;
-  range?: RangeType | null;
+  range?: RangeTypes | null;
   onCalendarCellClick?: () => void;
   isHoliday?: boolean;
   isWeekend?: boolean;

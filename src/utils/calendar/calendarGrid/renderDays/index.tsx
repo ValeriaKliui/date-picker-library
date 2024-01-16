@@ -1,10 +1,6 @@
 import { useContext } from "react";
-import { type Holiday } from "../../../../components/Calendar/interface";
 import CalendarCell from "../../../../components/CalendarCell";
-import {
-  type RangeType,
-  type CalendarCellProps,
-} from "../../../../components/CalendarCell/interface";
+import { type CalendarCellProps } from "../../../../components/CalendarCell/interface";
 import { WEEKDAYS } from "../../../../constants/constants/weekdays";
 import { makeArrayFromNum } from "../../../data";
 import {
@@ -14,92 +10,7 @@ import {
 } from "../../../dates/getDates/getDates";
 import { DateContext } from "../../../../providers/DateProvider";
 import { type DaysCellOptions } from "./interface";
-
-export const renderDays =
-  (
-    daysAmountPrevMonth: number,
-    prevMonthDays: number,
-    date: Date,
-    selectedDate: Date | null,
-    setSelectedDate: (date: Date) => void,
-    getDayDate: (dayDate: Date) => void,
-    getRangeType: () => RangeType | null,
-    holidays?: Holiday[],
-    withWeekends?: boolean,
-    minDate?: Date | null,
-    maxDate?: Date | null,
-    withRange: boolean = false
-  ) =>
-  (
-    daysAmount: number,
-    options?: Pick<CalendarCellProps, "onCalendarCellClick"> & {
-      isPrevMonth?: boolean;
-      isCurrMonth?: boolean;
-      monthNum: number;
-    }
-  ): Array<JSX.Element | null> => {
-    const {
-      isCurrMonth = false,
-      onCalendarCellClick,
-      isPrevMonth = false,
-      monthNum = 0,
-    } = options ?? {};
-
-    return makeArrayFromNum(daysAmount).map((dayNum) => {
-      const dayNumber = isPrevMonth
-        ? daysAmountPrevMonth - prevMonthDays + dayNum
-        : dayNum;
-
-      const dayDate = new Date(
-        new Date(new Date(date).setMonth(monthNum)).setDate(dayNumber)
-      );
-
-      setInitTime(dayDate);
-      getDayDate(dayDate);
-
-      const isChoosen =
-        isCurrMonth && selectedDate?.toDateString() === dayDate.toDateString();
-
-      const isHoliday = holidays?.some(({ date: holidayDate }) => {
-        setInitTime(holidayDate);
-        holidayDate.toString();
-        dayDate.toString();
-        return holidayDate.toString() === dayDate.toString();
-      });
-
-      const isWeekend = dayDate.getDay() === 6 || dayDate.getDay() === 0;
-
-      const isDisabled =
-        (minDate != null && dayDate.getTime() < minDate.getTime()) ||
-        (maxDate != null && dayDate > maxDate);
-
-      const onClick = (): void => {
-        if (!isDisabled) {
-          onCalendarCellClick?.();
-          setSelectedDate(dayDate);
-        }
-      };
-
-      if (withWeekends === false && isWeekend) {
-        return null;
-      }
-
-      return (
-        <CalendarCell
-          cellValue={dayNumber}
-          type="day"
-          key={dayNum}
-          shadowed={!isCurrMonth || isDisabled}
-          selected={isChoosen}
-          isHoliday={isHoliday}
-          isWeekend={isWeekend}
-          withWeekends={withWeekends}
-          onCalendarCellClick={onClick}
-          range={withRange ? getRangeType() : null}
-        />
-      );
-    });
-  };
+import { getRangeType } from "../range";
 
 export const renderCellsDays =
   (daysCellOptions: DaysCellOptions) =>
@@ -110,7 +21,7 @@ export const renderCellsDays =
     isPrevMonth?: boolean
   ): JSX.Element => {
     const { selectedDate, setSelectedDate } = useContext(DateContext);
-    const { withWeekends = true, holidays = [] } = daysCellOptions;
+    const { withWeekends, holidays, range } = daysCellOptions;
     const { type, shadowed } = cellOptions;
     const daysAmountInMonth = getDaysAmountInMonth(monthDate);
 
@@ -135,9 +46,12 @@ export const renderCellsDays =
           const onCalendarCellClick = (): void => {
             setSelectedDate(dayDate);
           };
+
           const isSelected =
             selectedDate !== null &&
             dayDate.getTime() === selectedDate.getTime();
+
+          const rangeType = getRangeType(dayDate, range);
 
           return (
             <CalendarCell
@@ -150,6 +64,7 @@ export const renderCellsDays =
               isWeekend={withWeekends && isWeekend}
               isHoliday={isHoliday}
               onCalendarCellClick={onCalendarCellClick}
+              range={rangeType}
             />
           );
         })}

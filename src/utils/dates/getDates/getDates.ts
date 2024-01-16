@@ -1,7 +1,11 @@
 import { WEEK_LENGTH, YEARS_RANGE } from "../../../constants/constants/dates";
 import { WEEKDAYS } from "../../../constants/constants/weekdays";
 import { sliceWordFromStart } from "../../data";
-import { type DateOrNullOrUndef, type DateObj, type WeekDay } from "./interface";
+import {
+  type DateOrNullOrUndef,
+  type DateObj,
+  type WeekDay,
+} from "./interface";
 
 export const getMonthNumber = (date: Date): number => date.getMonth();
 
@@ -140,18 +144,23 @@ export const equateFirstDateDayToSecond = (
   if (firstDate !== null && secondDate !== null)
     firstDate.setDate(secondDate.getDate());
 };
-export const getDateSecondDateDay = (date: Date, dateToSet: Date): Date => {
+export const getDateSecondDateDay = (
+  date: Date,
+  dateToSet: Date | null
+): Date => {
   const copiedDate = new Date(date);
-  copiedDate.setDate(dateToSet.getDate());
+  if (dateToSet != null) copiedDate.setDate(dateToSet.getDate());
   return copiedDate;
 };
 export const getDateSecondDateDayMonth = (
   date: Date,
-  dateToSet: Date
+  dateToSet: Date | null
 ): Date => {
   const copiedDate = new Date(date);
-  copiedDate.setMonth(dateToSet.getMonth());
-  copiedDate.setDate(dateToSet.getDate());
+  if (dateToSet != null) {
+    copiedDate.setMonth(dateToSet.getMonth());
+    copiedDate.setDate(dateToSet.getDate());
+  }
   return copiedDate;
 };
 

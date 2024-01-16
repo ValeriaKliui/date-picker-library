@@ -9,5 +9,6 @@ export interface CalendarProps {
   withWeekends?: boolean;
   minDate?: Date | number | null;
   maxDate?: Date | number | null;
-  withRange?: boolean;
+  rangeStart?: Date | null;
+  rangeEnd?: Date | null;
 }

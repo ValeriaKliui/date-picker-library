@@ -49,3 +49,11 @@ export interface Theme {
     bold: number;
   };
 }
+
+export type NotUndef<Type> = {
+  [Property in keyof Type]-?: Type[Property];
+};
+
+export type NotNum<Type> = {
+  [Property in keyof Type]: Exclude<Type[Property], number>;
+};

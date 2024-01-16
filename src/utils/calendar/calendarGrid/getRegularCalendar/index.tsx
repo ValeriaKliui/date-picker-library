@@ -1,5 +1,6 @@
 import { type Holiday } from "../../../../components/Calendar/interface";
 import CalendarCell from "../../../../components/CalendarCell";
+import { type RangeType } from "../../../../hooks/useRange/interfaces";
 import {
   getDateWith01Day,
   getDateWithLastDay,
@@ -19,13 +20,15 @@ export const getRegularCalendar = (props: {
   isMondayFirst: boolean;
   withWeekends: boolean;
   holidays?: Holiday[];
+  range?: RangeType;
 }): JSX.Element => {
   const {
     calendarDate,
     weekDays,
     isMondayFirst,
-    withWeekends = false,
-    holidays = [],
+    withWeekends,
+    holidays,
+    range,
   } = props;
 
   const weekStart = weekDays[0] != null ? weekDays[0].weekDayNum : 0;
@@ -52,7 +55,12 @@ export const getRegularCalendar = (props: {
   const prevMonthDate = getPrevMonth(calendarDate);
   const nextMonthDate = getNextMonth(calendarDate);
 
-  const renderDays = renderCellsDays({ withWeekends, holidays });
+  const renderDays = renderCellsDays({
+    withWeekends,
+    holidays,
+    range,
+  });
+
   return (
     <>
       {weekDays.map(({ weekDayName, weekDayNum }) => (

@@ -10,7 +10,6 @@ const meta: Meta<typeof Calendar> = {
   argTypes: {
     isMondayFirst: { type: "boolean", name: "monday first" },
     withWeekends: { type: "boolean", name: "with weekends" },
-    withRange: { type: "boolean", name: "with range" },
   },
 };
 
@@ -44,6 +43,6 @@ export const WithMinAndMaxDate: Story = {
 };
 export const WithRange: Story = {
   args: {
-    withRange: true,
+    rangeStart: null,
   },
 };

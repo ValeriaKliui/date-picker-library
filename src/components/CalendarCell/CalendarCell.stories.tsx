@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import CalendarCell from "./CalendarCell";
-import { RangeType } from "./interface";
+import { RangeTypes } from "./interface";
 
 const meta: Meta<typeof CalendarCell> = {
   title: "UI/CalendarCell",
@@ -15,45 +15,47 @@ type Story = StoryObj<typeof meta>;
 export const Default: Story = {
   args: {
     type: "day",
-    day: 1,
+    cellValue: 1,
   },
 };
 export const Selected: Story = {
   args: {
     type: "day",
-    day: 1,
+    cellValue: 1,
     selected: true,
   },
 };
 export const RangeStarted: Story = {
   args: {
     type: "day",
-    day: 1,
-    range: RangeType.start,
+    cellValue: 1,
+    range: RangeTypes.start,
   },
 };
 export const RangeBetween: Story = {
   args: {
     type: "day",
-    range: RangeType.between,
+    cellValue: 1,
+    range: RangeTypes.between,
   },
 };
 export const RangeEnded: Story = {
   args: {
     type: "day",
-    range: RangeType.end,
+    cellValue: 1,
+    range: RangeTypes.end,
   },
 };
 export const Shadowed: Story = {
   args: {
     type: "day",
-    day: 1,
+    cellValue: 1,
     shadowed: true,
   },
 };
 export const Weekday: Story = {
   args: {
     type: "weekday",
-    day: "Fr",
+    cellValue: "Fr",
   },
 };

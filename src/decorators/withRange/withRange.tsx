@@ -1,11 +1,11 @@
-import { type ComponentType } from 'react';
+import { type ComponentType } from "react";
 
 const withRange =
   <T,>(WrappedComponent: ComponentType<T>) =>
   (props: T) => {
     const passedProps = {
       ...props,
-      withRange: true,
+      rangeStart: null,
     };
     return <WrappedComponent {...passedProps} />;
   };

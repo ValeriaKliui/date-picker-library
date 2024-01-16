@@ -7,7 +7,12 @@ import {
   setInitTime,
 } from "../../utils/dates/getDates/getDates";
 import PeriodSlider from "../PeriodSlider";
-import { CalendarCells, Container, CalendarDates } from "./Calendar.styled";
+import {
+  CalendarCells,
+  Container,
+  CalendarDates,
+  CalendarButton,
+} from "./Calendar.styled";
 import { type CalendarProps } from "./interface";
 import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
 
@@ -17,12 +22,13 @@ const Calendar: FC<CalendarProps> = ({
   withWeekends = true,
   minDate = null,
   maxDate = null,
-  // withRange,
+  rangeStart,
+  rangeEnd,
 }) => {
   const maxDateParsed = getDateFromTimestamp(maxDate);
   const minDateParsed = getDateFromTimestamp(minDate);
 
-  setInitTime(maxDateParsed, minDateParsed);
+  setInitTime(maxDateParsed, minDateParsed, rangeEnd, rangeStart);
 
   const weekDays = getWeekDays(isMondayFirst, withWeekends);
 
@@ -35,6 +41,8 @@ const Calendar: FC<CalendarProps> = ({
     regularCalendar,
     monthCalendar,
     yearCalendar,
+    range,
+    clearRange,
   } = useCalendar({
     holidays,
     withWeekends,
@@ -42,6 +50,8 @@ const Calendar: FC<CalendarProps> = ({
     isMondayFirst,
     maxDate: maxDateParsed,
     minDate: minDateParsed,
+    rangeStart,
+    rangeEnd,
   });
 
   useKeyPress("ArrowLeft", onPrevPeriodClick);
@@ -72,9 +82,9 @@ const Calendar: FC<CalendarProps> = ({
           {renderCalendarGrid()}
         </CalendarCells>
       </CalendarDates>
-      {/* {withRange === true && (
-        <CalendarButton onClick={cleanRange}>Clear</CalendarButton>
-      )} */}
+      {(range.rangeEnd !== undefined || range.rangeStart !== undefined) && (
+        <CalendarButton onClick={clearRange}>Clear</CalendarButton>
+      )}
     </Container>
   );
 };
