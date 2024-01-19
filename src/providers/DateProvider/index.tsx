@@ -1,17 +1,28 @@
 import { createContext, type FC, useMemo, useState } from "react";
 import { setInitTime } from "../../utils/dates/getDates/getDates";
 import { type ContextType, type DateProviderProps } from "./interface";
+import { type RangeType } from "../../hooks/useRange/interfaces";
 
 export const DateContext = createContext<ContextType>({
   calendarDate: new Date(),
   setCalendarDate: (_date: Date) => {},
   selectedDate: null,
   setSelectedDate: (_date: Date | null) => {},
+  range: {
+    rangeStart: undefined,
+    rangeEnd: undefined,
+  },
+  setRange: () => {},
 });
 
 export const DateProvider: FC<DateProviderProps> = ({ children }) => {
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<null | Date>(null);
+  const initRange: RangeType = {
+    rangeStart: undefined,
+    rangeEnd: undefined,
+  };
+  const [range, setRange] = useState<RangeType>(initRange);
 
   setInitTime(calendarDate, selectedDate);
 
@@ -21,8 +32,17 @@ export const DateProvider: FC<DateProviderProps> = ({ children }) => {
       setCalendarDate,
       selectedDate,
       setSelectedDate,
+      range,
+      setRange,
     }),
-    [calendarDate, setCalendarDate, selectedDate, setSelectedDate]
+    [
+      calendarDate,
+      setCalendarDate,
+      selectedDate,
+      setSelectedDate,
+      range,
+      setRange,
+    ]
   );
 
   return (

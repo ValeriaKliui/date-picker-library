@@ -1,17 +1,7 @@
-import { FC, useState, ChangeEvent, FormEvent } from 'react';
+import { type FC } from "react";
+import { type InputProps } from "./interfaces";
 
-export interface PROPS {
-  getInputValue: (str: string) => void;
-}
-const Input: FC<PROPS> = ({ getInputValue }) => {
-  const [inputValue, setInputValue] = useState<string>('');
-
-  const onInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setInputValue(value);
-    getInputValue(value);
-  };
-
-  return <input onChange={onInputChange} value={inputValue} />;
-};
+const Input: FC<InputProps> = ({ onChange, value }) => (
+  <input onChange={onChange} value={value} />
+);
 export default Input;

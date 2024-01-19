@@ -115,7 +115,8 @@ export const getDateFromString = (dateStr: string): Date => {
   return new Date(year, month, day);
 };
 
-export const formatDate = (date: Date): string => {
+export const formatDate = (date: Date | null | undefined): string => {
+  if (date == null) return "";
   const year = date.getFullYear();
   const month =
     date.getMonth() + 1 > 9 ? date.getMonth() + 1 : `0${date.getMonth() + 1}`;
@@ -221,3 +222,6 @@ export const getYearDateByYearNumAndDate = (
   date: Date,
   yearNum: number
 ): Date => new Date(yearNum, date.getMonth(), date.getDate());
+
+export const areDatesEqual = (firstDate: Date, secondDate: Date): boolean =>
+  firstDate.getTime() === secondDate.getTime();

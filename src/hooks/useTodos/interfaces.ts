@@ -1,8 +1,10 @@
 export interface Todo {
-  todoDate: Date;
   todoText: string;
+  rangeEnd: number;
 }
+export type Todos = Record<number, Todo[]>;
+
 export interface UseTodosReturns {
-  todos: Todo[];
+  todos: Todos;
   addTodo: (text: string) => void;
 }

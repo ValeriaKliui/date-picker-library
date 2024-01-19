@@ -1,21 +1,15 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { DateContext } from "../../providers/DateProvider";
-import {
-  type RangeType,
-  type UseRangeProps,
-  type UseRangeReturns,
-} from "./interfaces";
+import { type UseRangeProps, type UseRangeReturns } from "./interfaces";
 
 export const useRange = (props: UseRangeProps): UseRangeReturns => {
   const { rangeEnd: initRangeEnd, rangeStart: initRangeStart } = props;
-  const initRange: RangeType = {
-    rangeStart: initRangeStart,
-    rangeEnd: initRangeEnd,
+  const { selectedDate, range, setRange } = useContext(DateContext);
+
+  const initRange = {
+    rangeStart: undefined,
+    rangeEnd: undefined,
   };
-
-  const [range, setRange] = useState<RangeType>(initRange);
-
-  const { selectedDate } = useContext(DateContext);
 
   useEffect(() => {
     const { rangeStart, rangeEnd } = range;
@@ -35,7 +29,7 @@ export const useRange = (props: UseRangeProps): UseRangeReturns => {
       if (rangeEndIncreased) setRange({ ...range, rangeEnd: selectedDate });
       if (rangeEndDecreased) setRange({ ...range, rangeEnd: selectedDate });
     }
-  }, [selectedDate, range, initRangeStart, initRangeEnd]);
+  }, [selectedDate, range, initRangeStart, initRangeEnd, setRange]);
 
   const clearRange = (): void => {
     setRange(initRange);
