@@ -1,9 +1,12 @@
-import { useCallback, useContext, useState } from "react";
-import { DateContext } from "../../providers/DateProvider";
-import { type Todos, type UseTodosReturns } from "./interfaces";
+import { useCallback, useContext, useState } from 'react';
+import { DateContext } from '../../providers/DateProvider';
+import { useLocalStorage } from '../useLocalStorage';
+import { type Todos, type UseTodosReturns } from './interfaces';
 
 export const useTodos = (): UseTodosReturns => {
-  const [todos, setTodos] = useState<Todos>({});
+  const [todosStoraged, addTodosToStorage] =
+    useLocalStorage<Todos>('todos');
+  const [todos, setTodos] = useState<Todos>(todosStoraged ?? {});
   const { selectedDate, range } = useContext(DateContext);
 
   const addTodo = useCallback(
@@ -15,8 +18,8 @@ export const useTodos = (): UseTodosReturns => {
         const isWithRange = rangeStart != null || rangeEnd != null;
         const dateKey = isWithRange ? rangeStart : selectedDate;
         const dateKeyTimestamp = dateKey?.getTime() ?? 0;
-        const rangeEndTimestamp = rangeEnd?.getTime() ?? 0;
-
+        const rangeEndTimestamp =
+          rangeEnd?.getTime() ?? selectedDate?.getTime();
         const todosOnDate = todos[dateKeyTimestamp] ?? [];
 
         const updatedTodos = [
@@ -24,13 +27,18 @@ export const useTodos = (): UseTodosReturns => {
           { todoText, rangeEnd: rangeEndTimestamp },
         ];
 
-        setTodos((prevTodos) => ({
-          ...prevTodos,
-          [dateKeyTimestamp]: updatedTodos,
-        }));
+        setTodos((prevTodos) => {
+          const allTodos = {
+            ...prevTodos,
+            [dateKeyTimestamp]: updatedTodos,
+          };
+
+          addTodosToStorage(allTodos);
+          return allTodos;
+        });
       }
     },
-    [selectedDate, todos, range]
+    [selectedDate, todos, range, addTodosToStorage]
   );
 
   return { todos, addTodo };
