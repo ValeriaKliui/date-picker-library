@@ -1,5 +1,5 @@
 import { type Todos } from "../../hooks/useTodos/interfaces";
 
-export interface TodoPopUpProps {
+export interface TodoListProps {
   todos: Todos;
 }

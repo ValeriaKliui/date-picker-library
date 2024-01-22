@@ -1,11 +1,10 @@
-import { useCallback, useContext, useState } from 'react';
-import { DateContext } from '../../providers/DateProvider';
-import { useLocalStorage } from '../useLocalStorage';
-import { type Todos, type UseTodosReturns } from './interfaces';
+import { useCallback, useContext, useState } from "react";
+import { DateContext } from "../../providers/DateProvider";
+import { useLocalStorage } from "../useLocalStorage";
+import { type Todos, type UseTodosReturns } from "./interfaces";
 
 export const useTodos = (): UseTodosReturns => {
-  const [todosStoraged, addTodosToStorage] =
-    useLocalStorage<Todos>('todos');
+  const [todosStoraged, addTodosToStorage] = useLocalStorage<Todos>("todos");
   const [todos, setTodos] = useState<Todos>(todosStoraged ?? {});
   const { selectedDate, range } = useContext(DateContext);
 

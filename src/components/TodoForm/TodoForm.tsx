@@ -2,6 +2,7 @@ import { type FormEvent, useState, type ChangeEvent, type FC } from "react";
 import { CalendarButton } from "../Calendar/Calendar.styled";
 import Input from "../Input";
 import { type TodoFormProps } from "./interfaces";
+import { TodoFormContainer } from "./TodoForm.styled";
 
 const TodoForm: FC<TodoFormProps> = ({ addTodo }) => {
   const [todoTextInput, setTodoTextInput] = useState("");
@@ -15,12 +16,20 @@ const TodoForm: FC<TodoFormProps> = ({ addTodo }) => {
     const { value } = e.target;
     setTodoTextInput(value);
   };
+  const onClear = (): void => {
+    setTodoTextInput("");
+  };
 
   return (
-    <form onSubmit={onSubmit}>
+    <TodoFormContainer onSubmit={onSubmit}>
+      <Input
+        onChange={onInputChange}
+        value={todoTextInput}
+        onClear={onClear}
+        placeholder="Input todo text..."
+      />
       <CalendarButton type="submit">Add ToDo</CalendarButton>
-      <Input onChange={onInputChange} value={todoTextInput} />
-    </form>
+    </TodoFormContainer>
   );
 };
 

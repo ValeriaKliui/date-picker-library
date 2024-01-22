@@ -17,7 +17,7 @@ import { type CalendarProps } from "./interface";
 import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
 import { useTodos } from "../../hooks/useTodos";
 import TodoForm from "../TodoForm/TodoForm";
-import TodoPopUp from "../TodoPopUp/TodoPopUp";
+import TodoList from "../TodoList/TodoList";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
@@ -94,7 +94,7 @@ const Calendar: FC<CalendarProps> = ({
       )}
       {withTodos && (
         <>
-          <TodoPopUp todos={todos} />
+          <TodoList todos={todos} />
           <TodoForm addTodo={addTodo} />
         </>
       )}
