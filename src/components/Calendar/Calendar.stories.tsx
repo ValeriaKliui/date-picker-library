@@ -10,6 +10,12 @@ const meta: Meta<typeof Calendar> = {
   argTypes: {
     isMondayFirst: { type: "boolean", name: "monday first" },
     withWeekends: { type: "boolean", name: "with weekends" },
+    rangeStart: {
+      type: "string",
+      defaultValue: new Date(),
+      name: "range start",
+      control: "date",
+    },
   },
 };
 

@@ -125,8 +125,11 @@ export const formatDate = (date: Date | null | undefined): string => {
 };
 
 export const getDateFromTimestamp = (
-  timestampOrDate?: number | Date | null
-): Date | null => (timestampOrDate != null ? new Date(timestampOrDate) : null);
+  timestampOrDate?: number | Date | null | string
+): Date | null => {
+  if (timestampOrDate instanceof Date) return new Date(timestampOrDate);
+  return timestampOrDate != null ? new Date(+timestampOrDate) : null;
+};
 
 export const setInitTime = (...dates: DateOrNullOrUndef[]): void => {
   dates.forEach((date) => date?.setHours(0, 0, 0, 0));

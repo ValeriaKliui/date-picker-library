@@ -57,3 +57,7 @@ export type NotUndef<Type> = {
 export type NotNum<Type> = {
   [Property in keyof Type]: Exclude<Type[Property], number>;
 };
+
+export type ConvertedType<Type> = {
+  [Property in keyof Type]: string;
+};

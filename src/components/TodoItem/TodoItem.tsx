@@ -1,8 +1,9 @@
 import { type FC } from "react";
 
 import { TodoDate, TodoItemContainer } from "./TodoItem.styled";
+import { type TodoItemProps } from "./interfaces";
 
-const TodoItem: FC = ({ todo }) => {
+const TodoItem: FC<TodoItemProps> = ({ todo }) => {
   const { todoStart, todoEnd, todoText } = todo;
   return (
     <TodoItemContainer>

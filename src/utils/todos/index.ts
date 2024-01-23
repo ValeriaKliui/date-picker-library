@@ -1,65 +1,56 @@
 import { type RangeType } from "../../hooks/useRange/interfaces";
-import { type Todo } from "../../hooks/useTodos/interfaces";
 import { formatDate } from "../dates/getDates/getDates";
+import {
+  type TodoFormatted,
+  type TodoArray,
+  type TodoRendered,
+} from "./interfaces";
 
-export const getTodosInRange = (
-  todos: Array<[string, Todo[]]>,
-  range: RangeType
-): Array<Array<string | Todo[]>> => {
+export const getTodosOnDate = (
+  todos: TodoArray[],
+  range: RangeType,
+  selectedDate: Date | null
+): TodoArray[] => {
   const { rangeEnd, rangeStart } = range;
   const rangeStartTimestamp = rangeStart?.getTime();
   const rangeEndTimestamp = rangeEnd?.getTime();
+  const isWithRange = rangeStartTimestamp != null;
 
-  const todosAfterStart = todos.filter((todoDay) => {
-    const todoStartTimestamp = Number(todoDay[0]);
-    const isAfterStartRange =
-      rangeStartTimestamp != null && rangeStartTimestamp <= todoStartTimestamp;
-
-    return isAfterStartRange;
-  });
-
-  return todosAfterStart
-    .map((todoDay) => {
-      const todosBeforeEnd = todoDay[1].filter(
-        (todo) =>
-          rangeEndTimestamp != null && rangeEndTimestamp >= todo.rangeEnd
-      );
-      return [todoDay[0], todosBeforeEnd];
-    })
-    .filter((todoDay) => todoDay[1] != null && todoDay[1]?.length > 0);
-};
-
-export const getTodOSELECTED = (
-  todos: Array<[string, Todo[]]>,
-  selectedDate: Date | null
-): Array<Array<string | Todo[]>> => {
   const selectedDateTimestamp = selectedDate?.getTime();
+
   const todosAfterStart = todos.filter((todoDay) => {
     const todoStartTimestamp = Number(todoDay[0]);
-    const isAfterStartRange =
-      selectedDateTimestamp != null &&
-      selectedDateTimestamp >= todoStartTimestamp;
 
-    return isAfterStartRange;
+    const isAfterStart = isWithRange
+      ? rangeStartTimestamp <= todoStartTimestamp
+      : selectedDateTimestamp != null &&
+        selectedDateTimestamp >= todoStartTimestamp;
+    return isAfterStart;
   });
 
   return todosAfterStart
     .map((todoDay) => {
-      const todosBeforeEnd = todoDay[1].filter(
-        (todo) =>
-          selectedDateTimestamp != null &&
-          selectedDateTimestamp <= todo.rangeEnd
+      const todosBeforeEnd = todoDay[1].filter((todo) =>
+        isWithRange
+          ? rangeEndTimestamp != null && rangeEndTimestamp >= todo.rangeEnd
+          : selectedDateTimestamp != null &&
+            selectedDateTimestamp <= todo.rangeEnd
       );
-      return [todoDay[0], todosBeforeEnd];
+      const text = todoDay[0];
+
+      return [text, todosBeforeEnd];
     })
-    .filter((todoDay) => todoDay[1] != null && todoDay[1]?.length > 0);
+    .filter(
+      (todoDay) => todoDay[1] != null && todoDay[1]?.length > 0
+    ) as TodoArray[];
 };
 
-const formatTodos = (todos: Array<Array<string | Todo[]>>) =>
+const formatTodos = (todos: TodoArray[]): TodoFormatted[] =>
   todos
     .map((todoDay) => {
       const todoStart = Number(todoDay[0]);
-      return todoDay[1]?.map((todo) => ({
+      const todosOnDay = todoDay[1] ?? [];
+      return todosOnDay.map((todo) => ({
         todoStart,
         todoEnd: todo.rangeEnd,
         todoText: todo.todoText,
@@ -68,26 +59,26 @@ const formatTodos = (todos: Array<Array<string | Todo[]>>) =>
     .flat();
 
 const compareTodos = (
-  firstTodo: {
-    todoStart: number;
-    todoEnd: number;
-    todoText: string;
-  },
-  secondTodo: {
-    todoStart: number;
-    todoEnd: number;
-    todoText: string;
-  }
-) => {
-  if (firstTodo.todoStart < secondTodo.todoStart) return -1;
-  if (firstTodo.todoStart > secondTodo.todoStart) return 1;
-  if (firstTodo.todoEnd < secondTodo.todoEnd) return -1;
-  if (firstTodo.todoEnd > secondTodo.todoEnd) return 1;
+  firstTodo: TodoFormatted,
+  secondTodo: TodoFormatted
+): -1 | 0 | 1 => {
+  if (
+    firstTodo.todoStart < secondTodo.todoStart ||
+    firstTodo.todoEnd < secondTodo.todoEnd
+  )
+    return -1;
+  if (
+    firstTodo.todoStart > secondTodo.todoStart ||
+    firstTodo.todoEnd > secondTodo.todoEnd
+  )
+    return 1;
   return 0;
 };
-const sortTodos = (todos: Array<[string, Todo[]]>) => todos.sort(compareTodos);
 
-export const getRenderedTodos = (todos: Array<Array<string | Todo[]>>) => {
+const sortTodos = (todos: TodoFormatted[]): TodoFormatted[] =>
+  todos.sort(compareTodos);
+
+export const getRenderedTodos = (todos: TodoArray[]): TodoRendered[] => {
   const formattedTodos = formatTodos(todos);
   const sortedTodos = sortTodos(formattedTodos);
   return sortedTodos.map((todo) => {
@@ -97,7 +88,7 @@ export const getRenderedTodos = (todos: Array<Array<string | Todo[]>>) => {
     return {
       ...todo,
       todoStart: formatDate(todoStartDate),
-      todoEnd: todoEndDate !== 0 ? formatDate(todoEndDate) : null,
+      todoEnd: todoEndDate !== 0 ? formatDate(todoEndDate) : "",
     };
   });
 };

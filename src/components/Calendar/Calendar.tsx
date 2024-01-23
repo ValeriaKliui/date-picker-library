@@ -17,7 +17,8 @@ import { type CalendarProps } from "./interface";
 import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
 import { useTodos } from "../../hooks/useTodos";
 import TodoForm from "../TodoForm/TodoForm";
-import TodoList from "../TodoList/TodoList";
+import { usePortal } from "../../hooks/usePortal";
+import Modal from "../Modal/Modal";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
@@ -31,12 +32,19 @@ const Calendar: FC<CalendarProps> = ({
 }) => {
   const maxDateParsed = getDateFromTimestamp(maxDate);
   const minDateParsed = getDateFromTimestamp(minDate);
+  const rangeEndParsed = getDateFromTimestamp(rangeEnd);
+  const rangeStartParsed = getDateFromTimestamp(rangeStart);
 
-  setInitTime(maxDateParsed, minDateParsed, rangeEnd, rangeStart);
+  setInitTime(maxDateParsed, minDateParsed, rangeEndParsed, rangeStartParsed);
 
   const weekDays = getWeekDays(isMondayFirst, withWeekends);
 
   const { todos, addTodo } = useTodos();
+  const {
+    Portal: TodoFormPopup,
+    togglePortal: toggleTodoForm,
+    isPortalOpened: isTodoFormOpened,
+  } = usePortal(<TodoForm addTodo={addTodo} />);
 
   const {
     onPeriodSliderClick,
@@ -56,8 +64,8 @@ const Calendar: FC<CalendarProps> = ({
     isMondayFirst,
     maxDate: maxDateParsed,
     minDate: minDateParsed,
-    rangeStart,
-    rangeEnd,
+    rangeStart: rangeStartParsed,
+    rangeEnd: rangeEndParsed,
     todos,
   });
 
@@ -74,31 +82,36 @@ const Calendar: FC<CalendarProps> = ({
   const headerText = getHeaderText();
 
   return (
-    <Container>
-      <CalendarDates>
-        <PeriodSlider
-          sliderHeaderText={headerText}
-          onLeftArrowClick={onPrevPeriodClick}
-          onRightArrowClick={onNextPeriodClick}
-          onPeriodSliderClick={onPeriodSliderClick}
-        />
-        <CalendarCells
-          $calendarType={calendarType}
-          $withWeekends={withWeekends}
-        >
-          {renderCalendarGrid()}
-        </CalendarCells>
-      </CalendarDates>
-      {(range.rangeEnd !== undefined || range.rangeStart !== undefined) && (
-        <CalendarButton onClick={clearRange}>Clear</CalendarButton>
-      )}
-      {withTodos && (
-        <>
-          <TodoList todos={todos} />
-          <TodoForm addTodo={addTodo} />
-        </>
-      )}
-    </Container>
+    <>
+      {withTodos && isTodoFormOpened && <Modal>{TodoFormPopup}</Modal>}
+
+      <button onClick={toggleTodoForm} />
+      <Container>
+        <CalendarDates>
+          <PeriodSlider
+            sliderHeaderText={headerText}
+            onLeftArrowClick={onPrevPeriodClick}
+            onRightArrowClick={onNextPeriodClick}
+            onPeriodSliderClick={onPeriodSliderClick}
+          />
+          <CalendarCells
+            $calendarType={calendarType}
+            $withWeekends={withWeekends}
+          >
+            {renderCalendarGrid()}
+          </CalendarCells>
+        </CalendarDates>
+        {(range.rangeEnd !== undefined || range.rangeStart !== undefined) && (
+          <CalendarButton onClick={clearRange}>Clear</CalendarButton>
+        )}
+        {/* {withTodos && isPortalOpened && (
+          <>
+            <TodoList todos={todos} />
+            <TodoForm addTodo={addTodo} />
+          </>
+        )} */}
+      </Container>
+    </>
   );
 };
 
