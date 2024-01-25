@@ -1,10 +1,10 @@
-import { type RangeType } from "../../hooks/useRange/interfaces";
-import { formatDate } from "../dates/getDates/getDates";
+import { type RangeType } from '../../hooks/useRange/interfaces';
+import { formatDate } from '../dates/getDates/getDates';
 import {
   type TodoFormatted,
   type TodoArray,
   type TodoRendered,
-} from "./interfaces";
+} from './interfaces';
 
 export const getTodosOnDate = (
   todos: TodoArray[],
@@ -32,7 +32,8 @@ export const getTodosOnDate = (
     .map((todoDay) => {
       const todosBeforeEnd = todoDay[1].filter((todo) =>
         isWithRange
-          ? rangeEndTimestamp != null && rangeEndTimestamp >= todo.rangeEnd
+          ? rangeEndTimestamp != null &&
+            rangeEndTimestamp >= todo.rangeEnd
           : selectedDateTimestamp != null &&
             selectedDateTimestamp <= todo.rangeEnd
       );
@@ -51,6 +52,7 @@ const formatTodos = (todos: TodoArray[]): TodoFormatted[] =>
       const todoStart = Number(todoDay[0]);
       const todosOnDay = todoDay[1] ?? [];
       return todosOnDay.map((todo) => ({
+        finished: todo.finished,
         todoStart,
         todoEnd: todo.rangeEnd,
         todoText: todo.todoText,
@@ -78,7 +80,9 @@ const compareTodos = (
 const sortTodos = (todos: TodoFormatted[]): TodoFormatted[] =>
   todos.sort(compareTodos);
 
-export const getRenderedTodos = (todos: TodoArray[]): TodoRendered[] => {
+export const getRenderedTodos = (
+  todos: TodoArray[]
+): TodoRendered[] => {
   const formattedTodos = formatTodos(todos);
   const sortedTodos = sortTodos(formattedTodos);
   return sortedTodos.map((todo) => {
@@ -88,8 +92,10 @@ export const getRenderedTodos = (todos: TodoArray[]): TodoRendered[] => {
     return {
       ...todo,
       todoStart: formatDate(todoStartDate),
-      todoEnd: !isTheSameDate ? formatDate(todoEndDate) : "",
-      todoEndTimestamp: isTheSameDate ? todo?.todoStart : todo?.todoEnd,
+      todoEnd: !isTheSameDate ? formatDate(todoEndDate) : '',
+      todoEndTimestamp: isTheSameDate
+        ? todo?.todoStart
+        : todo?.todoEnd,
       todoStartTimestamp: todo?.todoStart,
     };
   });

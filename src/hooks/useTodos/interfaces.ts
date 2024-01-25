@@ -1,6 +1,7 @@
 export interface Todo {
   todoText: string;
   rangeEnd: number;
+  finished: boolean;
 }
 export type Todos = Record<number, Todo[]>;
 
