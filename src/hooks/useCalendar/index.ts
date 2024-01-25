@@ -26,19 +26,17 @@ import { getMonthCalendar } from "../../utils/calendar/calendarGrid/getMonthCale
 import { getYearCalendar } from "../../utils/calendar/calendarGrid/getYearCalendar";
 import { useRange } from "../useRange";
 
-export const useCalendar = (props: UseCalendarProps): UseCalendarReturns => {
-  const {
-    holidays = [],
-    withWeekends,
-    weekDays,
-    isMondayFirst,
-    minDate,
-    maxDate,
-    rangeStart,
-    rangeEnd,
-    todos,
-  } = props;
-
+export const useCalendar = ({
+  holidays = [],
+  withWeekends,
+  weekDays,
+  isMondayFirst,
+  minDate,
+  maxDate,
+  rangeStart,
+  rangeEnd,
+  todos,
+}: UseCalendarProps): UseCalendarReturns => {
   const {
     calendarDate,
     setCalendarDate,
@@ -50,7 +48,10 @@ export const useCalendar = (props: UseCalendarProps): UseCalendarReturns => {
     decreaseYearOnAmount,
   } = useCalendarDate();
 
-  const { range, clearRange } = useRange({ rangeStart, rangeEnd });
+  const { range, clearRange } = useRange({
+    rangeStart,
+    rangeEnd,
+  });
 
   const [calendarType, setCalendarType] = useState(CalendarType.REGULAR);
   const setRegularCalendar = (): void => {

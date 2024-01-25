@@ -1,4 +1,4 @@
-import { type FC, useContext, useState } from "react";
+import { type FC, useContext, useState, memo } from "react";
 import { DateContext } from "../../providers/DateProvider";
 import { getDateFromString } from "../../utils/dates/getDates/getDates";
 import DateInput from "../DateInput";
@@ -45,4 +45,4 @@ const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
   );
 };
 
-export default DatePicker;
+export default memo(DatePicker);

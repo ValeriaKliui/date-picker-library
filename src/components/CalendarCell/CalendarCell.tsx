@@ -1,6 +1,6 @@
-import { type FC } from 'react';
-import { Container, CalendarCellText } from './CalendarCell.styled';
-import { type CalendarCellProps } from './interface';
+import { memo, type FC } from "react";
+import { Container, CalendarCellText } from "./CalendarCell.styled";
+import { type CalendarCellProps } from "./interface";
 
 const CalendarCell: FC<CalendarCellProps> = ({
   type,
@@ -41,4 +41,5 @@ const CalendarCell: FC<CalendarCellProps> = ({
 
   return null;
 };
-export default CalendarCell;
+
+export default memo(CalendarCell);

@@ -1,7 +1,4 @@
-import { type Holiday } from "../../../../components/Calendar/interface";
 import CalendarCell from "../../../../components/CalendarCell";
-import { type Todo } from "../../../../hooks/useTodos/interfaces";
-import { type RangeType } from "../../../../hooks/useRange/interfaces";
 import {
   getDateWith01Day,
   getDateWithLastDay,
@@ -12,28 +9,18 @@ import {
   getNextMonth,
   getPrevMonth,
 } from "../../../dates/getDates/getDates";
-import { type WeekDay } from "../../../dates/getDates/interface";
 import { renderCellsDays } from "../renderDays";
+import { type GetRegularCalendarProps } from "./interfaces";
 
-export const getRegularCalendar = (props: {
-  calendarDate: Date;
-  weekDays: WeekDay[];
-  isMondayFirst: boolean;
-  withWeekends: boolean;
-  holidays: Holiday[];
-  range: RangeType;
-  todos: Todo[];
-}): JSX.Element => {
-  const {
-    calendarDate,
-    weekDays,
-    isMondayFirst,
-    withWeekends,
-    holidays,
-    range,
-    todos,
-  } = props;
-
+export const getRegularCalendar = ({
+  calendarDate,
+  weekDays,
+  isMondayFirst,
+  withWeekends,
+  holidays,
+  range,
+  todos,
+}: GetRegularCalendarProps): JSX.Element => {
   const weekStart = weekDays[0] != null ? weekDays[0].weekDayNum : 0;
   const weekEnd = weekDays[6] != null ? weekDays[6].weekDayNum : 6;
 

@@ -1,11 +1,11 @@
-import { type FC, useContext } from "react";
+import { type FC, useContext, memo } from "react";
 import { type TodoListProps } from "./interfaces";
 import { DateContext } from "../../providers/DateProvider";
 import { getRenderedTodos, getTodosOnDate } from "../../utils/todos";
 import { TodoListContainer } from "./TodoList.styled";
 import TodoItem from "../TodoItem/TodoItem";
 
-const TodoList: FC<TodoListProps> = ({ todos }) => {
+const TodoList: FC<TodoListProps> = ({ todos, deleteTodo }) => {
   const { selectedDate, range } = useContext(DateContext);
 
   const todoEntries = Object.entries(todos);
@@ -18,10 +18,12 @@ const TodoList: FC<TodoListProps> = ({ todos }) => {
       {renderedTodos.map((todo) => (
         <TodoItem
           todo={todo}
-          key={todo.todoStart + todo.todoEnd + todo.todoText}
+          key={todo.todoStartTimestamp + todo.todoEndTimestamp + todo.todoText}
+          deleteTodo={deleteTodo}
         />
       ))}
     </TodoListContainer>
   );
 };
-export default TodoList;
+
+export default memo(TodoList);

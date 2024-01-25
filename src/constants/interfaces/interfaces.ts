@@ -6,8 +6,9 @@ export interface UsedColors {
   dark: string;
   blue: string;
   lightBlue: string;
-  transparentBlue: string;
   white: string;
+  transparentGrey: string;
+  transparentBlue: string;
 }
 export interface Theme {
   colors: UsedColors;
@@ -56,8 +57,4 @@ export type NotUndef<Type> = {
 
 export type NotNum<Type> = {
   [Property in keyof Type]: Exclude<Type[Property], number>;
-};
-
-export type ConvertedType<Type> = {
-  [Property in keyof Type]: string;
 };

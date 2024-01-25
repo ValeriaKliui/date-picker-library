@@ -1,4 +1,10 @@
-import { type FormEvent, useState, type ChangeEvent, type FC } from "react";
+import {
+  type FormEvent,
+  useState,
+  type ChangeEvent,
+  type FC,
+  memo,
+} from "react";
 import { CalendarButton } from "../Calendar/Calendar.styled";
 import Input from "../Input";
 import { type TodoFormProps } from "./interfaces";
@@ -33,4 +39,4 @@ const TodoForm: FC<TodoFormProps> = ({ addTodo }) => {
   );
 };
 
-export default TodoForm;
+export default memo(TodoForm);

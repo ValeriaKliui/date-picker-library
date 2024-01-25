@@ -84,11 +84,13 @@ export const getRenderedTodos = (todos: TodoArray[]): TodoRendered[] => {
   return sortedTodos.map((todo) => {
     const isTheSameDate = todo?.todoStart === todo?.todoEnd;
     const todoStartDate = new Date(todo?.todoStart);
-    const todoEndDate = isTheSameDate ? 0 : new Date(todo?.todoEnd);
+    const todoEndDate = new Date(todo?.todoEnd);
     return {
       ...todo,
       todoStart: formatDate(todoStartDate),
-      todoEnd: todoEndDate !== 0 ? formatDate(todoEndDate) : "",
+      todoEnd: !isTheSameDate ? formatDate(todoEndDate) : "",
+      todoEndTimestamp: isTheSameDate ? todo?.todoStart : todo?.todoEnd,
+      todoStartTimestamp: todo?.todoStart,
     };
   });
 };

@@ -5,14 +5,16 @@ import { type Todos, type UseTodosReturns } from "./interfaces";
 
 export const useTodos = (): UseTodosReturns => {
   const [todosStoraged, addTodosToStorage] = useLocalStorage<Todos>("todos");
-  const [todos, setTodos] = useState<Todos>(todosStoraged ?? {});
+  const initialTodos =
+    Object.keys(todosStoraged).length > 0 ? todosStoraged : {};
+  const [todos, setTodos] = useState<Todos>(initialTodos);
   const { selectedDate, range } = useContext(DateContext);
 
   const addTodo = useCallback(
     (todoText: string) => {
       const textIsNotEmpty = todoText.length > 0;
 
-      if (textIsNotEmpty && selectedDate != null) {
+      if (textIsNotEmpty) {
         const { rangeStart, rangeEnd } = range;
         const isWithRange = rangeStart != null || rangeEnd != null;
         const dateKey = isWithRange ? rangeStart : selectedDate;
@@ -40,5 +42,29 @@ export const useTodos = (): UseTodosReturns => {
     [selectedDate, todos, range, addTodosToStorage]
   );
 
-  return { todos, addTodo };
+  const deleteTodo = (
+    todoStartTimestamp: number,
+    todoEndTimestamp: number,
+    todoText: string
+  ) => {
+    setTodos((prevTodos) => {
+      if (prevTodos[todoStartTimestamp].length === 1) {
+        delete prevTodos[todoStartTimestamp];
+        return {};
+      }
+
+      return {
+        ...prevTodos,
+        [todoStartTimestamp]:
+          prevTodos[todoStartTimestamp]?.filter(
+            (todo) =>
+              !(
+                todo.rangeEnd === todoEndTimestamp && todo.todoText === todoText
+              )
+          ) ?? [],
+      };
+    });
+  };
+
+  return { todos, addTodo, deleteTodo };
 };

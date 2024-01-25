@@ -1,4 +1,3 @@
-import { type ConvertedType } from "../../constants/interfaces/interfaces";
 import { type Todo } from "../../hooks/useTodos/interfaces";
 
 let todoArrayTulpe: [string, Todo[]];
@@ -9,4 +8,10 @@ export type TodoFormatted = Pick<Todo, "todoText"> & {
   todoEnd: number;
 };
 
-export type TodoRendered = ConvertedType<TodoFormatted>;
+export interface TodoRendered {
+  todoStart: string;
+  todoEnd: string;
+  todoStartTimestamp: number;
+  todoEndTimestamp: number;
+  todoText: string;
+}

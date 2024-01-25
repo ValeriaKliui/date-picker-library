@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { memo, type FC, useState } from "react";
 import { useCalendar } from "../../hooks/useCalendar";
 import { useKeyPress } from "../../hooks/useKeyPress";
 import {
@@ -17,8 +17,8 @@ import { type CalendarProps } from "./interface";
 import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
 import { useTodos } from "../../hooks/useTodos";
 import TodoForm from "../TodoForm/TodoForm";
-import { usePortal } from "../../hooks/usePortal";
 import Modal from "../Modal/Modal";
+import TodoList from "../TodoList/TodoList";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
@@ -32,19 +32,12 @@ const Calendar: FC<CalendarProps> = ({
 }) => {
   const maxDateParsed = getDateFromTimestamp(maxDate);
   const minDateParsed = getDateFromTimestamp(minDate);
-  const rangeEndParsed = getDateFromTimestamp(rangeEnd);
-  const rangeStartParsed = getDateFromTimestamp(rangeStart);
 
-  setInitTime(maxDateParsed, minDateParsed, rangeEndParsed, rangeStartParsed);
+  setInitTime(maxDateParsed, minDateParsed);
 
   const weekDays = getWeekDays(isMondayFirst, withWeekends);
 
-  const { todos, addTodo } = useTodos();
-  const {
-    Portal: TodoFormPopup,
-    togglePortal: toggleTodoForm,
-    isPortalOpened: isTodoFormOpened,
-  } = usePortal(<TodoForm addTodo={addTodo} />);
+  const { todos, addTodo, deleteTodo } = useTodos();
 
   const {
     onPeriodSliderClick,
@@ -64,8 +57,8 @@ const Calendar: FC<CalendarProps> = ({
     isMondayFirst,
     maxDate: maxDateParsed,
     minDate: minDateParsed,
-    rangeStart: rangeStartParsed,
-    rangeEnd: rangeEndParsed,
+    rangeStart,
+    rangeEnd,
     todos,
   });
 
@@ -80,12 +73,27 @@ const Calendar: FC<CalendarProps> = ({
     });
 
   const headerText = getHeaderText();
+  const [isPopUpOpened, setIsPopUpOpened] = useState(false);
 
   return (
     <>
-      {withTodos && isTodoFormOpened && <Modal>{TodoFormPopup}</Modal>}
-
-      <button onClick={toggleTodoForm} />
+      <button
+        onClick={() => {
+          setIsPopUpOpened(true);
+        }}
+      >
+        open modal
+      </button>
+      {isPopUpOpened && (
+        <Modal
+          onClose={() => {
+            setIsPopUpOpened(false);
+          }}
+        >
+          <TodoForm addTodo={addTodo} />
+          <TodoList todos={todos} deleteTodo={deleteTodo} />
+        </Modal>
+      )}
       <Container>
         <CalendarDates>
           <PeriodSlider
@@ -101,12 +109,12 @@ const Calendar: FC<CalendarProps> = ({
             {renderCalendarGrid()}
           </CalendarCells>
         </CalendarDates>
-        {(range.rangeEnd !== undefined || range.rangeStart !== undefined) && (
+        {(range.rangeEnd != null || range.rangeStart != null) && (
           <CalendarButton onClick={clearRange}>Clear</CalendarButton>
         )}
-        {/* {withTodos && isPortalOpened && (
+
+        {/* {withTodos && (
           <>
-            <TodoList todos={todos} />
             <TodoForm addTodo={addTodo} />
           </>
         )} */}
@@ -115,4 +123,4 @@ const Calendar: FC<CalendarProps> = ({
   );
 };
 
-export default Calendar;
+export default memo(Calendar);

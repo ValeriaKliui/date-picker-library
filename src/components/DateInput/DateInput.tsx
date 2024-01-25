@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { memo, type FC } from "react";
 import { type DateInputProps } from "./interface";
 import { Title, DateInputContainer } from "./DateInput.styled";
 import { useDateInput } from "../../hooks/useDateInput";
@@ -35,5 +35,4 @@ const DateInput: FC<DateInputProps> = ({
     </DateInputContainer>
   );
 };
-
-export default DateInput;
+export default memo(DateInput);

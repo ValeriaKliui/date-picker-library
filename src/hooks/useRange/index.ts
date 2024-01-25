@@ -1,21 +1,44 @@
 import { useContext, useEffect } from "react";
 import { DateContext } from "../../providers/DateProvider";
 import { type UseRangeProps, type UseRangeReturns } from "./interfaces";
+import {
+  getDateFromTimestamp,
+  setInitTime,
+} from "../../utils/dates/getDates/getDates";
 
 export const useRange = (props: UseRangeProps): UseRangeReturns => {
-  const { rangeEnd: initRangeEnd, rangeStart: initRangeStart } = props;
-  const { selectedDate, range, setRange } = useContext(DateContext);
+  const { selectedDate, range, setRange, setSelectedDate } =
+    useContext(DateContext);
 
-  const initRange = {
-    rangeStart: undefined,
-    rangeEnd: undefined,
-  };
+  useEffect(() => {
+    const parsedRangeStart = getDateFromTimestamp(props.rangeStart);
+    const parsedRangeEnd = getDateFromTimestamp(props.rangeEnd);
+    setInitTime(parsedRangeStart, parsedRangeEnd);
+
+    const rangeEndDecreased =
+      parsedRangeEnd != null &&
+      parsedRangeStart != null &&
+      parsedRangeEnd < parsedRangeStart;
+
+    setRange({
+      rangeEnd: parsedRangeEnd,
+      rangeStart: parsedRangeStart,
+    });
+    if (rangeEndDecreased) {
+      setRange({
+        rangeEnd: parsedRangeStart,
+        rangeStart: parsedRangeEnd,
+      });
+    }
+    setSelectedDate(null);
+  }, [setRange, setSelectedDate, props.rangeEnd, props.rangeStart]);
 
   useEffect(() => {
     const { rangeStart, rangeEnd } = range;
+
     if (
       selectedDate != null &&
-      (initRangeStart !== undefined || initRangeEnd !== undefined)
+      (props.rangeStart != null || props.rangeEnd != null)
     ) {
       const rangeStartChanged = rangeStart == null || selectedDate < rangeStart;
       const rangeEndIncreased = rangeEnd == null || selectedDate > rangeEnd;
@@ -29,10 +52,11 @@ export const useRange = (props: UseRangeProps): UseRangeReturns => {
       if (rangeEndIncreased) setRange({ ...range, rangeEnd: selectedDate });
       if (rangeEndDecreased) setRange({ ...range, rangeEnd: selectedDate });
     }
-  }, [selectedDate, range, initRangeStart, initRangeEnd, setRange]);
+  }, [selectedDate, props.rangeEnd, props.rangeStart, range, setRange]);
 
   const clearRange = (): void => {
-    setRange(initRange);
+    setRange({ rangeEnd: undefined, rangeStart: undefined });
+    setSelectedDate(null);
   };
 
   return {

@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import { memo, type FC } from "react";
 import { type InputProps } from "./interfaces";
 import {
   ClearIcon,
@@ -33,4 +33,4 @@ const Input: FC<InputProps> = ({
     )}
   </>
 );
-export default Input;
+export default memo(Input);

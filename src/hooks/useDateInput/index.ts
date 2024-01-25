@@ -10,14 +10,12 @@ import { formatDate } from "../../utils/dates/getDates/getDates";
 import { isValidDate } from "../../utils/dates/isValidDate";
 import { type UseDateInputProps, type UseDateInputReturns } from "./interfaces";
 
-export const useDateInput = (props: UseDateInputProps): UseDateInputReturns => {
-  const {
-    setInputValue = () => {},
-    onClearClick = () => {},
-    onDateChange = () => {},
-    onValidDateInput = (_dateStr: string) => {},
-  } = props;
-
+export const useDateInput = ({
+  setInputValue = () => {},
+  onClearClick = () => {},
+  onDateChange = () => {},
+  onValidDateInput = (_dateStr: string) => {},
+}: UseDateInputProps): UseDateInputReturns => {
   const [error, setIsError] = useState({
     isError: false,
     errorText: "",
