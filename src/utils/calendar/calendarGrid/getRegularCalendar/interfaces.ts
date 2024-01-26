@@ -11,4 +11,5 @@ export interface GetRegularCalendarProps {
   holidays: Holiday[];
   range: RangeType;
   todos: Todo[];
+  withTodos: boolean;
 }

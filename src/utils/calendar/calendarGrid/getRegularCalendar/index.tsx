@@ -20,6 +20,7 @@ export const getRegularCalendar = ({
   holidays,
   range,
   todos,
+  withTodos,
 }: GetRegularCalendarProps): JSX.Element => {
   const weekStart = weekDays[0] != null ? weekDays[0].weekDayNum : 0;
   const weekEnd = weekDays[6] != null ? weekDays[6].weekDayNum : 6;
@@ -50,6 +51,7 @@ export const getRegularCalendar = ({
     holidays,
     range,
     todos,
+    withTodos,
   });
 
   return (

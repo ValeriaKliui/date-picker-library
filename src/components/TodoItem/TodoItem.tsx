@@ -1,12 +1,12 @@
-import { memo, type FC } from 'react';
+import { memo, type FC } from "react";
 
-import { TodoDate, TodoItemContainer } from './TodoItem.styled';
-import { type TodoItemProps } from './interfaces';
+import { TodoDate, TodoItemContainer } from "./TodoItem.styled";
+import { type TodoItemProps } from "./interfaces";
 
 const TodoItem: FC<TodoItemProps> = ({
   todo,
   deleteTodo,
-  finishTodo,
+  toggleFinishTodo,
 }) => {
   const {
     todoStart,
@@ -14,18 +14,21 @@ const TodoItem: FC<TodoItemProps> = ({
     todoText,
     todoEndTimestamp,
     todoStartTimestamp,
+    finished,
   } = todo;
 
   return (
-    <TodoItemContainer>
+    <TodoItemContainer $finished={finished}>
       <button
+        type="button"
         onClick={() =>
-          finishTodo(todoStartTimestamp, todoEndTimestamp, todoText)
+          toggleFinishTodo(todoStartTimestamp, todoEndTimestamp, todoText)
         }
       >
         finish
       </button>
       <button
+        type="button"
         onClick={() =>
           deleteTodo(todoStartTimestamp, todoEndTimestamp, todoText)
         }
@@ -33,7 +36,7 @@ const TodoItem: FC<TodoItemProps> = ({
         delete
       </button>
       <TodoDate>
-        {todoStart} {todoEnd != null ? `-${todoEnd}` : ''}:
+        {todoStart} {todoEnd != null ? `-${todoEnd}` : ""}:
       </TodoDate>
       <p>{todoText}</p>
     </TodoItemContainer>

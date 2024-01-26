@@ -1,5 +1,3 @@
-import { type UseTodosReturns } from "../../hooks/useTodos/interfaces";
+import { type useTodos } from "../../hooks/useTodos";
 
-export interface TodoFormProps {
-  addTodo: Pick<UseTodosReturns, "addTodo">;
-}
+export type TodoFormProps = Pick<ReturnType<typeof useTodos>, "addTodo">;

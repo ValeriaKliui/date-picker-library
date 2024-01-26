@@ -1,24 +1,25 @@
-import { memo, type FC, useState } from 'react';
-import { useCalendar } from '../../hooks/useCalendar';
-import { useKeyPress } from '../../hooks/useKeyPress';
+import { memo, type FC } from "react";
+import { useCalendar } from "../../hooks/useCalendar";
+import { useKeyPress } from "../../hooks/useKeyPress";
 import {
   getDateFromTimestamp,
   getWeekDays,
   setInitTime,
-} from '../../utils/dates/getDates/getDates';
-import PeriodSlider from '../PeriodSlider';
+} from "../../utils/dates/getDates/getDates";
+import PeriodSlider from "../PeriodSlider";
 import {
   CalendarCells,
   Container,
   CalendarDates,
   CalendarButton,
-} from './Calendar.styled';
-import { type CalendarProps } from './interface';
-import { getInCaseOfCalendar } from '../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar';
-import { useTodos } from '../../hooks/useTodos';
-import TodoForm from '../TodoForm/TodoForm';
-import Modal from '../Modal/Modal';
-import TodoList from '../TodoList/TodoList';
+} from "./Calendar.styled";
+import { type CalendarProps } from "./interface";
+import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
+import { useTodos } from "../../hooks/useTodos";
+import TodoForm from "../TodoForm/TodoForm";
+import Modal from "../Modal/Modal";
+import TodoList from "../TodoList/TodoList";
+import { usePopUp } from "../../hooks/usePopUp";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
@@ -37,7 +38,7 @@ const Calendar: FC<CalendarProps> = ({
 
   const weekDays = getWeekDays(isMondayFirst, withWeekends);
 
-  const { todos, addTodo, deleteTodo, finishTodo } = useTodos();
+  const { todos, addTodo, deleteTodo, toggleFinishTodo } = useTodos();
 
   const {
     onPeriodSliderClick,
@@ -60,10 +61,11 @@ const Calendar: FC<CalendarProps> = ({
     rangeStart,
     rangeEnd,
     todos,
+    withTodos,
   });
 
-  useKeyPress('ArrowLeft', onPrevPeriodClick);
-  useKeyPress('ArrowRight', onNextPeriodClick);
+  useKeyPress("ArrowLeft", onPrevPeriodClick);
+  useKeyPress("ArrowRight", onNextPeriodClick);
 
   const renderCalendarGrid = (): JSX.Element =>
     getInCaseOfCalendar(calendarType, {
@@ -73,25 +75,17 @@ const Calendar: FC<CalendarProps> = ({
     });
 
   const headerText = getHeaderText();
-  const [isPopUpOpened, setIsPopUpOpened] = useState(false);
-
-  const openTodoPopUp = () => {
-    setIsPopUpOpened(true);
-  };
+  const { isPopUpOpened, openPopUp, closePopUp } = usePopUp();
 
   return (
     <>
       {isPopUpOpened && (
-        <Modal
-          onClose={() => {
-            setIsPopUpOpened(false);
-          }}
-        >
+        <Modal onClose={closePopUp}>
           <TodoForm addTodo={addTodo} />
           <TodoList
             todos={todos}
             deleteTodo={deleteTodo}
-            finishTodo={finishTodo}
+            toggleFinishTodo={toggleFinishTodo}
           />
         </Modal>
       )}
@@ -113,9 +107,9 @@ const Calendar: FC<CalendarProps> = ({
         {(range.rangeEnd != null || range.rangeStart != null) && (
           <CalendarButton onClick={clearRange}>Clear</CalendarButton>
         )}
-        <CalendarButton onClick={openTodoPopUp}>
-          Add todo
-        </CalendarButton>
+        {withTodos && (
+          <CalendarButton onClick={openPopUp}>Add todo</CalendarButton>
+        )}
       </Container>
     </>
   );

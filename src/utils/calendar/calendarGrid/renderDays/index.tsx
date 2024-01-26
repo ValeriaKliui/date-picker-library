@@ -22,7 +22,7 @@ export const renderCellsDays =
     isPrevMonth?: boolean
   ): JSX.Element => {
     const { selectedDate, setSelectedDate } = useContext(DateContext);
-    const { withWeekends, holidays, range, todos } = daysCellOptions;
+    const { withWeekends, holidays, range, todos, withTodos } = daysCellOptions;
     const { type, shadowed } = cellOptions;
     const daysAmountInMonth = getDaysAmountInMonth(monthDate);
 
@@ -66,7 +66,7 @@ export const renderCellsDays =
               selected={isSelected}
               isWeekend={withWeekends && isWeekend}
               isHoliday={isHoliday}
-              isInTodo={isInTodo}
+              isInTodo={withTodos && isInTodo}
               onCalendarCellClick={onCalendarCellClick}
               range={rangeType}
             />

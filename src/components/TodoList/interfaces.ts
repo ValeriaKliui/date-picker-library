@@ -1,5 +1,6 @@
-import { type Todos } from "../../hooks/useTodos/interfaces";
+import { type useTodos } from "../../hooks/useTodos";
 
-export interface TodoListProps {
-  todos: Todos;
-}
+export type TodoListProps = Pick<
+  ReturnType<typeof useTodos>,
+  "todos" | "deleteTodo" | "toggleFinishTodo"
+>;

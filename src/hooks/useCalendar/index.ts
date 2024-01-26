@@ -36,6 +36,7 @@ export const useCalendar = ({
   rangeStart,
   rangeEnd,
   todos,
+  withTodos,
 }: UseCalendarProps): UseCalendarReturns => {
   const {
     calendarDate,
@@ -126,6 +127,7 @@ export const useCalendar = ({
     holidays,
     range,
     todos,
+    withTodos,
   });
   const monthCalendar = getMonthCalendar({
     calendarDate,

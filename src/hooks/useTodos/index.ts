@@ -1,11 +1,10 @@
-import { useCallback, useContext, useState } from 'react';
-import { DateContext } from '../../providers/DateProvider';
-import { useLocalStorage } from '../useLocalStorage';
-import { type Todos, type UseTodosReturns } from './interfaces';
+import { useCallback, useContext, useState } from "react";
+import { DateContext } from "../../providers/DateProvider";
+import { useLocalStorage } from "../useLocalStorage";
+import { type Todos, type UseTodosReturns } from "./interfaces";
 
 export const useTodos = (): UseTodosReturns => {
-  const [todosStoraged, addTodosToStorage] =
-    useLocalStorage<Todos>('todos');
+  const [todosStoraged, addTodosToStorage] = useLocalStorage<Todos>("todos");
   const initialTodos =
     Object.keys(todosStoraged).length > 0 ? todosStoraged : {};
   const [todos, setTodos] = useState<Todos>(initialTodos);
@@ -43,47 +42,63 @@ export const useTodos = (): UseTodosReturns => {
     [selectedDate, todos, range, addTodosToStorage]
   );
 
-  const deleteTodo = (
-    todoStartTimestamp: number,
-    todoEndTimestamp: number,
-    todoText: string
-  ) => {
-    setTodos((prevTodos) => {
-      if (prevTodos[todoStartTimestamp].length === 1) {
-        delete prevTodos[todoStartTimestamp];
-        return {};
+  function deleteFromObject(keyPart, obj) {
+    for (const k in obj) {
+      // Loop through the object
+      if (~k.indexOf(keyPart)) {
+        // If the current key contains the string we're looking for
+        delete obj[k]; // Delete obj[key];
       }
+    }
+  }
 
-      return {
-        ...prevTodos,
-        [todoStartTimestamp]:
-          prevTodos[todoStartTimestamp]?.filter(
-            (todo) =>
-              !(
-                todo.rangeEnd === todoEndTimestamp &&
-                todo.todoText === todoText
-              )
-          ) ?? [],
-      };
-    });
-  };
+  const deleteTodo = useCallback(
+    (
+      todoStartTimestamp: number,
+      todoEndTimestamp: number,
+      todoText: string
+    ): void => {
+      setTodos((prevTodos) => {
+        const filteredTodos = {
+          ...prevTodos,
+          [todoStartTimestamp]:
+            prevTodos[todoStartTimestamp]?.filter(
+              (todo) =>
+                !(
+                  todo.rangeEnd === todoEndTimestamp &&
+                  todo.todoText === todoText
+                )
+            ) ?? [],
+        };
+        if (filteredTodos[todoStartTimestamp]?.length === 0)
+          deleteFromObject(todoStartTimestamp, filteredTodos);
 
-  const finishTodo = (
+        addTodosToStorage(filteredTodos);
+        return filteredTodos;
+      });
+    },
+    [addTodosToStorage]
+  );
+
+  const toggleFinishTodo = (
     todoStartTimestamp: number,
     todoEndTimestamp: number,
     todoText: string
   ): void => {
-    setTodos((prevTodos) => ({
-      ...prevTodos,
-      [todoStartTimestamp]: prevTodos[todoStartTimestamp]?.map(
-        (todo) =>
-          todo.rangeEnd === todoEndTimestamp &&
-          todo.todoText === todoText
-            ? { ...todo, finished: true }
-            : todo
-      ),
-    }));
+    setTodos((prevTodos) => {
+      const finishedTodos = {
+        ...prevTodos,
+        [todoStartTimestamp]:
+          prevTodos[todoStartTimestamp]?.map((todo) =>
+            todo.rangeEnd === todoEndTimestamp && todo.todoText === todoText
+              ? { ...todo, finished: !todo.finished }
+              : todo
+          ) ?? [],
+      };
+      addTodosToStorage(finishedTodos);
+      return finishedTodos;
+    });
   };
 
-  return { todos, addTodo, deleteTodo, finishTodo };
+  return { todos, addTodo, deleteTodo, toggleFinishTodo };
 };
