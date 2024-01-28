@@ -1,10 +1,10 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   getCalendarCellBackgroundColor,
   getCalendarCellBorderRadius,
   getCalendarCellTextColor,
-} from "../../utils/calendar/calendarGrid/determineCalendarCellStyle";
-import { type RangeType } from "./interface";
+} from '../../utils/calendar/calendarGrid/determineCalendarCellStyle';
+import { type RangeType } from './interface';
 
 export const Container = styled.div<{
   $shadowed: boolean;
@@ -15,17 +15,18 @@ export const Container = styled.div<{
 }>`
   min-width: ${({ theme }) => theme.valueInPx.px40};
   min-height: ${({ theme }) => theme.valueInPx.px40};
-  cursor: ${({ $type }) => $type !== "weekday" && "pointer"};
+  cursor: ${({ $type }) => $type !== 'weekday' && 'pointer'};
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: ${({ $range }) => getCalendarCellBorderRadius($range)};
+  border-radius: ${({ $range }) =>
+    getCalendarCellBorderRadius($range)};
   background-color: ${({ $selected, $range, $isInTodo }) =>
-    getCalendarCellBackgroundColor($selected, $isInTodo, $range)};
+    getCalendarCellBackgroundColor($selected, $range, $isInTodo)};
   &:hover {
-    background-color: ${({ theme, $selected, $range }) =>
+    background-color: ${({ theme, $selected, $range, $isInTodo }) =>
       $selected || $range !== undefined
-        ? getCalendarCellBackgroundColor($selected, $range)
+        ? getCalendarCellBackgroundColor($selected, $range, $isInTodo)
         : theme.colors.lightGray};
   }
 `;

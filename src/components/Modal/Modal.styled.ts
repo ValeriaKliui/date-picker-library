@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import IconClose from '../../assets/icons/clear.svg';
+import IconCross from '../../assets/icons/cross.svg';
 
 export const ModalContainer = styled.div`
   display: flex;
@@ -19,13 +19,17 @@ export const ModalContent = styled.div`
   display: flex;
   flex-direction: column;
   width: 30%;
+  gap: ${({ theme }) => theme.valueInPx.px10};
 `;
 
-export const CloseButton = styled(IconClose)`
+export const CloseButton = styled(IconCross)`
   cursor: pointer;
-  align-self: flex-end;
-  transform: scale(1.1);
+  transform: scale(1.3);
   & path {
     fill: ${({ theme }) => theme.colors.dark};
   }
+`;
+
+export const CloseButtonRight = styled(CloseButton)`
+  align-self: flex-end;
 `;

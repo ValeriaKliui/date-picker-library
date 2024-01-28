@@ -9,6 +9,7 @@ export interface UsedColors {
   white: string;
   transparentGrey: string;
   transparentBlue: string;
+  green: string;
 }
 export interface Theme {
   colors: UsedColors;
