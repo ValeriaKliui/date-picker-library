@@ -1,4 +1,4 @@
-import CalendarCell from "../../../../components/CalendarCell";
+import CalendarCell from 'components/CalendarCell';
 import {
   getDateWith01Day,
   getDateWithLastDay,
@@ -8,9 +8,9 @@ import {
   getMonthLeftDaysAmountPrev,
   getNextMonth,
   getPrevMonth,
-} from "../../../dates/getDates/getDates";
-import { renderCellsDays } from "../renderDays";
-import { type GetRegularCalendarProps } from "./interfaces";
+} from '../../../dates/getDates/getDates';
+import { renderCellsDays } from '../renderDays';
+import { type GetRegularCalendarProps } from './interfaces';
 
 export const getRegularCalendar = ({
   calendarDate,
@@ -57,22 +57,26 @@ export const getRegularCalendar = ({
   return (
     <>
       {weekDays.map(({ weekDayName, weekDayNum }) => (
-        <CalendarCell type="weekday" cellValue={weekDayName} key={weekDayNum} />
+        <CalendarCell
+          type="weekday"
+          cellValue={weekDayName}
+          key={weekDayNum}
+        />
       ))}
       {renderDays(
         prevMonthDate,
         prevMonthDaysAmount,
         {
-          type: "day",
+          type: 'day',
           shadowed: true,
         },
         true
       )}
       {renderDays(calendarDate, currMonthDaysAmount, {
-        type: "day",
+        type: 'day',
       })}
       {renderDays(nextMonthDate, nextMonthDaysAmount, {
-        type: "day",
+        type: 'day',
         shadowed: true,
       })}
     </>

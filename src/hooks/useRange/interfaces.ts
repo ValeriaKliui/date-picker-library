@@ -1,6 +1,9 @@
-import { type CalendarProps } from "../../components/Calendar/interface";
+import { type CalendarProps } from 'components/Calendar/interface';
 
-export type RangeType = Pick<CalendarProps, "rangeEnd" | "rangeStart">;
+export type RangeType = Pick<
+  CalendarProps,
+  'rangeEnd' | 'rangeStart'
+>;
 
 export type UseRangeProps = RangeType;
 

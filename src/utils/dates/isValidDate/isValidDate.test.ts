@@ -1,8 +1,9 @@
+import { DATE_SEPARATOR } from 'constants/constants/dates';
 import { isValidDate } from '.';
 
 describe('is valid date function', () => {
   it('should handle valid date', () => {
-    const dateString = '01/01/2023';
+    const dateString = `01${DATE_SEPARATOR}01${DATE_SEPARATOR}2023`;
     expect(isValidDate(dateString)).toBe(true);
   });
 

@@ -1,4 +1,4 @@
-import { type Holiday } from '../../components/Calendar/interface';
+import { type Holiday } from 'components/Calendar/interface';
 
 export const HOLIDAYS: Holiday[] = [
   {

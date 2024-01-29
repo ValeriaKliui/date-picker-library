@@ -27,7 +27,7 @@
       "assets/*": ["./src/assets/*"],
       "constants/*": ["./src/constants/*"],
       "providers/*": ["./src/providers/*"],
-      // "@components/*": ["./src/components/*"],
+      "components/*": ["./src/components/*"],
       // "@store/*": ["./src/store/*"],
       "hooks/*": ["./src/hooks/*"],
       // "@pages/*": ["./src/pages/*"],

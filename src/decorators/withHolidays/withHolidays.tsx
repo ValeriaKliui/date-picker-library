@@ -1,13 +1,12 @@
-import { type ComponentType } from "react";
-import { type Holiday } from "../../components/Calendar/interface";
+import { type ComponentType } from 'react';
+import { type Holiday } from 'components/Calendar/interface';
 
 const withHolidays =
-  <T,>(WrappedComponent: ComponentType<T>) =>
-  (props: T & { holidays: Holiday[] }) => {
-    const { holidays } = props;
+  <T,>(WrappedComponent: ComponentType<T>, holidays?: Holiday[]) =>
+  (props: T) => {
     const passedProps = {
       ...props,
-      holidays,
+      holidays: holidays,
     };
     return <WrappedComponent {...passedProps} />;
   };

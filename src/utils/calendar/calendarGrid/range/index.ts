@@ -1,5 +1,5 @@
-import { type RangeType } from "hooks/useRange/interfaces";
-import { RangeTypes } from "../../../../components/CalendarCell/interface";
+import { type RangeType } from 'hooks/useRange/interfaces';
+import { RangeTypes } from 'components/CalendarCell/interface';
 
 export const getRangeType = (
   dayDate: Date,

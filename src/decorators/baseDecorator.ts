@@ -2,13 +2,17 @@ import { type FC } from 'react';
 
 class BaseDecorator {
   calendar: FC;
+  data: any;
 
   constructor(choosenCalendar: FC) {
     this.calendar = choosenCalendar;
   }
 
-  addDecorator(decorator: (calendar: FC) => FC): void {
-    this.calendar = decorator(this.calendar);
+  addDecorator<T>(
+    decorator: (calendar: FC, data?: T) => FC,
+    data?: T
+  ): void {
+    this.calendar = decorator(this.calendar, data);
   }
 
   getDecorator(): FC {

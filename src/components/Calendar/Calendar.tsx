@@ -1,27 +1,27 @@
-import { memo, useContext, type FC } from "react";
-import { setInitTime } from "utils/dates/changeDates";
-import { useCalendar } from "hooks/useCalendar";
-import { useKeyPress } from "hooks/useKeyPress";
+import { memo, useContext, type FC } from 'react';
+import { setInitTime } from 'utils/dates/changeDates';
+import { useCalendar } from 'hooks/useCalendar';
+import { useKeyPress } from 'hooks/useKeyPress';
 import {
   getDateFromTimestamp,
   getWeekDays,
-} from "utils/dates/getDates/getDates";
-import { getInCaseOfCalendar } from "utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
-import { useTodos } from "hooks/useTodos";
-import { usePopUp } from "hooks/usePopUp";
-import { getRenderedTodos } from "utils/todos";
-import PeriodSlider from "../PeriodSlider";
+} from 'utils/dates/getDates/getDates';
+import { getInCaseOfCalendar } from 'utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar';
+import { useTodos } from 'hooks/useTodos';
+import { usePopUp } from 'hooks/usePopUp';
+import { getRenderedTodos } from 'utils/todos';
+import PeriodSlider from '../PeriodSlider';
 import {
   CalendarCells,
   Container,
   CalendarDates,
   CalendarButton,
-} from "./Calendar.styled";
-import { type CalendarProps } from "./interface";
-import TodoForm from "../TodoForm/TodoForm";
-import Modal from "../Modal/Modal";
-import TodoList from "../TodoList/TodoList";
-import { DateContext } from "../../providers/DateProvider";
+} from './Calendar.styled';
+import { type CalendarProps } from './interface';
+import TodoForm from '../TodoForm/TodoForm';
+import Modal from '../Modal/Modal';
+import TodoList from '../TodoList/TodoList';
+import { DateContext } from 'providers/DateProvider';
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
@@ -67,8 +67,8 @@ const Calendar: FC<CalendarProps> = ({
   });
   const { selectedDate } = useContext(DateContext);
 
-  useKeyPress("ArrowLeft", onPrevPeriodClick);
-  useKeyPress("ArrowRight", onNextPeriodClick);
+  useKeyPress('ArrowLeft', onPrevPeriodClick);
+  useKeyPress('ArrowRight', onNextPeriodClick);
 
   const renderCalendarGrid = (): JSX.Element =>
     getInCaseOfCalendar(calendarType, {
@@ -112,7 +112,9 @@ const Calendar: FC<CalendarProps> = ({
           <CalendarButton onClick={clearRange}>Clear</CalendarButton>
         )}
         {withTodos && (
-          <CalendarButton onClick={openPopUp}>Add todo</CalendarButton>
+          <CalendarButton onClick={openPopUp}>
+            Add todo
+          </CalendarButton>
         )}
       </Container>
     </>

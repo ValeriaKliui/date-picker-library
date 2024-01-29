@@ -1,8 +1,9 @@
 import { type Meta, type StoryObj } from '@storybook/react';
+import { HOLIDAYS } from 'constants/constants/holidays';
 import BaseDecorator from '../../decorators/baseDecorator';
+import withHolidays from '../../decorators/withHolidays/withHolidays';
 import withMondaysFirst from '../../decorators/withMondaysFirst/withMondaysFirst';
 import withRange from '../../decorators/withRange/withRange';
-import withWeekends from '../../decorators/withWeekdays/withWeekdays';
 import Calendar from '../Calendar';
 import DatePicker from './DatePicker';
 
@@ -22,7 +23,7 @@ export const Default: Story = {};
 const CalendarConfig = new BaseDecorator(Calendar);
 CalendarConfig.addDecorator(withMondaysFirst);
 CalendarConfig.addDecorator(withRange);
-CalendarConfig.addDecorator(withWeekends);
+CalendarConfig.addDecorator(withHolidays, HOLIDAYS);
 
 const CalendarWithDecorators = CalendarConfig.getDecorator();
 

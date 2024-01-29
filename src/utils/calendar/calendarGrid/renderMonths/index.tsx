@@ -1,11 +1,11 @@
-import { MONTHS_AMOUNT } from "constants/constants/dates";
-import CalendarCell from "../../../../components/CalendarCell";
-import { makeArrayFromNum, sliceWordFromStart } from "../../../data";
+import { MONTHS_AMOUNT } from 'constants/constants/dates';
+import CalendarCell from 'components/CalendarCell';
+import { makeArrayFromNum, sliceWordFromStart } from '../../../data';
 import {
   getDateObj,
   getMonthName,
-  setInitTime,
-} from "../../../dates/getDates/getDates";
+} from '../../../dates/getDates/getDates';
+import { setInitTime } from 'utils/dates/changeDates';
 
 export const renderMonths = (
   tempDate: Date,
@@ -28,7 +28,8 @@ export const renderMonths = (
 
     setInitTime(dateOfMonth);
 
-    const isChoosen = (): boolean => month === dateMonth && year === dateYear;
+    const isChoosen = (): boolean =>
+      month === dateMonth && year === dateYear;
 
     const isDisabled =
       (minDate != null && dateOfMonth <= minDate) ||
@@ -40,7 +41,10 @@ export const renderMonths = (
         setRegularCalendar();
       }
     };
-    const monthName = sliceWordFromStart(getMonthName(dateOfMonth), 3);
+    const monthName = sliceWordFromStart(
+      getMonthName(dateOfMonth),
+      3
+    );
     return (
       <CalendarCell
         cellValue={monthName}
