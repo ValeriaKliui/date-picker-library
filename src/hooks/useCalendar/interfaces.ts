@@ -1,10 +1,7 @@
-import { type CalendarProps } from "../../components/Calendar/interface";
-import {
-  type NotNum,
-  type NotUndef,
-} from "../../constants/interfaces/interfaces";
+import { type NotNum, type NotUndef } from "constants/interfaces/interfaces";
 
-import { type WeekDay } from "../../utils/dates/getDates/interface";
+import { type WeekDay } from "utils/dates/getDates/interface";
+import { type CalendarProps } from "../../components/Calendar/interface";
 import { type UseRangeReturns } from "../useRange/interfaces";
 import { type UseTodosReturns } from "../useTodos/interfaces";
 

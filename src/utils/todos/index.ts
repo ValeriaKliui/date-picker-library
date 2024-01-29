@@ -1,10 +1,11 @@
-import { type RangeType } from '../../hooks/useRange/interfaces';
-import { formatDate } from '../dates/getDates/getDates';
+import { type RangeType } from "hooks/useRange/interfaces";
+import { type Todos } from "hooks/useTodos/interfaces";
+import { formatDate } from "../dates/changeDates";
 import {
   type TodoFormatted,
   type TodoArray,
   type TodoRendered,
-} from './interfaces';
+} from "./interfaces";
 
 export const getTodosOnDate = (
   todos: TodoArray[],
@@ -32,8 +33,7 @@ export const getTodosOnDate = (
     .map((todoDay) => {
       const todosBeforeEnd = todoDay[1].filter((todo) =>
         isWithRange
-          ? rangeEndTimestamp != null &&
-            rangeEndTimestamp >= todo.rangeEnd
+          ? rangeEndTimestamp != null && rangeEndTimestamp >= todo.rangeEnd
           : selectedDateTimestamp != null &&
             selectedDateTimestamp <= todo.rangeEnd
       );
@@ -56,6 +56,7 @@ const formatTodos = (todos: TodoArray[]): TodoFormatted[] =>
         todoStart,
         todoEnd: todo.rangeEnd,
         todoText: todo.todoText,
+        id: todo.id,
       }));
     })
     .flat();
@@ -81,10 +82,18 @@ const sortTodos = (todos: TodoFormatted[]): TodoFormatted[] =>
   todos.sort(compareTodos);
 
 export const getRenderedTodos = (
-  todos: TodoArray[]
+  todos: Todos,
+  selectedDate: Date | null,
+  range: RangeType
 ): TodoRendered[] => {
-  const formattedTodos = formatTodos(todos);
+  const todoEntries = Object.entries(todos);
+  const todosOnDate =
+    selectedDate == null
+      ? todoEntries
+      : getTodosOnDate(todoEntries, range, selectedDate);
+  const formattedTodos = formatTodos(todosOnDate);
   const sortedTodos = sortTodos(formattedTodos);
+
   return sortedTodos.map((todo) => {
     const isTheSameDate = todo?.todoStart === todo?.todoEnd;
     const todoStartDate = new Date(todo?.todoStart);
@@ -92,11 +101,10 @@ export const getRenderedTodos = (
     return {
       ...todo,
       todoStart: formatDate(todoStartDate),
-      todoEnd: !isTheSameDate ? formatDate(todoEndDate) : '',
-      todoEndTimestamp: isTheSameDate
-        ? todo?.todoStart
-        : todo?.todoEnd,
+      todoEnd: !isTheSameDate ? formatDate(todoEndDate) : "",
+      todoEndTimestamp: isTheSameDate ? todo?.todoStart : todo?.todoEnd,
       todoStartTimestamp: todo?.todoStart,
+      id: todo.id,
     };
   });
 };

@@ -1,6 +1,6 @@
 import { type FC, useContext, useState, memo } from "react";
-import { DateContext } from "../../providers/DateProvider";
-import { getDateFromString } from "../../utils/dates/getDates/getDates";
+import { getDateFromString } from "utils/dates/getDates/getDates";
+import { DateContext } from "providers/DateProvider";
 import DateInput from "../DateInput";
 import { type DatePickerProps } from "./interfaces";
 

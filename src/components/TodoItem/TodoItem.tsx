@@ -1,8 +1,13 @@
-import { memo, type FC } from 'react';
+import { memo, type FC } from "react";
 
-import { TodoDate, TodoItemContainer } from './TodoItem.styled';
-import { type TodoItemProps } from './interfaces';
-import { CloseButton } from '../Modal/Modal.styled';
+import {
+  CloseButtonRight,
+  TodoDate,
+  TodoItemContainer,
+  TodoInfo,
+  TodoText,
+} from "./TodoItem.styled";
+import { type TodoItemProps } from "./interfaces";
 
 const TodoItem: FC<TodoItemProps> = ({
   todo,
@@ -19,27 +24,21 @@ const TodoItem: FC<TodoItemProps> = ({
   } = todo;
 
   const deleteTodoClick = (): void =>
-    deleteTodo(todoStartTimestamp, todoEndTimestamp, todoText);
+    { deleteTodo(todoStartTimestamp, todoEndTimestamp, todoText); };
+  const makeTodoFinished = (): void =>
+    { toggleFinishTodo(todoStartTimestamp, todoEndTimestamp, todoText); };
 
   return (
     <TodoItemContainer $finished={finished}>
-      <button
-        type="button"
-        onClick={() =>
-          toggleFinishTodo(
-            todoStartTimestamp,
-            todoEndTimestamp,
-            todoText
-          )
-        }
-      >
-        finish
-      </button>
-      <TodoDate>
-        {todoStart} {todoEnd != null ? `-${todoEnd}` : ''}:
-      </TodoDate>
-      <p>{todoText}</p>
-      <CloseButton onClick={deleteTodoClick} />{' '}
+      <TodoInfo>
+        <input type="checkbox" onChange={makeTodoFinished} checked={finished} />
+        <TodoDate>
+          {todoStart}
+          {todoEnd !== "" ? ` - ${todoEnd}` : ""}:
+        </TodoDate>
+      </TodoInfo>
+      <TodoText>{todoText}</TodoText>
+      <CloseButtonRight onClick={deleteTodoClick} />
     </TodoItemContainer>
   );
 };

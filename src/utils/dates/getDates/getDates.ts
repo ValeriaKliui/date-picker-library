@@ -1,27 +1,10 @@
-import {
-  DATE_SEPARATOR,
-  WEEK_LENGTH,
-  YEARS_RANGE,
-} from '../../../constants/constants/dates';
-import { WEEKDAYS } from '../../../constants/constants/weekdays';
-import { sliceWordFromStart } from '../../data';
-import {
-  type DateOrNullOrUndef,
-  type DateObj,
-  type WeekDay,
-} from './interface';
-
-export const getMonthNumber = (date: Date): number => date.getMonth();
+import { WEEK_LENGTH } from "constants/constants/dates";
+import { WEEKDAYS } from "constants/constants/weekdays";
+import { sliceWordFromStart } from "../../data";
+import { type DateObj, type WeekDay } from "./interface";
 
 export const getMonthName = (date: Date): string =>
-  date.toLocaleString('en-GB', { month: 'long' });
-
-export const getYear = (date: Date): number => date.getFullYear();
-
-export const getWeekdayByNum = (weekdayNumber: number): string =>
-  WEEKDAYS[weekdayNumber] ?? '';
-
-export const getDayWeekdayNum = (date: Date): number => date.getDay();
+  date.toLocaleString("en-GB", { month: "long" });
 
 export const getDaysAmountInMonth = (date: Date): number => {
   const year = date.getFullYear();
@@ -29,9 +12,7 @@ export const getDaysAmountInMonth = (date: Date): number => {
   return new Date(year, month + 1, 0).getDate();
 };
 
-export const getDateObj = (
-  date: Date | null | undefined
-): DateObj => {
+export const getDateObj = (date: Date | null | undefined): DateObj => {
   if (date == null)
     return {
       year: 0,
@@ -48,8 +29,7 @@ export const getWeekDays = (
   isMondayFirst?: boolean,
   withWeekends?: boolean
 ): WeekDay[] => {
-  const weekdayStartNum =
-    isMondayFirst != null && isMondayFirst ? 1 : 0;
+  const weekdayStartNum = isMondayFirst != null && isMondayFirst ? 1 : 0;
   const weekDays = Object.entries(WEEKDAYS)
     .map((weekDayArr) => ({
       weekDayNum: Number(weekDayArr[0]),
@@ -67,10 +47,6 @@ export const getWeekDays = (
       )
     : weekDaysFromDay;
 };
-export const getWeekdayNums = (): Array<number | WEEKDAYS> =>
-  Object.values(WEEKDAYS)
-    .filter((weekday) => Number.isInteger(weekday))
-    .map((weekday) => Number(weekday));
 
 export const getIncreasedMonthDate = (date: Date): Date => {
   const { year, month, day } = getDateObj(date);
@@ -90,41 +66,13 @@ export const getIncreasedYearDateOnAmount = (
   date: Date,
   amount: number
 ): Date =>
-  new Date(
-    date.getFullYear() + amount,
-    date.getMonth(),
-    date.getDate()
-  );
+  new Date(date.getFullYear() + amount, date.getMonth(), date.getDate());
 
 export const getDecreasedYearDateOnAmount = (
   date: Date,
   amount: number
 ): Date =>
-  new Date(
-    date.getFullYear() - amount,
-    date.getMonth(),
-    date.getDate()
-  );
-
-export const getDecreasedYearRange = (date: Date): Date => {
-  const copiedDate = new Date(date);
-  const year = copiedDate.getFullYear();
-  return new Date(copiedDate.setFullYear(year - YEARS_RANGE));
-};
-
-export const getIncreasedYearRange = (date: Date): Date => {
-  const copiedDate = new Date(date);
-  const year = copiedDate.getFullYear();
-  return new Date(copiedDate.setFullYear(year + YEARS_RANGE));
-};
-
-export const getChoosenYearDate = (
-  date: Date,
-  choosenYear: number
-): Date => {
-  const copiedDate = new Date(date);
-  return new Date(copiedDate.setFullYear(choosenYear));
-};
+  new Date(date.getFullYear() - amount, date.getMonth(), date.getDate());
 
 export const getDateFromString = (dateStr: string): Date => {
   const day = +dateStr.slice(0, 2);
@@ -133,43 +81,13 @@ export const getDateFromString = (dateStr: string): Date => {
   return new Date(year, month, day);
 };
 
-export const formatDate = (date: Date | null | undefined): string => {
-  if (date == null) return '';
-  const year = date.getFullYear();
-  const month =
-    date.getMonth() + 1 > 9
-      ? date.getMonth() + 1
-      : `0${date.getMonth() + 1}`;
-  const day =
-    date.getDate() > 9 ? date.getDate() : `0${date.getDate()}`;
-  return `${day}${DATE_SEPARATOR}${month}${DATE_SEPARATOR}${year}`;
-};
-
 export const getDateFromTimestamp = (
   timestampOrDate?: number | Date | null | string
 ): Date | null => {
-  if (timestampOrDate instanceof Date)
-    return new Date(timestampOrDate);
+  if (timestampOrDate instanceof Date) return new Date(timestampOrDate);
   return timestampOrDate != null ? new Date(+timestampOrDate) : null;
 };
 
-export const setInitTime = (...dates: DateOrNullOrUndef[]): void => {
-  dates.forEach((date) => date?.setHours(0, 0, 0, 0));
-};
-export const decreaseMonthDate = (date: Date): void => {
-  date.setMonth(date.getMonth() - 1);
-};
-export const increaseMonthDate = (date: Date): void => {
-  date.setMonth(date.getMonth() + 1);
-};
-
-export const equateFirstDateDayToSecond = (
-  firstDate: Date | null,
-  secondDate: Date | null
-): void => {
-  if (firstDate !== null && secondDate !== null)
-    firstDate.setDate(secondDate.getDate());
-};
 export const getDateSecondDateDay = (
   date: Date,
   dateToSet: Date | null
@@ -201,11 +119,6 @@ export const getDateWithLastDay = (date: Date): Date => {
   copiedDate.setDate(daysAmountInMonth);
   return copiedDate;
 };
-export const getDateWith01Month = (date: Date): Date => {
-  const copiedDate = new Date(date);
-  copiedDate.setMonth(0);
-  return copiedDate;
-};
 
 export const getDayInWeekNum = (date: Date): number => date.getDay();
 
@@ -214,9 +127,7 @@ export const getMonthLeftDaysAmountPrev = (
   currMonthStartNum: number
 ): number => {
   const currMonthStartNumSund =
-    currMonthStartNum === WEEKDAYS.SUNDAY
-      ? WEEK_LENGTH
-      : currMonthStartNum;
+    currMonthStartNum === WEEKDAYS.SUNDAY ? WEEK_LENGTH : currMonthStartNum;
   return Math.abs(weekdayStartNum - currMonthStartNumSund);
 };
 
@@ -238,8 +149,7 @@ export const getNextMonth = (date: Date): Date =>
 export const getDayDateByMonthAndDay = (
   monthDate: Date,
   dayNum: number
-): Date =>
-  new Date(monthDate.getFullYear(), monthDate.getMonth(), dayNum);
+): Date => new Date(monthDate.getFullYear(), monthDate.getMonth(), dayNum);
 
 export const getMonthDateByMonthNumAndDate = (
   date: Date,
@@ -251,7 +161,5 @@ export const getYearDateByYearNumAndDate = (
   yearNum: number
 ): Date => new Date(yearNum, date.getMonth(), date.getDate());
 
-export const areDatesEqual = (
-  firstDate: Date,
-  secondDate: Date
-): boolean => firstDate.getTime() === secondDate.getTime();
+export const areDatesEqual = (firstDate: Date, secondDate: Date): boolean =>
+  firstDate.getTime() === secondDate.getTime();

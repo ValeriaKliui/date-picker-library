@@ -1,44 +1,32 @@
-import { RangeTypes } from '../../../../components/CalendarCell/interface';
-import { baseTheme } from '../../../../constants/styles/theme';
+import { baseTheme } from "constants/styles/theme";
+import { RangeTypes } from "../../../../components/CalendarCell/interface";
 
-const {
-  white,
-  darkGray,
-  dark,
-  blue,
-  lightBlue,
-  transparentBlue,
-  red,
-  green,
-} = baseTheme.colors;
+const { white, darkGray, dark, blue, lightBlue, transparentBlue, red, green } =
+  baseTheme.colors;
 const { px8, px0 } = baseTheme.valueInPx;
 
 export const getCalendarCellBackgroundColor = (
   selected: boolean,
-  range?: RangeTypes,
-  isInTodo?: boolean
+  range?: RangeTypes | null,
+  isInTodo: boolean = false
 ): string => {
   if (selected || range === RangeTypes.end) return blue;
   if (range === RangeTypes.between) return lightBlue;
   if (range === RangeTypes.start) return transparentBlue;
   if (isInTodo) return green;
 
-  return 'inherit';
+  return "inherit";
 };
 
 export const getCalendarCellTextColor = (
   disabled: boolean,
   selected: boolean,
-  range?: RangeTypes,
+  range?: RangeTypes | null,
   isHoliday?: boolean,
   isWeekend?: boolean,
   withWeekends?: boolean
 ): string => {
-  if (
-    selected ||
-    range === RangeTypes.start ||
-    range === RangeTypes.end
-  )
+  if (selected || range === RangeTypes.start || range === RangeTypes.end)
     return white;
   if (range === RangeTypes.between) return blue;
   if (disabled) return darkGray;
@@ -48,7 +36,7 @@ export const getCalendarCellTextColor = (
 };
 
 export const getCalendarCellBorderRadius = (
-  range?: RangeTypes
+  range?: RangeTypes | null
 ): string => {
   if (range === RangeTypes.start) return `${px8} 0 0 ${px8}`;
   if (range === RangeTypes.between) return px0;

@@ -22,6 +22,16 @@
     "noUncheckedIndexedAccess": true,
     "allowUnreachableCode": false,
     "skipLibCheck": true,
-    "types": ["node", "jest", "@testing-library/jest-dom"]
+    "types": ["node", "jest", "@testing-library/jest-dom"],
+    "paths": {
+      "assets/*": ["./src/assets/*"],
+      "constants/*": ["./src/constants/*"],
+      "providers/*": ["./src/providers/*"],
+      // "@components/*": ["./src/components/*"],
+      // "@store/*": ["./src/store/*"],
+      "hooks/*": ["./src/hooks/*"],
+      // "@pages/*": ["./src/pages/*"],
+      "utils/*": ["./src/utils/*"]
+    }
   }
 }

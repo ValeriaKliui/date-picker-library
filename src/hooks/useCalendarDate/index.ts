@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { DateContext } from '../../providers/DateProvider';
+import { useContext } from "react";
 import {
   getDecreasedMonthDate,
   getDecreasedYearDate,
@@ -7,8 +6,9 @@ import {
   getIncreasedMonthDate,
   getIncreasedYearDate,
   getIncreasedYearDateOnAmount,
-} from '../../utils/dates/getDates/getDates';
-import { type UseCalendarDateReturns } from './interfaces';
+} from "utils/dates/getDates/getDates";
+import { DateContext } from "providers/DateProvider";
+import { type UseCalendarDateReturns } from "./interfaces";
 
 export const useCalendarDate = (): UseCalendarDateReturns => {
   const { calendarDate, setCalendarDate } = useContext(DateContext);
@@ -28,14 +28,10 @@ export const useCalendarDate = (): UseCalendarDateReturns => {
     setCalendarDate(getDecreasedYearDate(calendarDate));
   };
   const decreaseYearOnAmount = (amount: number): void => {
-    setCalendarDate(
-      getDecreasedYearDateOnAmount(calendarDate, amount)
-    );
+    setCalendarDate(getDecreasedYearDateOnAmount(calendarDate, amount));
   };
   const increaseYearOnAmount = (amount: number): void => {
-    setCalendarDate(
-      getIncreasedYearDateOnAmount(calendarDate, amount)
-    );
+    setCalendarDate(getIncreasedYearDateOnAmount(calendarDate, amount));
   };
 
   return {

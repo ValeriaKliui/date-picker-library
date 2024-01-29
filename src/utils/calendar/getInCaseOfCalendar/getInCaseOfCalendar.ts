@@ -1,4 +1,4 @@
-import { CalendarType } from "../../../hooks/useCalendar/interfaces";
+import { CalendarType } from "hooks/useCalendar/interfaces";
 import { type GetInCaseOfCalendar } from "./interface";
 
 export const getInCaseOfCalendar = <T>(

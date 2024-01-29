@@ -1,20 +1,20 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { type UsePopUpReturns } from "./interfaces";
 
 export const usePopUp = (): UsePopUpReturns => {
   const [isPopUpOpened, setIsPopUpOpened] = useState(false);
 
-  const openPopUp = (): void => {
+  const openPopUp = useCallback((): void => {
     setIsPopUpOpened(true);
-  };
+  }, []);
 
-  const closePopUp = (): void => {
+  const closePopUp = useCallback((): void => {
     setIsPopUpOpened(false);
-  };
+  }, []);
 
-  const togglePopUp = (): void => {
+  const togglePopUp = useCallback((): void => {
     setIsPopUpOpened((prev) => !prev);
-  };
+  }, []);
 
   return {
     isPopUpOpened,

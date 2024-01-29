@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { transitionAnimaton } from '../../constants/styles/animation';
-import { type CalendarType } from '../../hooks/interfaces';
-import { determineColumnsAmount } from '../../utils/calendar/calendarGrid/determineColumnsAmount';
+import styled from "styled-components";
+import { transitionAnimaton } from "constants/styles/animation";
+import { determineColumnsAmount } from "utils/calendar/calendarGrid/determineColumnsAmount";
+import { type CalendarType } from "hooks/useCalendar/interfaces";
 
 export const Container = styled.div`
   display: flex;
@@ -13,10 +13,8 @@ export const CalendarCells = styled.div<{
   $withWeekends?: boolean;
 }>`
   display: grid;
-  grid-template-columns: ${({
-    $withWeekends = true,
-    $calendarType,
-  }) => determineColumnsAmount($calendarType, $withWeekends)};
+  grid-template-columns: ${({ $withWeekends = true, $calendarType }) =>
+    determineColumnsAmount($calendarType, $withWeekends)};
 `;
 export const CalendarDates = styled.div`
   padding: ${({ theme }) => theme.valueInPx.px10};

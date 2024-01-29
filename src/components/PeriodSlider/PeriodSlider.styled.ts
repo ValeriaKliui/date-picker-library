@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import ArrowPic from '../../assets/icons/arrow.svg';
-import { transitionAnimaton } from '../../constants/styles/animation';
+import styled from "styled-components";
+import { transitionAnimaton } from "constants/styles/animation";
+import ArrowPic from "assets/icons/arrow.svg";
 
 export const Container = styled.div`
   display: flex;

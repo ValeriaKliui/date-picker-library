@@ -1,11 +1,15 @@
-import { memo, type FC } from "react";
-import { useCalendar } from "../../hooks/useCalendar";
-import { useKeyPress } from "../../hooks/useKeyPress";
+import { memo, useContext, type FC } from "react";
+import { setInitTime } from "utils/dates/changeDates";
+import { useCalendar } from "hooks/useCalendar";
+import { useKeyPress } from "hooks/useKeyPress";
 import {
   getDateFromTimestamp,
   getWeekDays,
-  setInitTime,
-} from "../../utils/dates/getDates/getDates";
+} from "utils/dates/getDates/getDates";
+import { getInCaseOfCalendar } from "utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
+import { useTodos } from "hooks/useTodos";
+import { usePopUp } from "hooks/usePopUp";
+import { getRenderedTodos } from "utils/todos";
 import PeriodSlider from "../PeriodSlider";
 import {
   CalendarCells,
@@ -14,12 +18,10 @@ import {
   CalendarButton,
 } from "./Calendar.styled";
 import { type CalendarProps } from "./interface";
-import { getInCaseOfCalendar } from "../../utils/calendar/getInCaseOfCalendar/getInCaseOfCalendar";
-import { useTodos } from "../../hooks/useTodos";
 import TodoForm from "../TodoForm/TodoForm";
 import Modal from "../Modal/Modal";
 import TodoList from "../TodoList/TodoList";
-import { usePopUp } from "../../hooks/usePopUp";
+import { DateContext } from "../../providers/DateProvider";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
@@ -63,6 +65,7 @@ const Calendar: FC<CalendarProps> = ({
     todos,
     withTodos,
   });
+  const { selectedDate } = useContext(DateContext);
 
   useKeyPress("ArrowLeft", onPrevPeriodClick);
   useKeyPress("ArrowRight", onNextPeriodClick);
@@ -77,13 +80,14 @@ const Calendar: FC<CalendarProps> = ({
   const headerText = getHeaderText();
   const { isPopUpOpened, openPopUp, closePopUp } = usePopUp();
 
+  const todosListItems = getRenderedTodos(todos, selectedDate, range);
   return (
     <>
       {isPopUpOpened && (
         <Modal onClose={closePopUp}>
           <TodoForm addTodo={addTodo} />
           <TodoList
-            todos={todos}
+            todos={todosListItems}
             deleteTodo={deleteTodo}
             toggleFinishTodo={toggleFinishTodo}
           />

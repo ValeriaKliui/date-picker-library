@@ -1,5 +1,5 @@
+import { YEARS_RANGE } from "constants/constants/dates";
 import CalendarCell from "../../../../components/CalendarCell";
-import { YEARS_RANGE } from "../../../../constants/constants/dates";
 import { makeArrayFromNum } from "../../../data";
 import {
   areDatesEqual,

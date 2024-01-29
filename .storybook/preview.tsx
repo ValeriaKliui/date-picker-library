@@ -1,11 +1,11 @@
-import type { Preview } from '@storybook/react';
-import React from 'react';
-import { ThemeWrapper } from '../src/providers/ThemeWrapper';
-import { DateProvider } from '../src/providers/DateProvider';
+import type { Preview } from "@storybook/react";
+import React from "react";
+import { ThemeWrapper } from "../src/providers/ThemeWrapper";
+import { DateProvider } from "../src/providers/DateProvider";
 
 const preview: Preview = {
   parameters: {
-    actions: { argTypesRegex: '^on[A-Z].*' },
+    actions: { argTypesRegex: "^on[A-Z].*" },
     controls: {
       matchers: {
         color: /(background|color)$/i,

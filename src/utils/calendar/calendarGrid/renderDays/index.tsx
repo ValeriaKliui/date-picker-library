@@ -1,17 +1,17 @@
 import { useContext } from "react";
+import { WEEKDAYS } from "constants/constants/weekdays";
+import { DateContext } from "providers/DateProvider";
 import CalendarCell from "../../../../components/CalendarCell";
 import { type CalendarCellProps } from "../../../../components/CalendarCell/interface";
-import { WEEKDAYS } from "../../../../constants/constants/weekdays";
 import { makeArrayFromNum } from "../../../data";
 import {
   areDatesEqual,
   getDayDateByMonthAndDay,
   getDaysAmountInMonth,
-  setInitTime,
 } from "../../../dates/getDates/getDates";
-import { DateContext } from "../../../../providers/DateProvider";
 import { type DaysCellOptions } from "./interface";
 import { getRangeType } from "../range";
+import { setInitTime } from "../../../dates/changeDates";
 
 export const renderCellsDays =
   (daysCellOptions: DaysCellOptions) =>

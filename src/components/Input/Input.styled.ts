@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import CalendarIcon from "../../assets/icons/calendar.svg";
-import IconClear from "../../assets/icons/clear.svg";
+import CalendarIcon from "assets/icons/calendar.svg";
+import IconClear from "assets/icons/clear.svg";
 
 export const InputWrapper = styled.div<{ $isError: boolean }>`
   display: flex;

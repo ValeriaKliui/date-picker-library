@@ -4,15 +4,12 @@ import {
   useContext,
   useEffect,
   useState,
-} from 'react';
-import { DATE_SEPARATOR } from '../../constants/constants/dates';
-import { DateContext } from '../../providers/DateProvider';
-import { formatDate } from '../../utils/dates/getDates/getDates';
-import { isValidDate } from '../../utils/dates/isValidDate';
-import {
-  type UseDateInputProps,
-  type UseDateInputReturns,
-} from './interfaces';
+} from "react";
+import { DATE_SEPARATOR } from "constants/constants/dates";
+import { isValidDate } from "utils/dates/isValidDate";
+import { formatDate } from "utils/dates/changeDates";
+import { DateContext } from "providers/DateProvider";
+import { type UseDateInputProps, type UseDateInputReturns } from "./interfaces";
 
 export const useDateInput = ({
   setInputValue = () => {},
@@ -22,25 +19,24 @@ export const useDateInput = ({
 }: UseDateInputProps): UseDateInputReturns => {
   const [error, setIsError] = useState({
     isError: false,
-    errorText: '',
+    errorText: "",
   });
 
   const { selectedDate } = useContext(DateContext);
 
   const onClear = (): void => {
     onClearClick();
-    setIsError({ isError: false, errorText: '' });
-    setInputValue('');
+    setIsError({ isError: false, errorText: "" });
+    setInputValue("");
   };
 
   useEffect(() => {
-    if (selectedDate !== null)
-      setInputValue(formatDate(selectedDate));
+    if (selectedDate !== null) setInputValue(formatDate(selectedDate));
   }, [selectedDate, setInputValue]);
 
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
-      const notNumberRegex = new RegExp(`/[^/${DATE_SEPARATOR}\d]`);
+      const notNumberRegex = new RegExp(`/[^/${DATE_SEPARATOR}]`);
       const dateFormatRegex = new RegExp(
         `\\d{2}\\${DATE_SEPARATOR}\\d{2}\\${DATE_SEPARATOR}\\d{4}`
       );
@@ -52,12 +48,9 @@ export const useDateInput = ({
       if (notNumberRegex.test(value)) {
         setIsError({
           isError: true,
-          errorText: 'Only numbers are allowed',
+          errorText: "Only numbers are allowed",
         });
-      } else if (
-        !dateFormatRegex.test(value) &&
-        value.length === 10
-      ) {
+      } else if (!dateFormatRegex.test(value) && value.length === 10) {
         setIsError({
           isError: true,
           errorText: `Format should be "dd${DATE_SEPARATOR}mm${DATE_SEPARATOR}yyyy"`,
@@ -65,10 +58,10 @@ export const useDateInput = ({
       } else if (!isValidDate(value) && value.length === 10) {
         setIsError({
           isError: true,
-          errorText: 'Date is incorrect',
+          errorText: "Date is incorrect",
         });
       } else {
-        setIsError({ isError: false, errorText: '' });
+        setIsError({ isError: false, errorText: "" });
       }
       if (!error.isError && value.length === 10) {
         onValidDateInput(value);

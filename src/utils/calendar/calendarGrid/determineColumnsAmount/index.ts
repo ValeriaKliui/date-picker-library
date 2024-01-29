@@ -1,4 +1,4 @@
-import { CalendarType } from "../../../../hooks/useCalendar/interfaces";
+import { CalendarType } from "hooks/useCalendar/interfaces";
 
 export const determineColumnsAmount = (
   calendarType: CalendarType,

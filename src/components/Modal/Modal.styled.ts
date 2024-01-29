@@ -1,5 +1,5 @@
-import { styled } from 'styled-components';
-import IconCross from '../../assets/icons/cross.svg';
+import { styled } from "styled-components";
+import IconCross from "assets/icons/cross.svg";
 
 export const ModalContainer = styled.div`
   display: flex;

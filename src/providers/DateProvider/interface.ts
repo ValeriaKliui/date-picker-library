@@ -1,5 +1,5 @@
 import { type ReactNode } from "react";
-import { type RangeType } from "../../hooks/useRange/interfaces";
+import { type RangeType } from "hooks/useRange/interfaces";
 
 export interface DateProviderProps {
   children: ReactNode;

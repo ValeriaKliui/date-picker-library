@@ -1,5 +1,5 @@
 import { useCallback, useContext, useState } from "react";
-import { DateContext } from "../../providers/DateProvider";
+import { DateContext } from "providers/DateProvider";
 import { useLocalStorage } from "../useLocalStorage";
 import { type Todos, type UseTodosReturns } from "./interfaces";
 
@@ -25,7 +25,12 @@ export const useTodos = (): UseTodosReturns => {
 
         const updatedTodos = [
           ...todosOnDate,
-          { todoText, rangeEnd: rangeEndTimestamp, finished: false },
+          {
+            todoText,
+            rangeEnd: rangeEndTimestamp,
+            finished: false,
+            id: todosOnDate.length + 1,
+          },
         ];
 
         setTodos((prevTodos) => {
@@ -41,16 +46,6 @@ export const useTodos = (): UseTodosReturns => {
     },
     [selectedDate, todos, range, addTodosToStorage]
   );
-
-  function deleteFromObject(keyPart, obj) {
-    for (const k in obj) {
-      // Loop through the object
-      if (~k.indexOf(keyPart)) {
-        // If the current key contains the string we're looking for
-        delete obj[k]; // Delete obj[key];
-      }
-    }
-  }
 
   const deleteTodo = useCallback(
     (
@@ -71,7 +66,7 @@ export const useTodos = (): UseTodosReturns => {
             ) ?? [],
         };
         if (filteredTodos[todoStartTimestamp]?.length === 0)
-          deleteFromObject(todoStartTimestamp, filteredTodos);
+          delete filteredTodos[todoStartTimestamp];
 
         addTodosToStorage(filteredTodos);
         return filteredTodos;

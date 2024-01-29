@@ -7,6 +7,7 @@ import peerDepsExternal from "rollup-plugin-peer-deps-external";
 import svg from "rollup-plugin-svg";
 import packageJson from "./package.json" assert { type: "json" };
 import { babel } from "@rollup/plugin-babel";
+import alias from "@rollup/plugin-alias";
 
 export default [
   {
@@ -37,24 +38,6 @@ export default [
         tsconfig: "./tsconfig.json",
       }),
       terser(),
-      // resolve({
-      //   extensions: [
-      //     ".mjs",
-      //     ".js",
-      //     ".json",
-      //     ".node",
-      //     ".jsx",
-      //     ".tsx",
-      //     ".ts",
-      //     ".svg",
-      //     ".woff",
-      //   ],
-      // }),
-      // commonjs(),
-      // typescript({
-      //   tsconfig: "./tsconfig.json",
-      //   exclude: ["**/*.test.tsx", "**/*.test.ts", "**/*.stories.ts"],
-      // }),
     ],
     external: ["react", "react-dom", "styled-components"],
   },

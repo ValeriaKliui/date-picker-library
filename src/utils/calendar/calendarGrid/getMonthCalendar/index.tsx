@@ -1,5 +1,5 @@
+import { MONTHS_AMOUNT } from "constants/constants/dates";
 import CalendarCell from "../../../../components/CalendarCell";
-import { MONTHS_AMOUNT } from "../../../../constants/constants/dates";
 import { makeArrayFromNum } from "../../../data";
 import {
   areDatesEqual,
