@@ -1,5 +1,5 @@
 import { DATE_SEPARATOR } from "constants/constants/dates";
-import { type DateOrNullOrUndef } from "../getDates/interface";
+import { type DateOrNullOrUndef } from "utils/dates/getDates/interface";
 
 export const decreaseDate =
   (minDate: Date | null, comparedDate: Date) =>

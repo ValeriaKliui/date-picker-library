@@ -1,12 +1,12 @@
 import { memo, type FC } from "react";
-import { type InputProps } from "./interfaces";
+import { type InputProps } from "components/Input/interfaces";
 import {
   ClearIcon,
   Error,
   InputIcon,
   InputStyled,
   InputWrapper,
-} from "./Input.styled";
+} from "components/Input/Input.styled";
 
 const Input: FC<InputProps> = ({
   onChange,

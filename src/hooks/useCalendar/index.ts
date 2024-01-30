@@ -22,9 +22,9 @@ import {
   CalendarType,
   type UseCalendarProps,
   type UseCalendarReturns,
-} from "./interfaces";
-import { useCalendarDate } from "../useCalendarDate";
-import { useRange } from "../useRange";
+} from "hooks/useCalendar/interfaces";
+import { useCalendarDate } from "hooks/useCalendarDate";
+import { useRange } from "hooks/useRange";
 
 export const useCalendar = ({
   holidays = [],

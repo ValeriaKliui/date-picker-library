@@ -6,8 +6,8 @@ import {
   TodoItemContainer,
   TodoInfo,
   TodoText,
-} from "./TodoItem.styled";
-import { type TodoItemProps } from "./interfaces";
+} from "components/TodoItem/TodoItem.styled";
+import { type TodoItemProps } from "components/TodoItem/interfaces";
 
 const TodoItem: FC<TodoItemProps> = ({
   todo,
@@ -23,10 +23,12 @@ const TodoItem: FC<TodoItemProps> = ({
     finished,
   } = todo;
 
-  const deleteTodoClick = (): void =>
-    { deleteTodo(todoStartTimestamp, todoEndTimestamp, todoText); };
-  const makeTodoFinished = (): void =>
-    { toggleFinishTodo(todoStartTimestamp, todoEndTimestamp, todoText); };
+  const deleteTodoClick = (): void => {
+    deleteTodo(todoStartTimestamp, todoEndTimestamp, todoText);
+  };
+  const makeTodoFinished = (): void => {
+    toggleFinishTodo(todoStartTimestamp, todoEndTimestamp, todoText);
+  };
 
   return (
     <TodoItemContainer $finished={finished}>

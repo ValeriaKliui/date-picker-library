@@ -5,10 +5,10 @@ import {
   type FC,
   memo,
 } from "react";
-import { CalendarButton } from "../Calendar/Calendar.styled";
-import Input from "../Input";
-import { type TodoFormProps } from "./interfaces";
-import { TodoFormContainer } from "./TodoForm.styled";
+import { CalendarButton } from "components/Calendar/Calendar.styled";
+import Input from "components/Input";
+import { type TodoFormProps } from "components/TodoForm/interfaces";
+import { TodoFormContainer } from "components/TodoForm/TodoForm.styled";
 
 const TodoForm: FC<TodoFormProps> = ({ addTodo }) => {
   const [todoTextInput, setTodoTextInput] = useState("");

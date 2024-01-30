@@ -4,7 +4,7 @@ import {
   getCalendarCellBorderRadius,
   getCalendarCellTextColor,
 } from "utils/calendar/calendarGrid/determineCalendarCellStyle";
-import { type RangeTypes } from "./interface";
+import { type RangeTypes } from "components/CalendarCell/interface";
 
 export const Container = styled.div<{
   $shadowed: boolean;

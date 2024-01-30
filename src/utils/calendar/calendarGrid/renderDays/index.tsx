@@ -1,29 +1,28 @@
-import { useContext } from 'react';
-import { WEEKDAYS } from 'constants/constants/weekdays';
-import { DateContext } from 'providers/DateProvider';
-import CalendarCell from 'components/CalendarCell';
-import { type CalendarCellProps } from 'components/CalendarCell/interface';
-import { makeArrayFromNum } from '../../../data';
+import { useContext } from "react";
+import { WEEKDAYS } from "constants/constants/weekdays";
+import { DateContext } from "providers/DateProvider";
+import CalendarCell from "components/CalendarCell";
+import { type CalendarCellProps } from "components/CalendarCell/interface";
+import { makeArrayFromNum } from "utils/data";
 import {
   areDatesEqual,
   getDayDateByMonthAndDay,
   getDaysAmountInMonth,
-} from '../../../dates/getDates/getDates';
-import { type DaysCellOptions } from './interface';
-import { getRangeType } from '../range';
-import { setInitTime } from '../../../dates/changeDates';
+} from "utils/dates/getDates/getDates";
+import { setInitTime } from "utils/dates/changeDates";
+import { getRangeType } from "utils/calendar/calendarGrid/range";
+import { type DaysCellOptions } from "utils/calendar/calendarGrid/renderDays/interface";
 
 export const renderCellsDays =
   (daysCellOptions: DaysCellOptions) =>
   (
     monthDate: Date,
     daysAmount: number,
-    cellOptions: Pick<CalendarCellProps, 'type' | 'shadowed'>,
+    cellOptions: Pick<CalendarCellProps, "type" | "shadowed">,
     isPrevMonth?: boolean
   ): JSX.Element => {
     const { selectedDate, setSelectedDate } = useContext(DateContext);
-    const { withWeekends, holidays, range, todos, withTodos } =
-      daysCellOptions;
+    const { withWeekends, holidays, range, todos, withTodos } = daysCellOptions;
     const { type, shadowed } = cellOptions;
     const daysAmountInMonth = getDaysAmountInMonth(monthDate);
 
@@ -50,8 +49,7 @@ export const renderCellsDays =
           };
 
           const isSelected =
-            selectedDate !== null &&
-            areDatesEqual(dayDate, selectedDate);
+            selectedDate !== null && areDatesEqual(dayDate, selectedDate);
 
           const rangeType = getRangeType(dayDate, range);
 

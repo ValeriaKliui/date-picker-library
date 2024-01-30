@@ -8,7 +8,7 @@ import {
   getIncreasedYearDateOnAmount,
 } from "utils/dates/getDates/getDates";
 import { DateContext } from "providers/DateProvider";
-import { type UseCalendarDateReturns } from "./interfaces";
+import { type UseCalendarDateReturns } from "hooks/useCalendarDate/interfaces";
 
 export const useCalendarDate = (): UseCalendarDateReturns => {
   const { calendarDate, setCalendarDate } = useContext(DateContext);

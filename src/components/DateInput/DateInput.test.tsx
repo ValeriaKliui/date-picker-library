@@ -1,27 +1,34 @@
 import { fireEvent, render } from "@testing-library/react";
 import { ThemeWrapper } from "providers/ThemeWrapper";
-import DateInput from "./DateInput";
+import DateInput from "components/DateInput/DateInput";
 
 describe("date input", () => {
-  test("should call onChange func typing in input", () => {
-    const onDateChange = jest.fn();
+  test("should change input value after typing in input", () => {
+    const setInputValue = jest.fn();
+    const value = "01.01.2023";
     const { getByTestId } = render(
       <ThemeWrapper>
-        <DateInput onDateChange={onDateChange} />
+        <DateInput value={value} setInputValue={setInputValue} />
       </ThemeWrapper>
     );
     const dateInput = getByTestId("date-input");
     fireEvent.change(dateInput, {
-      target: { value: "01/01/2023" },
+      target: { value },
     });
-    expect(onDateChange).toHaveBeenCalled();
+
+    expect(dateInput).toHaveValue(value);
   });
 
   test("should clear input and call onClear func after clicking on Clear", () => {
     const onClearClick = jest.fn();
+    const setInputValue = jest.fn();
     const { getByTestId } = render(
       <ThemeWrapper>
-        <DateInput onClearClick={onClearClick} />
+        <DateInput
+          onClearClick={onClearClick}
+          value=""
+          setInputValue={setInputValue}
+        />
       </ThemeWrapper>
     );
 
@@ -34,19 +41,19 @@ describe("date input", () => {
   });
 
   test("should show error message if data was incorrect", () => {
+    const setInputValue = jest.fn();
+    const value = "99/99/20k02";
+
     const { getByTestId } = render(
       <ThemeWrapper>
-        <DateInput />
+        <DateInput setInputValue={setInputValue} value="" />
       </ThemeWrapper>
     );
     const dateInput = getByTestId("date-input");
-    const wrongDates = ["wrongdate", "99/99/2002", "30/02/2023"];
-    wrongDates.forEach((dateString) => {
-      fireEvent.change(dateInput, {
-        target: { value: dateString },
-      });
-      const error = getByTestId("date-error");
-      expect(error).toBeInTheDocument();
+    fireEvent.change(dateInput, {
+      target: { value },
     });
+    const error = getByTestId("date-error");
+    expect(error).toBeInTheDocument();
   });
 });

@@ -1,7 +1,7 @@
 import { type FC, memo } from "react";
-import { type TodoListProps } from "./interfaces";
-import { TodoListContainer } from "./TodoList.styled";
-import TodoItem from "../TodoItem/TodoItem";
+import TodoItem from "components/TodoItem/TodoItem";
+import { type TodoListProps } from "components/TodoList/interfaces";
+import { TodoListContainer } from "components/TodoList/TodoList.styled";
 
 const TodoList: FC<TodoListProps> = ({
   todos,

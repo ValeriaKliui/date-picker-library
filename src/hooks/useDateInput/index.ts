@@ -9,7 +9,10 @@ import { DATE_SEPARATOR } from "constants/constants/dates";
 import { isValidDate } from "utils/dates/isValidDate";
 import { formatDate } from "utils/dates/changeDates";
 import { DateContext } from "providers/DateProvider";
-import { type UseDateInputProps, type UseDateInputReturns } from "./interfaces";
+import {
+  type UseDateInputProps,
+  type UseDateInputReturns,
+} from "hooks/useDateInput/interfaces";
 
 export const useDateInput = ({
   setInputValue = () => {},

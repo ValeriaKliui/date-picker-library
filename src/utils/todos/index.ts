@@ -1,11 +1,11 @@
 import { type RangeType } from "hooks/useRange/interfaces";
 import { type Todos } from "hooks/useTodos/interfaces";
-import { formatDate } from "../dates/changeDates";
+import { formatDate } from "utils/dates/changeDates";
 import {
   type TodoFormatted,
   type TodoArray,
   type TodoRendered,
-} from "./interfaces";
+} from "utils/todos/interfaces";
 
 export const getTodosOnDate = (
   todos: TodoArray[],

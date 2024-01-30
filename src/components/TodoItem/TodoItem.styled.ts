@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import { CloseButton } from "../Modal/Modal.styled";
+import { CloseButton } from "components/Modal/Modal.styled";
 
 export const TodoItemContainer = styled.div<{ $finished: boolean }>`
   border: 1px solid ${({ theme }) => theme.colors.gray};

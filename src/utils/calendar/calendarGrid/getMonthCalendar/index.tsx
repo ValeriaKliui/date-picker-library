@@ -1,12 +1,12 @@
-import { MONTHS_AMOUNT } from 'constants/constants/dates';
-import CalendarCell from 'components/CalendarCell';
-import { makeArrayFromNum } from '../../../data';
+import { MONTHS_AMOUNT } from "constants/constants/dates";
+import CalendarCell from "components/CalendarCell";
+import { makeArrayFromNum } from "utils/data";
 import {
   areDatesEqual,
   getMonthDateByMonthNumAndDate,
   getMonthName,
-} from '../../../dates/getDates/getDates';
-import { type MonthCalendarProps } from './interface';
+} from "utils/dates/getDates/getDates";
+import { type MonthCalendarProps } from "utils/calendar/calendarGrid/getMonthCalendar/interface";
 
 export const getMonthCalendar = (
   monthCalendarProps: MonthCalendarProps
@@ -18,10 +18,7 @@ export const getMonthCalendar = (
     <>
       {makeArrayFromNum(MONTHS_AMOUNT).map((monthIndex) => {
         const monthNum = monthIndex - 1;
-        const monthDate = getMonthDateByMonthNumAndDate(
-          calendarDate,
-          monthNum
-        );
+        const monthDate = getMonthDateByMonthNumAndDate(calendarDate, monthNum);
         const monthNameCropped = getMonthName(monthDate).slice(0, 3);
 
         const onCalendarCellClick = (): void => {

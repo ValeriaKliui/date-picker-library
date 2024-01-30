@@ -1,5 +1,5 @@
 import { YEARS_RANGE } from "constants/constants/dates";
-import { getMonthName } from "../../../dates/getDates/getDates";
+import { getMonthName } from "utils/dates/getDates/getDates";
 
 export const getRegularCalendarHeaderText = (date: Date): string =>
   `${getMonthName(date)} ${date.getFullYear()} `;

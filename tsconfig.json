@@ -28,9 +28,8 @@
       "constants/*": ["./src/constants/*"],
       "providers/*": ["./src/providers/*"],
       "components/*": ["./src/components/*"],
-      // "@store/*": ["./src/store/*"],
+      "decorators/*": ["./src/decorators/*"],
       "hooks/*": ["./src/hooks/*"],
-      // "@pages/*": ["./src/pages/*"],
       "utils/*": ["./src/utils/*"]
     }
   }

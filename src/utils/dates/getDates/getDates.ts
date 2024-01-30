@@ -1,7 +1,7 @@
 import { WEEK_LENGTH } from "constants/constants/dates";
 import { WEEKDAYS } from "constants/constants/weekdays";
-import { sliceWordFromStart } from "../../data";
-import { type DateObj, type WeekDay } from "./interface";
+import { sliceWordFromStart } from "utils/data";
+import { type DateObj, type WeekDay } from "utils/dates/getDates/interface";
 
 export const getMonthName = (date: Date): string =>
   date.toLocaleString("en-GB", { month: "long" });

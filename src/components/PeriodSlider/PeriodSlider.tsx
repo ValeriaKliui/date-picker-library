@@ -1,11 +1,11 @@
 import { memo, type FC } from "react";
-import { type PeriodSliderProps } from "./interface";
+import { type PeriodSliderProps } from "components/PeriodSlider/interface";
 import {
   LeftArrow,
   RightArrow,
   Container,
   PeriodHeader,
-} from "./PeriodSlider.styled";
+} from "components/PeriodSlider/PeriodSlider.styled";
 
 const PeriodSlider: FC<PeriodSliderProps> = ({
   sliderHeaderText,

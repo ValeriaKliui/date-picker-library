@@ -1,5 +1,5 @@
 import "styled-components";
-import { type Theme } from "./interfaces/interfaces";
+import { type Theme } from "constants/interfaces/interfaces";
 
 declare module "*.woff";
 declare module "*.woff2";

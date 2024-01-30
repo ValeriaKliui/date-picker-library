@@ -1,8 +1,8 @@
 import { type FC, useContext, useState, memo } from "react";
 import { getDateFromString } from "utils/dates/getDates/getDates";
 import { DateContext } from "providers/DateProvider";
-import DateInput from "../DateInput";
-import { type DatePickerProps } from "./interfaces";
+import DateInput from "components/DateInput";
+import { type DatePickerProps } from "components/DatePicker/interfaces";
 
 const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
   const [isCalendarOpened, setIsCalendarOpened] = useState(false);

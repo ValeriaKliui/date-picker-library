@@ -1,7 +1,10 @@
 import { createContext, type FC, useMemo, useState } from "react";
 import { setInitTime } from "utils/dates/changeDates";
 import { type RangeType } from "hooks/useRange/interfaces";
-import { type ContextType, type DateProviderProps } from "./interface";
+import {
+  type ContextType,
+  type DateProviderProps,
+} from "providers/DateProvider/interface";
 
 export const DateContext = createContext<ContextType>({
   calendarDate: new Date(),

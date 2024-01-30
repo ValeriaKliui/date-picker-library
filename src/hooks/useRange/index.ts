@@ -2,7 +2,10 @@ import { useContext, useEffect } from "react";
 import { getDateFromTimestamp } from "utils/dates/getDates/getDates";
 import { setInitTime } from "utils/dates/changeDates";
 import { DateContext } from "providers/DateProvider";
-import { type UseRangeProps, type UseRangeReturns } from "./interfaces";
+import {
+  type UseRangeProps,
+  type UseRangeReturns,
+} from "hooks/useRange/interfaces";
 
 export const useRange = (props: UseRangeProps): UseRangeReturns => {
   const { selectedDate, range, setRange, setSelectedDate } =

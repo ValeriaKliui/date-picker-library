@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import CalendarCell from "./CalendarCell";
-import { RangeTypes } from "./interface";
+import CalendarCell from "components/CalendarCell";
+import { RangeTypes } from "components/CalendarCell/interface";
 
 const meta: Meta<typeof CalendarCell> = {
   title: "UI/CalendarCell",

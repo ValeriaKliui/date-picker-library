@@ -1,12 +1,9 @@
-import { type ChangeEvent } from 'react';
-import { type DateInputProps } from 'components/DateInput/interface';
+import { type ChangeEvent } from "react";
+import { type DateInputProps } from "components/DateInput/interface";
 
 export type UseDateInputProps = Pick<
   DateInputProps,
-  | 'onClearClick'
-  | 'onDateChange'
-  | 'onValidDateInput'
-  | 'setInputValue'
+  "onClearClick" | "onDateChange" | "onValidDateInput" | "setInputValue"
 >;
 
 export interface UseDateInputReturns {

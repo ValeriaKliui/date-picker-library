@@ -1,6 +1,9 @@
 import { memo, type FC } from "react";
-import { Container, CalendarCellText } from "./CalendarCell.styled";
-import { type CalendarCellProps } from "./interface";
+import {
+  Container,
+  CalendarCellText,
+} from "components/CalendarCell/CalendarCell.styled";
+import { type CalendarCellProps } from "components/CalendarCell/interface";
 
 const CalendarCell: FC<CalendarCellProps> = ({
   type,

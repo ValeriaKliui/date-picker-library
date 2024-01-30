@@ -1,8 +1,11 @@
 import { memo, type FC } from "react";
 import { useDateInput } from "hooks/useDateInput";
+import {
+  Title,
+  DateInputContainer,
+} from "components/DateInput/DateInput.styled";
+import Input from "components/Input/Input";
 import { type DateInputProps } from "./interface";
-import { Title, DateInputContainer } from "./DateInput.styled";
-import Input from "../Input/Input";
 
 const DateInput: FC<DateInputProps> = ({
   title,

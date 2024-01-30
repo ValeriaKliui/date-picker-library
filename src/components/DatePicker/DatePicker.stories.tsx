@@ -1,17 +1,17 @@
-import { type Meta, type StoryObj } from '@storybook/react';
-import { HOLIDAYS } from 'constants/constants/holidays';
-import BaseDecorator from '../../decorators/baseDecorator';
-import withHolidays from '../../decorators/withHolidays/withHolidays';
-import withMondaysFirst from '../../decorators/withMondaysFirst/withMondaysFirst';
-import withRange from '../../decorators/withRange/withRange';
-import Calendar from '../Calendar';
-import DatePicker from './DatePicker';
+import { type Meta, type StoryObj } from "@storybook/react";
+import { HOLIDAYS } from "constants/constants/holidays";
+import BaseDecorator from "decorators/baseDecorator";
+import withHolidays from "decorators/withHolidays/withHolidays";
+import withMondaysFirst from "decorators/withMondaysFirst/withMondaysFirst";
+import withRange from "decorators/withRange/withRange";
+import Calendar from "components/Calendar";
+import DatePicker from "components/DatePicker";
 
 const meta: Meta<typeof DatePicker> = {
-  title: 'UI/DatePicker',
+  title: "UI/DatePicker",
   component: DatePicker,
-  tags: ['autodocs'],
-  parameters: { layout: 'centered' },
+  tags: ["autodocs"],
+  parameters: { layout: "centered" },
   args: { Calendar },
 };
 
