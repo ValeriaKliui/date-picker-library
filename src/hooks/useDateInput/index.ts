@@ -8,7 +8,7 @@ import {
 import { DATE_SEPARATOR } from "constants/constants/dates";
 import { isValidDate } from "utils/dates/isValidDate";
 import { formatDate } from "utils/dates/changeDates";
-import { DateContext } from "providers/DateProvider";
+import { DateContext } from "providers/DateProvider/DateProvider";
 import {
   type UseDateInputProps,
   type UseDateInputReturns,

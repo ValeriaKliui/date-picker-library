@@ -1,6 +1,6 @@
 import { styled } from "styled-components";
-import CalendarIcon from "../../assets/icons/calendar.svg";
-import IconClear from "../../assets/icons/clear.svg";
+// import CalendarIcon from "../../assets/icons/calendar.svg";
+// import IconClear from "../../assets/icons/clear.svg";
 
 export const InputWrapper = styled.div<{ $isError: boolean }>`
   display: flex;
@@ -24,10 +24,10 @@ export const InputStyled = styled.input`
     color: ${({ theme }) => theme.colors.darkGray};
   }
 `;
-export const InputIcon = styled(CalendarIcon)`
+export const InputIcon = styled.div`
   cursor: pointer;
 `;
-export const ClearIcon = styled(IconClear)`
+export const ClearIcon = styled.div`
   cursor: pointer;
 `;
 export const Error = styled.p`

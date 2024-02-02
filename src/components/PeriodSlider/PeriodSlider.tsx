@@ -1,11 +1,11 @@
 import { memo, type FC } from "react";
 import { type PeriodSliderProps } from "components/PeriodSlider/interface";
 import {
-  LeftArrow,
   RightArrow,
   Container,
   PeriodHeader,
 } from "components/PeriodSlider/PeriodSlider.styled";
+import ArrowIcon from "assets/icons/arrow/ArrowIcon";
 
 const PeriodSlider: FC<PeriodSliderProps> = ({
   sliderHeaderText,
@@ -14,7 +14,7 @@ const PeriodSlider: FC<PeriodSliderProps> = ({
   onPeriodSliderClick,
 }) => (
   <Container>
-    <LeftArrow onClick={onLeftArrowClick} />
+    <ArrowIcon onClick={onLeftArrowClick} />
     <PeriodHeader onClick={onPeriodSliderClick}>
       {sliderHeaderText}
     </PeriodHeader>

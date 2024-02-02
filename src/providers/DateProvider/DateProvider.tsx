@@ -18,7 +18,7 @@ export const DateContext = createContext<ContextType>({
   setRange: () => {},
 });
 
-export const DateProvider: FC<DateProviderProps> = ({ children }) => {
+const DateProvider: FC<DateProviderProps> = ({ children }) => {
   const [calendarDate, setCalendarDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<null | Date>(null);
   const initRange: RangeType = {
@@ -54,3 +54,4 @@ export const DateProvider: FC<DateProviderProps> = ({ children }) => {
     </DateContext.Provider>
   );
 };
+export default DateProvider;

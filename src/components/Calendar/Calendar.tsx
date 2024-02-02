@@ -10,18 +10,19 @@ import { getInCaseOfCalendar } from "utils/calendar/getInCaseOfCalendar/getInCas
 import { useTodos } from "hooks/useTodos";
 import { usePopUp } from "hooks/usePopUp";
 import { getRenderedTodos } from "utils/todos";
-import { DateContext } from "providers/DateProvider";
 import PeriodSlider from "components/PeriodSlider";
 import TodoForm from "components/TodoForm/TodoForm";
 import Modal from "components/Modal/Modal";
 import TodoList from "components/TodoList/TodoList";
-import { type CalendarProps } from "components/Calendar/interface";
 import {
   CalendarCells,
   Container,
   CalendarDates,
   CalendarButton,
 } from "components/Calendar/Calendar.styled";
+import { ThemeWrapper } from "providers/ThemeWrapper";
+import { DateContext } from "providers/DateProvider/DateProvider";
+import { type CalendarProps } from "./interface";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
@@ -82,7 +83,7 @@ const Calendar: FC<CalendarProps> = ({
 
   const todosListItems = getRenderedTodos(todos, selectedDate, range);
   return (
-    <>
+    <ThemeWrapper>
       {isPopUpOpened && (
         <Modal onClose={closePopUp}>
           <TodoForm addTodo={addTodo} />
@@ -115,7 +116,7 @@ const Calendar: FC<CalendarProps> = ({
           <CalendarButton onClick={openPopUp}>Add todo</CalendarButton>
         )}
       </Container>
-    </>
+    </ThemeWrapper>
   );
 };
 

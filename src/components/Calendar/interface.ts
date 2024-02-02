@@ -5,7 +5,6 @@ export interface Holiday {
 
 export interface CalendarProps {
   isMondayFirst?: boolean;
-  weekdayStartNum?: number;
   holidays?: Holiday[];
   withWeekends?: boolean;
   minDate?: Date | number | null;

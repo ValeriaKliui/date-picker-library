@@ -32,5 +32,6 @@
       "hooks/*": ["./src/hooks/*"],
       "utils/*": ["./src/utils/*"]
     }
-  }
+  },
+  "exclude": ["dist", "node_modules"]
 }

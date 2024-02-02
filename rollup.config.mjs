@@ -24,13 +24,13 @@ export default [
       },
     ],
     plugins: [
+      peerDepsExternal(),
       svg(),
       babel({
         exclude: "node_modules/**",
         presets: ["@babel/preset-react"],
         babelHelpers: "bundled",
       }),
-      peerDepsExternal(),
       resolve(),
       commonjs(),
       typescript({
@@ -42,7 +42,15 @@ export default [
   },
   {
     input: "src/index.ts",
-    output: [{ file: packageJson.types, format: "es" }],
+    output: [
+      {
+        dir: "dist",
+        format: "esm",
+        preserveModules: true,
+        preserveModulesRoot: "src",
+        sourcemap: false,
+      },
+    ],
     plugins: [dts.default()],
   },
 ];

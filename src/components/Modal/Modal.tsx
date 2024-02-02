@@ -15,7 +15,7 @@ const Modal: FC<ModalProps> = ({ children, onClose }) => {
   const Elem = (
     <ModalContainer>
       <ModalContent ref={modalRef}>
-        <CloseButtonRight onClick={onClose} type="submit" />
+        <CloseButtonRight onClick={onClose} />
         {children}
       </ModalContent>
     </ModalContainer>

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { transitionAnimaton } from "constants/styles/animation";
-import ArrowPic from "assets/icons/arrow.svg";
+import ArrowIcon from "assets/icons/arrow/ArrowIcon";
 
 export const Container = styled.div`
   display: flex;
@@ -17,16 +17,8 @@ export const PeriodHeader = styled.p`
     opacity: 0.6;
   }
 `;
-export const Arrow = styled(ArrowPic)`
-  ${transitionAnimaton};
-  cursor: pointer;
-  &:hover {
-    transform: scale(1.2);
-    opacity: 0.6;
-  }
-`;
-export const LeftArrow = styled(Arrow)``;
-export const RightArrow = styled(Arrow)`
+
+export const RightArrow = styled(ArrowIcon)`
   transform: rotate(180deg);
   &:hover {
     transform: scale(1.2) rotate(180deg);

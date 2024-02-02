@@ -1,5 +1,5 @@
 import { useCallback, useContext, useState } from "react";
-import { DateContext } from "providers/DateProvider";
+import { DateContext } from "providers/DateProvider/DateProvider";
 import { useLocalStorage } from "hooks/useLocalStorage";
 import { type Todos, type UseTodosReturns } from "hooks/useTodos/interfaces";
 

@@ -20,7 +20,7 @@ export type MinMaxDate = NotUndef<
   NotNum<Pick<CalendarProps, "maxDate" | "minDate">>
 >;
 
-export type UseCalendarProps = Omit<CalendarProps, "weekdayStartNum"> &
+export type UseCalendarProps = CalendarProps &
   NotUndef<
     Pick<CalendarProps, "isMondayFirst" | "withWeekends" | "withTodos">
   > &

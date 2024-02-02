@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { WEEKDAYS } from "constants/constants/weekdays";
-import { DateContext } from "providers/DateProvider";
+import { DateContext } from "providers/DateProvider/DateProvider";
 import CalendarCell from "components/CalendarCell";
 import { type CalendarCellProps } from "components/CalendarCell/interface";
 import { makeArrayFromNum } from "utils/data";

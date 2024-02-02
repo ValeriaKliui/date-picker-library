@@ -1,5 +1,5 @@
 import { styled } from "styled-components";
-import IconCross from "assets/icons/cross.svg";
+// import IconCross from "assets/icons/cross.svg";
 
 export const ModalContainer = styled.div`
   display: flex;
@@ -22,7 +22,7 @@ export const ModalContent = styled.div`
   gap: ${({ theme }) => theme.valueInPx.px10};
 `;
 
-export const CloseButton = styled(IconCross)`
+export const CloseButton = styled.div`
   cursor: pointer;
   transform: scale(1.3);
   & path {

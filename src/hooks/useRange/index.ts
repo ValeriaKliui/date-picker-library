@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { getDateFromTimestamp } from "utils/dates/getDates/getDates";
 import { setInitTime } from "utils/dates/changeDates";
-import { DateContext } from "providers/DateProvider";
+import { DateContext } from "providers/DateProvider/DateProvider";
 import {
   type UseRangeProps,
   type UseRangeReturns,

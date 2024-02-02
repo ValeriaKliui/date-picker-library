@@ -1,12 +1,12 @@
 {
-  "name": "kliui-date-picker-library",
-  "version": "1.0.0",
+  "name": "kliuiv-date-picker-library",
+  "version": "1.0.9",
   "description": "library for date pickers",
   "author": "Valeria Kliui <valeria14003@gmail.com>",
   "license": "MIT",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/types.d.ts",
+  "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
@@ -16,11 +16,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "lint": "eslint --fix --ext .js,.jsx,.ts,.tsx src",
-    "format": "prettier . --write",
-    "postinstall": "husky install",
-    "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable",
-    "prepare": "husky install"
+    "format": "prettier . --write"
   },
   "devDependencies": {
     "@babel/core": "^7.23.5",
@@ -98,5 +94,5 @@
     "*.--write": "prettier --write"
   },
   "repository": "https://github.com/ValeriaKliui/date-picker-library",
-  "packageManager": "yarn@4.0.2"
+  "packageManager": "yarn@3.6.2"
 }
