@@ -8,9 +8,9 @@
     "maxNodeModuleJsDepth": 1,
     "declaration": true,
     "emitDeclarationOnly": true,
-    "sourceMap": true,
-    "outDir": "dist",
-    "declarationDir": "types",
+    "outDir": "lib",
+    "declarationDir": "lib",
+    "lib": ["dom", "dom.iterable", "esnext"],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -33,5 +33,5 @@
       "utils/*": ["./src/utils/*"]
     }
   },
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["lib", "node_modules"]
 }

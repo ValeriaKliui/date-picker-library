@@ -1,8 +1,11 @@
-import type { StorybookConfig } from "@storybook/react-webpack5";
-import path from "node:path";
+import type { StorybookConfig } from '@storybook/react-webpack5';
+import path from 'node:path';
 
 const config: StorybookConfig = {
-  stories: ["../src/**/*.mdx", "../src/**/*.stories.@(js|jsx|mjs|ts|tsx)"],
+  stories: [
+    '../src/**/*.mdx',
+    '../src/**/*.stories.@(js|jsx|mjs|ts|tsx)',
+  ],
   webpackFinal: async (config) => {
     config.module = config.module || {};
     config.module.rules = config.module.rules || [];
@@ -10,38 +13,38 @@ const config: StorybookConfig = {
       ...config.resolve,
       alias: {
         ...config?.resolve?.alias,
-        assets: path.resolve(__dirname, "../src/assets"),
-        providers: path.resolve(__dirname, "../src/providers"),
-        components: path.resolve(__dirname, "../src/components"),
-        constants: path.resolve(__dirname, "../src/constants"),
-        decorators: path.resolve(__dirname, "../src/decorators"),
-        hooks: path.resolve(__dirname, "../src/hooks"),
-        utils: path.resolve(__dirname, "../src/utils"),
+        assets: path.resolve(__dirname, '../src/assets'),
+        providers: path.resolve(__dirname, '../src/providers'),
+        components: path.resolve(__dirname, '../src/components'),
+        constants: path.resolve(__dirname, '../src/constants'),
+        decorators: path.resolve(__dirname, '../src/decorators'),
+        hooks: path.resolve(__dirname, '../src/hooks'),
+        utils: path.resolve(__dirname, '../src/utils'),
       },
     };
-    const imageRule = config.module.rules.find(
-      (rule) => rule?.["test"]?.test(".svg")
+    const imageRule = config.module.rules.find((rule) =>
+      rule?.['test']?.test('.svg')
     );
     if (imageRule) {
-      imageRule["exclude"] = /\.svg$/;
+      imageRule['exclude'] = /\.svg$/;
     }
     config.module.rules.push({
       test: /\.svg$/,
-      use: ["@svgr/webpack"],
+      use: ['@svgr/webpack'],
     });
     return config;
   },
   addons: [
-    "@storybook/addon-links",
-    "@storybook/addon-essentials",
-    "@storybook/addon-interactions",
+    '@storybook/addon-links',
+    '@storybook/addon-essentials',
+    '@storybook/addon-interactions',
   ],
   framework: {
-    name: "@storybook/react-webpack5",
+    name: '@storybook/react-webpack5',
     options: {},
   },
   docs: {
-    autodocs: "tag",
+    autodocs: 'tag',
   },
   typescript: {
     check: false,
@@ -49,9 +52,12 @@ const config: StorybookConfig = {
   },
   previewHead: (head) => `
   ${head}
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
-  `,
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
+`,
 };
 export default config;

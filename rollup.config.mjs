@@ -1,56 +1,59 @@
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import typescript from "@rollup/plugin-typescript";
-import dts from "rollup-plugin-dts";
-import terser from "@rollup/plugin-terser";
-import peerDepsExternal from "rollup-plugin-peer-deps-external";
-import svg from "rollup-plugin-svg";
-import { babel } from "@rollup/plugin-babel";
-import packageJson from "./package.json" assert { type: "json" };
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import typescript from '@rollup/plugin-typescript';
+import terser from '@rollup/plugin-terser';
+import peerDepsExternal from 'rollup-plugin-peer-deps-external';
+import svg from 'rollup-plugin-svg';
+import { babel } from '@rollup/plugin-babel';
+import external from 'rollup-plugin-peer-deps-external';
 
 export default [
   {
-    input: "src/index.ts",
+    input: 'src/index.ts',
     output: [
       {
-        file: packageJson.main,
-        format: "cjs",
+        file: 'lib/index.js',
+        format: 'cjs',
+        exports: 'named',
+        interop: 'auto',
         sourcemap: true,
       },
       {
-        file: packageJson.module,
-        format: "esm",
+        file: 'lib/index.es.js',
+        format: 'es',
+        interop: 'esModule',
+        exports: 'named',
         sourcemap: true,
       },
     ],
     plugins: [
       peerDepsExternal(),
-      svg(),
       babel({
-        exclude: "node_modules/**",
-        presets: ["@babel/preset-react"],
-        babelHelpers: "bundled",
+        exclude: 'node_modules/**',
+        presets: ['@babel/preset-react'],
+        babelHelpers: 'bundled',
+        inputSourceMap: true,
       }),
-      resolve(),
+      external(),
+      resolve({
+        extensions: [
+          '.mjs',
+          '.js',
+          '.json',
+          '.node',
+          '.jsx',
+          '.tsx',
+          '.ts',
+          '.svg',
+        ],
+      }),
       commonjs(),
+      svg(),
       typescript({
-        tsconfig: "./tsconfig.json",
+        tsconfig: './tsconfig.json',
       }),
       terser(),
     ],
-    external: ["react", "react-dom", "styled-components"],
-  },
-  {
-    input: "src/index.ts",
-    output: [
-      {
-        dir: "dist",
-        format: "esm",
-        preserveModules: true,
-        preserveModulesRoot: "src",
-        sourcemap: false,
-      },
-    ],
-    plugins: [dts.default()],
+    external: ['react', 'react-dom', 'styled-components'],
   },
 ];
