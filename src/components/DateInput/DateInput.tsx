@@ -5,7 +5,7 @@ import {
   DateInputContainer,
 } from "components/DateInput/DateInput.styled";
 import Input from "components/Input/Input";
-import { type DateInputProps } from "./interface";
+import { type DateInputProps } from "./DateInput.types";
 
 const DateInput: FC<DateInputProps> = ({
   title,

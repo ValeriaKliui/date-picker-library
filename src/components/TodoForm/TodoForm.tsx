@@ -6,9 +6,9 @@ import {
   memo,
 } from "react";
 import { CalendarButton } from "components/Calendar/Calendar.styled";
-import Input from "components/Input";
-import { type TodoFormProps } from "components/TodoForm/interfaces";
+import { type TodoFormProps } from "components/TodoForm/TodoForm.types";
 import { TodoFormContainer } from "components/TodoForm/TodoForm.styled";
+import { Input } from "components/Input";
 
 const TodoForm: FC<TodoFormProps> = ({ addTodo }) => {
   const [todoTextInput, setTodoTextInput] = useState("");

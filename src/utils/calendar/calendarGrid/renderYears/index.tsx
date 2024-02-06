@@ -1,5 +1,5 @@
+import { CalendarCell } from "components/CalendarCell";
 import { YEARS_RANGE } from "constants/constants/dates";
-import CalendarCell from "components/CalendarCell";
 import { makeArrayFromNum } from "utils/data";
 
 export const renderYears = (

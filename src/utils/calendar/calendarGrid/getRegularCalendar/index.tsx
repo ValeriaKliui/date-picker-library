@@ -1,4 +1,3 @@
-import CalendarCell from "components/CalendarCell";
 import {
   getDateWith01Day,
   getDateWithLastDay,
@@ -11,12 +10,13 @@ import {
 } from "utils/dates/getDates/getDates";
 import { renderCellsDays } from "utils/calendar/calendarGrid/renderDays";
 import { type GetRegularCalendarProps } from "utils/calendar/calendarGrid/getRegularCalendar/interfaces";
+import { CalendarCell } from "components/CalendarCell";
 
 export const getRegularCalendar = ({
   calendarDate,
   weekDays,
   isMondayFirst,
-  withWeekends,
+  withWeekdays,
   holidays,
   range,
   todos,
@@ -47,7 +47,7 @@ export const getRegularCalendar = ({
   const nextMonthDate = getNextMonth(calendarDate);
 
   const renderDays = renderCellsDays({
-    withWeekends,
+    withWeekdays,
     holidays,
     range,
     todos,

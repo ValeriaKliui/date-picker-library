@@ -28,7 +28,7 @@ import { useRange } from "hooks/useRange";
 
 export const useCalendar = ({
   holidays = [],
-  withWeekends,
+  withWeekdays,
   weekDays,
   isMondayFirst,
   minDate,
@@ -123,7 +123,7 @@ export const useCalendar = ({
     calendarDate,
     weekDays,
     isMondayFirst,
-    withWeekends,
+    withWeekdays,
     holidays,
     range,
     todos,

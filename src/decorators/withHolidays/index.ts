@@ -1,1 +1,3 @@
-export { default } from './withHolidays';
+import withHolidays from "./withHolidays";
+
+export { withHolidays };

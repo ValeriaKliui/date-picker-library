@@ -1,5 +1,134 @@
 # Tестовое задание библиотека Modsen DatePicker
 
+## About the library
+
+This library allows you to add a calendar to your application. It is also possible to add functionality to the calendar using various decorators.
+
+## Installation
+
+For the library to work correctly you need:
+
+- install the styled-components package via npm or yarn:
+
+```
+npm install styled-components
+```
+
+```
+yarn add styled-components
+```
+
+- install the package via npm or yarn:
+
+```
+npm install @lkvasikl/modsen-datepicker-library
+```
+
+```
+yarn add @lkvasikl/modsen-datepicker-library
+```
+
+## Usage
+
+```javascript
+import ReactDOM from "react-dom/client";
+import {
+  CalendarConfigurator,
+  withMondaysFirst,
+  withRange,
+  withTodos,
+  DateProvider,
+  Calendar,
+  DatePicker,
+} from "kliui-date-picker-library";
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
+
+const calendarService = new CalendarConfigurator(Calendar);
+calendarService.addDecorator(withMondaysFirst);
+calendarService.addDecorator(withRange, { rangeStart: new Date() });
+calendarService.addDecorator(withTodos);
+
+const CalendarPicker = calendarService.getDecorator();
+
+root.render(
+  <>
+    <DateProvider>
+      <DatePicker Calendar={CalendarPicker} />
+    </DateProvider>
+
+    <DateProvider>
+      <Calendar withWeekdays={true} rangeStart={new Date()} />
+    </DateProvider>
+  </>
+);
+```
+
+#### CalendarService:
+
+A class that has **two methods**:
+
+1. **getDecorator()** - allows you to get a decorated calendar component;
+2. **addDecorator(decorator)** - allows you to add functionality to your calendar.
+
+#### Functionality description [decorator]:
+
+- **withMondayFirst**: for displaying calendar weekdays starting from Monday. By default - Sunday;
+- **withHolidays**: allows you to highlight holidays with blue color;
+- **withMinAndMaxDate**: allows to set restrictions for dates (min and/or max);
+- **withoutWeekdays**: weekdays are hidden;
+- **withRange**: adds the ability to display a range of dates on the calendar;
+- **withTodos**: adds the ability to add and interact with a to-do list;
+
+To use the calendar, you **MUST** wrap the component in DateProvider:
+
+```javascript
+<DateProvider>
+  <Calendar withTodos={true} />
+</DateProvider>
+```
+
+#### Usage variants:
+
+There are two options of usage available:
+
+1. You can use Calendar Component and pass all settings as props:
+
+```javascript
+import {
+  DateProvider,
+  Calendar,
+} from "kliui-date-picker-library";
+
+...
+<DateProvider>
+  <Calendar withTodos={true} minDate={new Date()} />
+</DateProvider>;
+```
+
+2. You can use DatePicker Component and set options of Calendar with decorators:
+
+```javascript
+import {
+  DateProvider,
+  Calendar,
+  CalendarConfigurator,
+  withRange,
+  withTodos
+} from "kliui-date-picker-library";
+
+const calendarService = new CalendarConfigurator(Calendar);
+calendarService.addDecorator(withRange, { rangeStart: new Date() });
+calendarService.addDecorator(withTodos);
+
+const CalendarPicker = calendarService.getDecorator();
+
+...
+<DateProvider>
+    <DatePicker Calendar={CalendarPicker} />
+</DateProvider>;
+```
+
 ## Содержание
 
 - [Техническое задание](#Техническое-задание)

@@ -7,7 +7,7 @@ import {
   TodoInfo,
   TodoText,
 } from "components/TodoItem/TodoItem.styled";
-import { type TodoItemProps } from "components/TodoItem/interfaces";
+import { type TodoItemProps } from "components/TodoItem/TodoItem.types";
 
 const TodoItem: FC<TodoItemProps> = ({
   todo,

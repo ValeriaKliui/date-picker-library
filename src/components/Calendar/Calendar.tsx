@@ -10,7 +10,6 @@ import { getInCaseOfCalendar } from "utils/calendar/getInCaseOfCalendar/getInCas
 import { useTodos } from "hooks/useTodos";
 import { usePopUp } from "hooks/usePopUp";
 import { getRenderedTodos } from "utils/todos";
-import PeriodSlider from "components/PeriodSlider";
 import TodoForm from "components/TodoForm/TodoForm";
 import Modal from "components/Modal/Modal";
 import TodoList from "components/TodoList/TodoList";
@@ -22,12 +21,13 @@ import {
 } from "components/Calendar/Calendar.styled";
 import { ThemeWrapper } from "providers/ThemeWrapper";
 import { DateContext } from "providers/DateProvider/DateProvider";
-import { type CalendarProps } from "./interface";
+import { PeriodSlider } from "components/PeriodSlider";
+import { type CalendarProps } from "./Calendar.types";
 
 const Calendar: FC<CalendarProps> = ({
   isMondayFirst = false,
   holidays = [],
-  withWeekends = true,
+  withWeekdays = true,
   minDate = null,
   maxDate = null,
   rangeStart,
@@ -39,7 +39,7 @@ const Calendar: FC<CalendarProps> = ({
 
   setInitTime(maxDateParsed, minDateParsed);
 
-  const weekDays = getWeekDays(isMondayFirst, withWeekends);
+  const weekDays = getWeekDays(isMondayFirst, withWeekdays);
 
   const { todos, addTodo, deleteTodo, toggleFinishTodo } = useTodos();
 
@@ -56,7 +56,7 @@ const Calendar: FC<CalendarProps> = ({
     range,
   } = useCalendar({
     holidays,
-    withWeekends,
+    withWeekdays,
     weekDays,
     isMondayFirst,
     maxDate: maxDateParsed,
@@ -104,7 +104,7 @@ const Calendar: FC<CalendarProps> = ({
           />
           <CalendarCells
             $calendarType={calendarType}
-            $withWeekends={withWeekends}
+            $withWeekdays={withWeekdays}
           >
             {renderCalendarGrid()}
           </CalendarCells>

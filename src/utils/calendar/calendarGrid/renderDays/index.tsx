@@ -1,8 +1,7 @@
 import { useContext } from "react";
 import { WEEKDAYS } from "constants/constants/weekdays";
 import { DateContext } from "providers/DateProvider/DateProvider";
-import CalendarCell from "components/CalendarCell";
-import { type CalendarCellProps } from "components/CalendarCell/interface";
+import { type CalendarCellProps } from "components/CalendarCell/CalendarCell.types";
 import { makeArrayFromNum } from "utils/data";
 import {
   areDatesEqual,
@@ -12,6 +11,7 @@ import {
 import { setInitTime } from "utils/dates/changeDates";
 import { getRangeType } from "utils/calendar/calendarGrid/range";
 import { type DaysCellOptions } from "utils/calendar/calendarGrid/renderDays/interface";
+import { CalendarCell } from "components/CalendarCell";
 
 export const renderCellsDays =
   (daysCellOptions: DaysCellOptions) =>
@@ -22,7 +22,7 @@ export const renderCellsDays =
     isPrevMonth?: boolean
   ): JSX.Element => {
     const { selectedDate, setSelectedDate } = useContext(DateContext);
-    const { withWeekends, holidays, range, todos, withTodos } = daysCellOptions;
+    const { withWeekdays, holidays, range, todos, withTodos } = daysCellOptions;
     const { type, shadowed } = cellOptions;
     const daysAmountInMonth = getDaysAmountInMonth(monthDate);
 
@@ -62,9 +62,9 @@ export const renderCellsDays =
               cellValue={dayNum}
               key={dayNum}
               shadowed={shadowed}
-              hidden={!withWeekends && isWeekend}
+              hidden={!withWeekdays && isWeekend}
               selected={isSelected}
-              isWeekend={withWeekends && isWeekend}
+              isWeekend={withWeekdays && isWeekend}
               isHoliday={isHoliday}
               isInTodo={withTodos && isInTodo}
               onCalendarCellClick={onCalendarCellClick}

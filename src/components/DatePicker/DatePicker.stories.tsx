@@ -4,8 +4,8 @@ import BaseDecorator from "decorators/baseDecorator";
 import withHolidays from "decorators/withHolidays/withHolidays";
 import withMondaysFirst from "decorators/withMondaysFirst/withMondaysFirst";
 import withRange from "decorators/withRange/withRange";
-import Calendar from "components/Calendar";
-import DatePicker from "components/DatePicker";
+import Calendar from "../Calendar/Calendar";
+import DatePicker from "./DatePicker";
 
 const meta: Meta<typeof DatePicker> = {
   title: "UI/DatePicker",
@@ -22,7 +22,9 @@ export const Default: Story = {};
 
 const CalendarConfig = new BaseDecorator(Calendar);
 CalendarConfig.addDecorator(withMondaysFirst);
-CalendarConfig.addDecorator(withRange);
+CalendarConfig.addDecorator(withRange, {
+  rangeStart: new Date(),
+});
 CalendarConfig.addDecorator(withHolidays, HOLIDAYS);
 
 const CalendarWithDecorators = CalendarConfig.getDecorator();

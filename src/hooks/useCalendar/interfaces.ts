@@ -1,7 +1,7 @@
 import { type NotNum, type NotUndef } from "constants/interfaces/interfaces";
 
 import { type WeekDay } from "utils/dates/getDates/interface";
-import { type CalendarProps } from "components/Calendar/interface";
+import { type CalendarProps } from "components/Calendar/Calendar.types";
 import { type UseRangeReturns } from "hooks/useRange/interfaces";
 import { type UseTodosReturns } from "hooks/useTodos/interfaces";
 
@@ -22,7 +22,7 @@ export type MinMaxDate = NotUndef<
 
 export type UseCalendarProps = CalendarProps &
   NotUndef<
-    Pick<CalendarProps, "isMondayFirst" | "withWeekends" | "withTodos">
+    Pick<CalendarProps, "isMondayFirst" | "withWeekdays" | "withTodos">
   > &
   MinMaxDate & {
     weekDays: WeekDay[];

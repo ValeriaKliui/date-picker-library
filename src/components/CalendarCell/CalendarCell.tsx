@@ -3,7 +3,7 @@ import {
   Container,
   CalendarCellText,
 } from "components/CalendarCell/CalendarCell.styled";
-import { type CalendarCellProps } from "components/CalendarCell/interface";
+import { type CalendarCellProps } from "components/CalendarCell/CalendarCell.types";
 
 const CalendarCell: FC<CalendarCellProps> = ({
   type,

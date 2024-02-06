@@ -1,13 +1,13 @@
-import { type ComponentType } from 'react';
+import { type ComponentType } from "react";
 
-const withWeekends =
+const withTodos =
   <T,>(WrappedComponent: ComponentType<T>) =>
   (props: T) => {
     const passedProps = {
       ...props,
-      withWeekends: true,
+      withTodos: true,
     };
     return <WrappedComponent {...passedProps} />;
   };
 
-export default withWeekends;
+export default withTodos;

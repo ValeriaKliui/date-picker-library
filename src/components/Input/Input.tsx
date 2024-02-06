@@ -1,12 +1,12 @@
 import { memo, type FC } from "react";
-import { type InputProps } from "components/Input/interfaces";
+import { type InputProps } from "components/Input/Input.types";
 import {
-  ClearIcon,
   Error,
-  InputIcon,
   InputStyled,
   InputWrapper,
 } from "components/Input/Input.styled";
+import CalendarIcon from "assets/icons/calendar/CalendarIcon";
+import ClearIcon from "assets/icons/clear/ClearIcon";
 
 const Input: FC<InputProps> = ({
   onChange,
@@ -18,7 +18,7 @@ const Input: FC<InputProps> = ({
 }) => (
   <>
     <InputWrapper $isError={errorText.length > 0}>
-      <InputIcon onClick={onIconClick} />
+      <CalendarIcon onClick={onIconClick} />
       <InputStyled
         placeholder={placeholder}
         value={value}

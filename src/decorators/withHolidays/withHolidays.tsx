@@ -1,5 +1,5 @@
 import { type ComponentType } from "react";
-import { type Holiday } from "components/Calendar/interface";
+import { type Holiday } from "components/Calendar/Calendar.types";
 
 const withHolidays =
   <T,>(WrappedComponent: ComponentType<T>, holidays?: Holiday[]) =>

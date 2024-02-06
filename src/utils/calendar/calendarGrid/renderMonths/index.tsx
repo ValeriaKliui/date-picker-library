@@ -1,8 +1,8 @@
 import { MONTHS_AMOUNT } from "constants/constants/dates";
-import CalendarCell from "components/CalendarCell";
 import { setInitTime } from "utils/dates/changeDates";
 import { makeArrayFromNum, sliceWordFromStart } from "utils/data";
 import { getDateObj, getMonthName } from "utils/dates/getDates/getDates";
+import { CalendarCell } from "components/CalendarCell";
 
 export const renderMonths = (
   tempDate: Date,

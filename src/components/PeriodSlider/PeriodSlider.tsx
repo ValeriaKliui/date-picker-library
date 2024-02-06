@@ -1,5 +1,5 @@
 import { memo, type FC } from "react";
-import { type PeriodSliderProps } from "components/PeriodSlider/interface";
+import { type PeriodSliderProps } from "components/PeriodSlider/PeriodSlider.types";
 import {
   RightArrow,
   Container,

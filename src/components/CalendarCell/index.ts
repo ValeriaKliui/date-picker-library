@@ -1,1 +1,3 @@
-export { default } from './CalendarCell';
+import CalendarCell from "./CalendarCell";
+
+export { CalendarCell };

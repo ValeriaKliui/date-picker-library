@@ -6,7 +6,7 @@ import {
   ModalContent,
   CloseButtonRight,
 } from "components/Modal/Modal.styled";
-import { type ModalProps } from "components/Modal/interfaces";
+import { type ModalProps } from "components/Modal/Modal.types";
 
 const Modal: FC<ModalProps> = ({ children, onClose }) => {
   const modalRef = useRef(null);

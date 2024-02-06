@@ -1,5 +1,5 @@
+import CrossIcon from "assets/icons/cross/CrossIcon";
 import { styled } from "styled-components";
-import { CloseButton } from "components/Modal/Modal.styled";
 
 export const TodoItemContainer = styled.div<{ $finished: boolean }>`
   border: 1px solid ${({ theme }) => theme.colors.gray};
@@ -16,7 +16,7 @@ export const TodoDate = styled.p`
 export const TodoText = styled.p`
   border-bottom: 1px solid ${({ theme }) => theme.colors.green};
 `;
-export const CloseButtonRight = styled(CloseButton)`
+export const CloseButtonRight = styled(CrossIcon)`
   margin-left: auto;
 `;
 export const TodoInfo = styled.div`

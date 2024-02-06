@@ -1,1 +1,3 @@
-export { default } from './PeriodSlider';
+import PeriodSlider from "./PeriodSlider";
+
+export { PeriodSlider };

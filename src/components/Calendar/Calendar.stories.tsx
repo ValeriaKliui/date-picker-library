@@ -1,6 +1,6 @@
 import { type Meta, type StoryObj } from "@storybook/react";
 import { HOLIDAYS } from "constants/constants/holidays";
-import Calendar from "components/Calendar";
+import Calendar from "./Calendar";
 
 const meta: Meta<typeof Calendar> = {
   title: "UI/Calendar",
@@ -9,7 +9,7 @@ const meta: Meta<typeof Calendar> = {
   parameters: { layout: "centered" },
   argTypes: {
     isMondayFirst: { type: "boolean", name: "monday first" },
-    withWeekends: { type: "boolean", name: "with weekends" },
+    withWeekdays: { type: "boolean", name: "with weekends" },
   },
 };
 
@@ -22,7 +22,7 @@ export const WithMondayFirst: Story = {
   args: { isMondayFirst: true },
 };
 export const WithoutWeekends: Story = {
-  args: { withWeekends: false },
+  args: { withWeekdays: false },
   argTypes: {
     isMondayFirst: {
       table: {

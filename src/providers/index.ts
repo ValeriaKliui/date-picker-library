@@ -1,1 +1,1 @@
-export { default as DateProvider } from './DateProvider';
+export * from "./DateProvider";

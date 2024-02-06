@@ -1,1 +1,3 @@
-export { default } from "./DateProvider";
+import DateProvider from "./DateProvider";
+
+export { DateProvider };

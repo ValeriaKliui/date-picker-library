@@ -1,5 +1,5 @@
 import { type ChangeEvent } from "react";
-import { type DateInputProps } from "components/DateInput/interface";
+import { type DateInputProps } from "components/DateInput/DateInput.types";
 
 export type UseDateInputProps = Pick<
   DateInputProps,

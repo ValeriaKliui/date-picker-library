@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 import {
   getCalendarCellBackgroundColor,
   getCalendarCellBorderRadius,
   getCalendarCellTextColor,
-} from 'utils/calendar/calendarGrid/determineCalendarCellStyle';
-import { type RangeTypes } from 'components/CalendarCell/interface';
+} from "utils/calendar/calendarGrid/determineCalendarCellStyle";
+import { type RangeTypes } from "components/CalendarCell/CalendarCell.types";
 
 export const Container = styled.div<{
   $shadowed: boolean;
@@ -15,12 +15,11 @@ export const Container = styled.div<{
 }>`
   min-width: ${({ theme }) => theme.valueInPx.px40};
   min-height: ${({ theme }) => theme.valueInPx.px40};
-  cursor: ${({ $type }) => $type !== 'weekday' && 'pointer'};
+  cursor: ${({ $type }) => $type !== "weekday" && "pointer"};
   display: flex;
   justify-content: center;
   align-items: center;
-  border-radius: ${({ $range }) =>
-    getCalendarCellBorderRadius($range)};
+  border-radius: ${({ $range }) => getCalendarCellBorderRadius($range)};
   background-color: ${({ $selected, $range, $isInTodo }) =>
     getCalendarCellBackgroundColor($selected, $range, $isInTodo)};
   &:hover {

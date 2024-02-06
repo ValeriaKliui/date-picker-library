@@ -1,1 +1,3 @@
-export { default } from "./DateInput";
+import DateInput from "./DateInput";
+
+export { DateInput };

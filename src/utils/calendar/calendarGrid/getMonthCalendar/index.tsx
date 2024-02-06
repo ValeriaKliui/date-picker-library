@@ -1,5 +1,4 @@
 import { MONTHS_AMOUNT } from "constants/constants/dates";
-import CalendarCell from "components/CalendarCell";
 import { makeArrayFromNum } from "utils/data";
 import {
   areDatesEqual,
@@ -7,6 +6,7 @@ import {
   getMonthName,
 } from "utils/dates/getDates/getDates";
 import { type MonthCalendarProps } from "utils/calendar/calendarGrid/getMonthCalendar/interface";
+import { CalendarCell } from "components/CalendarCell";
 
 export const getMonthCalendar = (
   monthCalendarProps: MonthCalendarProps

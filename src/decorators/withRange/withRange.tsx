@@ -1,11 +1,16 @@
 import { type ComponentType } from "react";
 
 const withRange =
-  <T,>(WrappedComponent: ComponentType<T>) =>
+  <T,>(
+    WrappedComponent: ComponentType<T>,
+    data?: { rangeStart?: Date; rangeEnd?: Date }
+  ) =>
   (props: T) => {
+    const { rangeStart, rangeEnd } = data ?? {};
     const passedProps = {
       ...props,
-      rangeStart: null,
+      rangeStart,
+      rangeEnd,
     };
     return <WrappedComponent {...passedProps} />;
   };

@@ -1,5 +1,5 @@
+import CrossIcon from "assets/icons/cross/CrossIcon";
 import { styled } from "styled-components";
-// import IconCross from "assets/icons/cross.svg";
 
 export const ModalContainer = styled.div`
   display: flex;
@@ -22,14 +22,6 @@ export const ModalContent = styled.div`
   gap: ${({ theme }) => theme.valueInPx.px10};
 `;
 
-export const CloseButton = styled.div`
-  cursor: pointer;
-  transform: scale(1.3);
-  & path {
-    fill: ${({ theme }) => theme.colors.dark};
-  }
-`;
-
-export const CloseButtonRight = styled(CloseButton)`
+export const CloseButtonRight = styled(CrossIcon)`
   align-self: flex-end;
 `;

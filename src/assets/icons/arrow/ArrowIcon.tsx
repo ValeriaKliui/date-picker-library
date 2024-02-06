@@ -1,9 +1,8 @@
+import { IconStyled } from "constants/styles/global";
 import { memo, type SVGProps } from "react";
 
-import { ArrowIconStyled } from "./ArrowIcon.styled";
-
 const ArrowIcon = memo((props: SVGProps<SVGSVGElement>) => (
-  <ArrowIconStyled
+  <IconStyled
     xmlns="http://www.w3.org/2000/svg"
     width="16px"
     height="16px"
@@ -26,7 +25,7 @@ const ArrowIcon = memo((props: SVGProps<SVGSVGElement>) => (
         fill="black"
       />
     </svg>
-  </ArrowIconStyled>
+  </IconStyled>
 ));
 
 export default ArrowIcon;

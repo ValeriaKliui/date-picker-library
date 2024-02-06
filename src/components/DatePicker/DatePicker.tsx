@@ -1,9 +1,10 @@
 import { type FC, useContext, useState, memo } from "react";
 import { getDateFromString } from "utils/dates/getDates/getDates";
 import { DateContext } from "providers/DateProvider/DateProvider";
-import DateInput from "components/DateInput";
 import { ThemeWrapper } from "providers/ThemeWrapper";
-import { type DatePickerProps } from "./interfaces";
+import { DateInput } from "components/DateInput";
+import { type DatePickerProps } from "./DatePicker.types";
+import { DatePickerContainer } from "./DatePickerStyled";
 
 const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
   const [isCalendarOpened, setIsCalendarOpened] = useState(false);
@@ -33,15 +34,17 @@ const DatePicker: FC<DatePickerProps> = ({ Calendar }) => {
 
   return (
     <ThemeWrapper>
-      <DateInput
-        onDateChange={onDateChange}
-        onCalendarClick={toggleCalendar}
-        onValidDateInput={onValidDateInput}
-        onClearClick={onClearClick}
-        setInputValue={setInputValue}
-        value={inputValue}
-      />
-      {isCalendarOpened && <Calendar />}
+      <DatePickerContainer>
+        <DateInput
+          onDateChange={onDateChange}
+          onCalendarClick={toggleCalendar}
+          onValidDateInput={onValidDateInput}
+          onClearClick={onClearClick}
+          setInputValue={setInputValue}
+          value={inputValue}
+        />
+        {isCalendarOpened && <Calendar />}
+      </DatePickerContainer>
     </ThemeWrapper>
   );
 };
