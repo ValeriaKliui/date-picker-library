@@ -1,6 +1,6 @@
 import { fireEvent, render } from "@testing-library/react";
 import { ThemeWrapper } from "providers/ThemeWrapper";
-import DateInput from "components/DateInput/DateInput";
+import DateInput from "./DateInput";
 
 describe("date input", () => {
   test("should change input value after typing in input", () => {
