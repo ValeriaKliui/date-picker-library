@@ -1,7 +1,7 @@
 import type { Preview } from "@storybook/react";
 import React from "react";
 import { ThemeWrapper } from "../src/providers/ThemeWrapper";
-import DateProvider from "../src/providers/DateProvider";
+import DateProvider from "../src/providers/DateProvider/DateProvider";
 
 const preview: Preview = {
   parameters: {
