@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import BaseDecorator from "decorators/baseDecorator";
+import BaseDecorator from "./baseDecorator";
 
 describe("base decorator", () => {
   const CalendarToMock = (): JSX.Element => <div />;

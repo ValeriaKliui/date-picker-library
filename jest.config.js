@@ -5,18 +5,19 @@
 
 /** @type {import('jest').Config} */
 const config = {
-  rootDir: '.',
+  rootDir: ".",
   moduleNameMapper: {
-    '\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$':
-      '<rootDir>/__mocks__/fileMock.js',
-    '\\.svg$': '<rootDir>/__mocks__/svg.tsx',
-    '^components/(.*)': '<rootDir>src/components/$1',
-    '^utils/(.*)': '<rootDir>src/utils/$1',
-    '^constants/(.*)': '<rootDir>src/constants/$1',
-    '^hooks/(.*)': '<rootDir>src/hooks/$1',
-    '^providers/(.*)': '<rootDir>src/providers/$1',
+    "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
+      "<rootDir>/__mocks__/fileMock.js",
+    "\\.svg$": "<rootDir>/__mocks__/svg.tsx",
+    "^components/(.*)": "<rootDir>src/components/$1",
+    "^utils/(.*)": "<rootDir>src/utils/$1",
+    "^constants/(.*)": "<rootDir>src/constants/$1",
+    "^hooks/(.*)": "<rootDir>src/hooks/$1",
+    "^providers/(.*)": "<rootDir>src/providers/$1",
+    "^assets/(.*)": "<rootDir>src/assets/$1",
   },
-  setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
+  setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
 
   // All imported modules in your tests should be mocked automatically
   // automock: false,
@@ -156,7 +157,7 @@ const config = {
   // snapshotSerializers: [],
 
   // The test environment that will be used for testing
-  testEnvironment: 'jsdom',
+  testEnvironment: "jsdom",
 
   // Options that will be passed to the testEnvironment
   // testEnvironmentOptions: {},
