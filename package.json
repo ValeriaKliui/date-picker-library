@@ -7,6 +7,11 @@
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
   "types": "dist/types.d.ts",
+  "publishConfig": {
+    "@ValeriaKliui:registry": "https://npm.pkg.github.com"
+  },
+  "repository": "https://github.com/ValeriaKliui/date-picker-library",
+  "packageManager": "yarn@3.6.2",
   "scripts": {
     "build": "rollup -c --bundleConfigAsCjs",
     "test": "jest",
@@ -89,7 +94,5 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --cache --fix",
     "*.--write": "prettier --write"
-  },
-  "repository": "https://github.com/ValeriaKliui/date-picker-library",
-  "packageManager": "yarn@3.6.2"
+  }
 }
