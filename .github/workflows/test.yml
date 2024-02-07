@@ -19,7 +19,7 @@ jobs:
         run: yarn build
       - name: run test
         run: yarn test
-      - name: run storybook
-        run: yarn storybook
+      - name: build storybook
+        run: yarn build-storybook
       - name: run linters
         run: yarn lint
